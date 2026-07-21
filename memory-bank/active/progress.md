@@ -14,3 +14,14 @@ Create the plugin skeleton: `.plugin/plugin.json`, `.gitignore` for `work/`, and
     - Preserved L4 `projectbrief.md` and `milestones.md`; replaced stale L4 `progress.md` for this sub-run
 * Insights
     - Milestone estimate (L2) matches the decision-tree outcome
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Resolved blocking test-infra question with operator
+    - Produced linear TDD plan: uv/pytest bootstrap → two contract tests → skeleton files → README stub
+* Decisions made
+    - Self-check stack: Python + pytest via `uv`
+    - Test only crucial skeleton contracts (manifest name/paths, `work/` gitignore); skip README prose
+* Insights
+    - Greenfield needs one harness introduction; keeping the first suite tiny avoids overbuilding static-file tests
