@@ -16,3 +16,16 @@ Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, p
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
     - Milestone estimate (L3) matches the decision-tree outcome; shared indent + modified-file checkers are the TDD gate before rules/fixtures/prompts
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Component analysis across check.py, two rules, four prompts, tests; setup fixtures already present
+    - TDD plan: indent helpers → file-modified → create/edit observers → rules/prompts
+    - No creative phase — approach clear from DESIGN matrix + R1 pattern
+* Decisions made
+    - Both R2 and R3 use 7-space multiples (probe matrix wins over mermaid "5 spaces" label)
+    - Edit `observed` requires indent fingerprint **and** artifact ≠ fixture; detail reports both
+    - Edit write target is `work/artifacts/fib.{js,py}` with fixtures as seeds
+* Insights
+    - Shared checker + extension-isolated paths is the whole multi-component coupling for this slice
