@@ -205,6 +205,11 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Findings
+
+- **PASS** — TDD ordering explicit per implementation step (helpers → observers → CLI → components/prompts); conventions match R1 observer/registry pattern; registry metadata for steps 6–8 already present; no overlapping implementations or stub-expectation tests to update.
+- **Advisory:** A future entrypoint-milestone leakage lint could centralize the three fingerprint strings in one constant table — out of scope here; prompts/components remain the enforcement surface for this sub-run.

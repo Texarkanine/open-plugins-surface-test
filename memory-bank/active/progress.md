@@ -28,3 +28,13 @@ Deliver R4, S1, and A1 probes: description-only poem rule, `skills/build-stamp/`
     - R4 frontmatter description-only (no alwaysApply, no globs); skill/agent descriptions strong but token-free
 * Insights
     - Three create-path slices share helper shape but not fingerprints; registry metadata for steps 6–8 already correct
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD per-step ordering, R1-aligned conventions, registry metadata for steps 6–8, no stub-conflict tests
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No plan amendments required
+* Insights
+    - Fingerprint centralization for build-time leakage lint belongs to the entrypoint milestone, not this slice
