@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: h1-hooks-probe
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- Build delivered H1 probe end-to-end; 112 tests green
-- QA PASS: fixed OSError swallowing in hooks JSONL reader so unreadable log can surface planned detail
-- `.qa-validation-status` = PASS
+- Reflection written: `memory-bank/active/reflection/reflection-h1-hooks-probe.md`
+- Persistent files scanned; no surgical updates needed (hooks-as-aggregation-exception and hook recorders already documented)
+- H1 milestone remains unchecked in `milestones.md` for `/niko` advance
 
 ## Next Step
-- Reflect phase (`/niko-reflect` via L3 automatic transition)
+- Operator: run `/niko` to continue to the next milestone

@@ -62,3 +62,13 @@ Deliver H1 hooks probe: `hooks/hooks.json`, `scripts/hook_record.sh`, step-09 ac
     - Summary maps unreadable hooks log → SessionEnd not observed (no infra fail)
 * Insights
     - Tolerant line parse must not also swallow I/O errors if observers need a distinct unreadable path
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-h1-hooks-probe.md`
+    - Reconciled persistent files — no updates required
+* Decisions made
+    - Leave H1 checkbox in `milestones.md` for `/niko` milestone advance
+* Insights
+    - Word-boundary judgment checks needed when detail emits DESIGN event names containing banned substrings
