@@ -167,7 +167,11 @@ No new technology - validation not required. Stdlib + existing pytest/`uv` self-
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
+  - [x] Stub `tests/test_check.py` + `scripts/check.py` interface
+  - [x] Write failing check-harness contract tests (TDD red)
+  - [x] Implement `scripts/check.py` (TDD green)
+  - [x] Confirm full self-check suite green
 - [ ] QA
 
 ## Preflight Findings

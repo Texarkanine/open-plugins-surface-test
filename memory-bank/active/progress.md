@@ -40,3 +40,15 @@ Implement `scripts/check.py` with step arg parsing, JSONL append to `work/observ
     - No blocking findings; optional TypedDict/protocol left as advisory
 * Insights
     - Registry ids should be frozen now so later probe milestones replace callables only
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - TDD red: `tests/test_check.py` (17 contracts)
+    - TDD green: `scripts/check.py` (CLI, registry stubs, JSONL append, summary table, observe-not-judge exits)
+    - Full self-check suite: 31 passed
+* Decisions made
+    - Step stdout uses plain observational phrases; summary uses ✅/❌/⊘ vocabulary
+    - Empty observations render an explicit empty state rather than judgment language
+* Insights
+    - Importable `STEP_REGISTRY` + `observe` callables make skipped-status tests possible without planting fake checkers on disk
