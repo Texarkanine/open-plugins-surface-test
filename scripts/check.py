@@ -41,9 +41,8 @@ def contains_scots_flag(text: str) -> bool:
     return SCOTS_FLAG in text
 
 
-def observe_r1_scots(step: int, work: Path) -> ObservationResult:
+def observe_r1_scots(_step: int, work: Path) -> ObservationResult:
     """Observe whether work/artifacts/cats.md carries the Scotland flag fingerprint."""
-    del step  # registry supplies step; signature matches Observer
     artifact = work / "artifacts" / "cats.md"
     if not artifact.is_file():
         return {"observed": False, "detail": "cats.md not found"}

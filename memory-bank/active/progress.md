@@ -49,3 +49,13 @@ Deliver R1 end-to-end: `rules/r1-global-scots.mdc`, prompt 01, and Scottish-flag
     - Observational detail vocabulary pinned as above
 * Insights
     - Embedding the live emoji in the rule makes leakage tests decisive against prompt spoilers
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan; wrote `.qa-validation-status` PASS
+    - Trivial unused-param cleanup in `observe_r1_scots`
+* Decisions made
+    - No substantive issues; README coverage remains deferred to entrypoint milestone
+* Insights
+    - Pure helper + thin observer is the right shape for later probe checkers
