@@ -54,11 +54,12 @@ flowchart TD
 ### Boundary Changes
 
 - **Step 10 observer contract (new):**
-  - If `run.json` `uv_version` is `"unavailable"` (case-sensitive match to setup.sh) → `observed=null`, `detail="skipped: uv not found"`
+  - Read `uv_version` with the same default as `render_summary`: missing key → `"unavailable"`. If value is `"unavailable"` → `observed=null`, `detail="skipped: uv not found"`
   - Else if `work/artifacts/mcp.txt` missing → `observed=false`, detail names `mcp.txt`
   - Else if file contains `MCP-OBSERVED-cats` → `observed=true`
   - Else → `observed=false`, token-not-present detail
   - Exit 0 for all of the above when work/`run.json` valid
+  - Malformed `run.json` during observe: prefer letting existing `observe_step`/`ensure_run_id` infra paths handle JSON errors; helper/observer should not invent a second JSON-error exit semantics
 - **`.mcp.json` contract:** top-level `mcpServers` object; at least one server; launch via `uv` + `run` + `--script` + path containing `${PLUGIN_ROOT}/servers/probe_mcp.py`
 - **Server contract:** PEP 723 script metadata; tool name `probe_hello`; return `MCP-OBSERVED-<name>`
 
@@ -70,8 +71,8 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
 
 ### Behaviors to Verify
 
-- `uv_unavailable(work)` → True when `uv_version` is `"unavailable"`; False for a real version string
-- Skip path: `uv_version=unavailable` → `observed=null`, detail `skipped: uv not found`, CLI prints `skipped`, exit 0
+- `uv_unavailable(work)` → True when `uv_version` is `"unavailable"` or the key is missing (summary-compatible default); False for a real version string
+- Skip path: `uv_version=unavailable` (or missing) → `observed=null`, detail `skipped: uv not found`, CLI prints `skipped`, exit 0
 - Missing `mcp.txt` (uv present) → not observed; detail mentions file
 - `mcp.txt` without token → not observed
 - `mcp.txt` containing `MCP-OBSERVED-cats` → observed
@@ -156,6 +157,10 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Amendments
+
+- Skip gate uses `header.get("uv_version", "unavailable") == "unavailable"` so missing key matches `render_summary`'s default (not only setup's explicit write).

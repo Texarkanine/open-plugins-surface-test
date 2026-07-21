@@ -1,13 +1,12 @@
 # Active Context
 
 ## Current Task: m1-mcp-probe
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE
 
 ## What Was Done
-- Component analysis: check.py step-10 observer + uv skip helper, PEP 723 FastMCP server, `.mcp.json`, prompt 10
-- TDD plan: helper → observer → CLI → server → `.mcp.json` → prompt → full suite
-- Technology validation: FastMCP via `uv run --with mcp` PoC OK
-- No open questions / no creative phase
+- Validated TDD per-step ordering, conventions, dependency impact, completeness
+- Plan amendment: uv skip gate defaults missing `uv_version` like `render_summary`
+- Wrote `.preflight-status` PASS
 
 ## Next Step
-- Preflight phase to validate the plan
+- Operator: run `/niko-build` to implement

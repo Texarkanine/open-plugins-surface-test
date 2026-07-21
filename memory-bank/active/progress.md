@@ -30,3 +30,14 @@ Deliver M1 MCP probe: PEP 723 `servers/probe_mcp.py`, `.mcp.json` with `${PLUGIN
     - `.mcp.json`: `uv run --script ${PLUGIN_ROOT}/servers/probe_mcp.py`; FastMCP + PEP 723 `mcp` dep
 * Insights
     - Setup needs no M1 changes — uv preflight header is already the skip signal
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD per-step ordering, conventions, dependency impact (no step-10 stub assertions elsewhere), completeness
+    - Plan amendment: missing `uv_version` defaults to unavailable (aligned with summary)
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No rearchitect; advisory only: optional PEP 723 version pin if SDK churn bites during build
+* Insights
+    - Step 10 registry metadata already correct — build is bind + observer + components, same shape as R4/S1/A1
