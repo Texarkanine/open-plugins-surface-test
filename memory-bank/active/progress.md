@@ -16,3 +16,16 @@ Implement `scripts/check.py` with step arg parsing, JSONL append to `work/observ
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
     - Milestone estimate (L3) matches the decision-tree outcome
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Component analysis for check harness (CLI, registry, JSONL, summary, exits)
+    - TDD plan → `tests/test_check.py` before `scripts/check.py`
+    - Pinned summary row grain, stub observers, `run_id`, `CONFORMANCE_WORK`
+* Decisions made
+    - No creative phase — DESIGN + pinned decisions sufficient
+    - Stub observers for steps 1–11; real fingerprint logic deferred
+    - Summary: one row per recorded step; missing records omitted
+* Insights
+    - Extension point is replacing registry callables in later milestones

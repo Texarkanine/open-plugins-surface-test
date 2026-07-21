@@ -1,12 +1,13 @@
 # Active Context
 
 ## Current Task: check-harness
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Advanced L4 milestone: checked off `scripts/setup.sh`
-- Classified next milestone (`scripts/check.py`) as Level 3
-- Rationale: complete multi-mode observation harness used by all probes; multiple components (CLI args, JSONL records, summary table, infra-only exit policy) without new system architecture
+- Component analysis for `scripts/check.py` (CLI, registry, JSONL, summary, exit policy)
+- Pinned decisions: per-recorded-step summary rows, stub observers for steps 1–11, `run_id` on first append, `CONFORMANCE_WORK` seam
+- No open questions — skipped creative phase
+- TDD plan mapped to `tests/test_check.py` before implementing `scripts/check.py`
 
 ## Next Step
-- Load Level 3 workflow and execute Plan phase
+- Preflight phase to validate the plan
