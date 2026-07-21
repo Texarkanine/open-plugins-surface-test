@@ -5,9 +5,9 @@ CLI modes:
   scripts/check.py <step>     Observe a single step (1–11), append JSONL, exit 0
   scripts/check.py --summary  Render capability table from recorded observations
 
-Steps 1–5 have real observers (Scots flag + JS/Python indent create/edit);
-steps 6–11 still use stubs that return observed=false with detail
-"probe checker not implemented".
+Steps 1–8 have real observers (Scots flag, JS/Python indent create/edit,
+R4 closing-line sentinel, S1/A1 token presence); steps 9–11 still use stubs
+that return observed=false with detail "probe checker not implemented".
 Exit non-zero only on infrastructure errors — never on not observed / skipped.
 """
 
@@ -177,6 +177,64 @@ def observe_r3_py_edit(step: int, work: Path) -> ObservationResult:
     return observe_indent_edit(step, work, relative="fib.py", n=5)
 
 
+SEA_POEM_SENTINEL = "SEA-POEM-OBSERVED"
+BUILD_STAMP_TOKEN = "BUILD-STAMP-OBSERVED"
+LISTING_AUDITOR_TOKEN = "LISTING-AUDITOR-OBSERVED"
+
+
+def last_nonempty_line(text: str) -> str:
+    """Return the last non-empty line of text, stripped; else ``\"\"``."""
+    for line in reversed(text.splitlines()):
+        stripped = line.strip()
+        if stripped:
+            return stripped
+    return ""
+
+
+def artifact_contains(path: Path, token: str) -> bool:
+    """Return True when path exists and its text contains token."""
+    if not path.is_file():
+        return False
+    return token in path.read_text(encoding="utf-8")
+
+
+def closing_line_equals(path: Path, sentinel: str) -> bool:
+    """Return True when path exists and its last non-empty line equals sentinel."""
+    if not path.is_file():
+        return False
+    return last_nonempty_line(path.read_text(encoding="utf-8")) == sentinel
+
+
+def observe_r4_sea_poem(_step: int, work: Path) -> ObservationResult:
+    """Step 6: observe ``poem.txt`` closing line equals SEA-POEM-OBSERVED."""
+    artifact = work / "artifacts" / "poem.txt"
+    if not artifact.is_file():
+        return {"observed": False, "detail": "poem.txt not found"}
+    if closing_line_equals(artifact, SEA_POEM_SENTINEL):
+        return {"observed": True, "detail": "closing line sentinel present"}
+    return {"observed": False, "detail": "closing line sentinel not present"}
+
+
+def observe_s1_build_stamp(_step: int, work: Path) -> ObservationResult:
+    """Step 7: observe ``stamp.txt`` contains BUILD-STAMP-OBSERVED."""
+    artifact = work / "artifacts" / "stamp.txt"
+    if not artifact.is_file():
+        return {"observed": False, "detail": "stamp.txt not found"}
+    if artifact_contains(artifact, BUILD_STAMP_TOKEN):
+        return {"observed": True, "detail": "build stamp token present"}
+    return {"observed": False, "detail": "build stamp token not present"}
+
+
+def observe_a1_listing_auditor(_step: int, work: Path) -> ObservationResult:
+    """Step 8: observe ``agent.txt`` contains LISTING-AUDITOR-OBSERVED."""
+    artifact = work / "artifacts" / "agent.txt"
+    if not artifact.is_file():
+        return {"observed": False, "detail": "agent.txt not found"}
+    if artifact_contains(artifact, LISTING_AUDITOR_TOKEN):
+        return {"observed": True, "detail": "listing auditor token present"}
+    return {"observed": False, "detail": "listing auditor token not present"}
+
+
 def observe_stub(step: int, work: Path) -> ObservationResult:
     """Placeholder observer until probe-specific checkers land."""
     return {"observed": False, "detail": "probe checker not implemented"}
@@ -234,9 +292,27 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "edit",
         observe=observe_r3_py_edit,
     ),
-    6: _entry("rules", "description", "r4-sea-poem", "create"),
-    7: _entry("skills", "description", "s1-build-stamp", "create"),
-    8: _entry("agents", "description", "a1-listing-auditor", "create"),
+    6: _entry(
+        "rules",
+        "description",
+        "r4-sea-poem",
+        "create",
+        observe=observe_r4_sea_poem,
+    ),
+    7: _entry(
+        "skills",
+        "description",
+        "s1-build-stamp",
+        "create",
+        observe=observe_s1_build_stamp,
+    ),
+    8: _entry(
+        "agents",
+        "description",
+        "a1-listing-auditor",
+        "create",
+        observe=observe_a1_listing_auditor,
+    ),
     9: _entry("hooks", "events", "h1-hooks-battery", "aggregate"),
     10: _entry("mcp", "server", "m1-probe-mcp", "create"),
     11: _entry("lsp", "server", "l1-probe-lsp", "launched"),

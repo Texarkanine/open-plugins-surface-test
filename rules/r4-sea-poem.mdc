@@ -1,0 +1,9 @@
+---
+description: When writing a poem about the sea or ocean, save it as poem.txt with the required closing line
+---
+
+Whenever you write a poem about the sea (or ocean, tide, waves) and save it as `poem.txt`, the last non-empty line of the file must be exactly:
+
+SEA-POEM-OBSERVED
+
+Do not put that line anywhere except as the closing line. Trailing blank lines after it are fine.

@@ -187,15 +187,15 @@ No new technology - validation not required
 
 ## Implementation Checklist
 
-- [ ] 1. Shared text helpers (TDD)
-- [ ] 2. R4 observer + registry wire (TDD)
-- [ ] 3. S1 observer + registry wire (TDD)
-- [ ] 4. A1 observer + registry wire (TDD)
-- [ ] 5. CLI smoke for steps 6–8 (TDD)
-- [ ] 6. Rule R4 + prompt 06 (TDD)
-- [ ] 7. Skill S1 + prompt 07 (TDD)
-- [ ] 8. Agent A1 + prompt 08 (TDD)
-- [ ] 9. Full suite verification
+- [x] 1. Shared text helpers (TDD)
+- [x] 2. R4 observer + registry wire (TDD)
+- [x] 3. S1 observer + registry wire (TDD)
+- [x] 4. A1 observer + registry wire (TDD)
+- [x] 5. CLI smoke for steps 6–8 (TDD)
+- [x] 6. Rule R4 + prompt 06 (TDD)
+- [x] 7. Skill S1 + prompt 07 (TDD)
+- [x] 8. Agent A1 + prompt 08 (TDD)
+- [x] 9. Full suite verification
 
 ## Status
 
@@ -206,7 +206,7 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
 
 ## Preflight Findings

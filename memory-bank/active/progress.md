@@ -38,3 +38,15 @@ Deliver R4, S1, and A1 probes: description-only poem rule, `skills/build-stamp/`
     - No plan amendments required
 * Insights
     - Fingerprint centralization for build-time leakage lint belongs to the entrypoint milestone, not this slice
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - Shared helpers + R4/S1/A1 observers wired into `check.py` steps 6–8
+    - Rule/skill/agent components and prompts 06–08
+    - `tests/test_r4_s1_a1.py` (27); full suite 93 passed
+* Decisions made
+    - Closing-line equality for R4; substring tokens for S1/A1
+    - Strong skill/agent descriptions without fingerprint leakage
+* Insights
+    - Three create-path slices share helper shape cleanly; registry metadata needed no edits beyond observer binding
