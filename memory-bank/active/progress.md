@@ -1,71 +1,18 @@
 # Progress
 
-Deliver R1 end-to-end: `rules/r1-global-scots.mdc`, prompt 01, and Scottish-flag codepoint checker for `cats.md` — TDD: flag-checker tests (including tag-sequence codepoints) before rule and prompt.
+Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, prompts 02–05, shared indent checker, and edit-path file-modified recording — TDD: shared indent + modified-file checker tests before rules, fixtures, and prompts.
 
-**Complexity:** Level 2
+**Complexity:** Level 3
 
 ## 2026-07-21 - COMPLEXITY-ANALYSIS - COMPLETE
 
 * Work completed
-    - Checked off completed L4 milestone (`scripts/check.py`)
+    - Checked off completed L4 milestone (R1 end-to-end)
     - Cleared sub-run ephemeral files; preserved `milestones.md`, `projectbrief.md`, `reflection/`
-    - Selected first unchecked L4 milestone (R1 end-to-end) as classification target
-    - Classified as Level 2 (Simple Enhancement)
+    - Selected first unchecked L4 milestone (R2/R3 indent probes) as classification target
+    - Classified as Level 3 (Intermediate Feature)
 * Decisions made
-    - Decision tree: not a bug fix; adding a small enhancement (first probe vertical slice); self-contained within one probe boundary → L2; no multi-subsystem architectural redesign within this sub-run
+    - Decision tree: not a bug fix; complete feature with multiple components (JS/Python rules, prompts 02–05, shared indent checker, edit-path file-modified recording); no system-wide architectural redesign within this sub-run → L3
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
-    - Milestone estimate (L2) matches the decision-tree outcome; checker-first TDD remains the invariant for probe milestones
-
-## 2026-07-21 - PLAN - COMPLETE
-
-* Work completed
-    - Linear TDD plan for R1: flag checker tests → `observe_r1_scots` → harness contract update → rule/prompt presence+leakage tests → `rules/r1-global-scots.mdc` + `prompts/01-r1-cats.md`
-    - Pinned Scotland flag tag sequence and `work/artifacts/cats.md`
-* Decisions made
-    - No creative phase — DESIGN matrix + Challenges sufficient
-    - Checker stays in `scripts/check.py` as registry callable; no new observer package
-    - Focused prompt-leakage tests only; build-time sentinel lint deferred
-* Insights
-    - Existing `test_step_append_shape` stub detail is the main harness-contract touchpoint
-
-## 2026-07-21 - PREFLIGHT - COMPLETE
-
-* Work completed
-    - Validated TDD encoding, paths, dependency impact (`test_step_append_shape`), and milestone coverage
-    - Amended plan with pure `contains_scots_flag` helper
-    - Wrote `.preflight-status` PASS
-* Decisions made
-    - No blocking findings; helper split is within L2/brief scope
-* Insights
-    - Tag-sequence edge cases belong on a pure function; observer stays a thin file I/O wrapper
-
-## 2026-07-21 - BUILD - COMPLETE
-
-* Work completed
-    - TDD red/green for helper, observer, harness contract, rule, and prompt
-    - Full suite: 40 passed
-* Decisions made
-    - Observational detail vocabulary pinned as above
-* Insights
-    - Embedding the live emoji in the rule makes leakage tests decisive against prompt spoilers
-
-## 2026-07-21 - QA - COMPLETE
-
-* Work completed
-    - Semantic review against plan; wrote `.qa-validation-status` PASS
-    - Trivial unused-param cleanup in `observe_r1_scots`
-* Decisions made
-    - No substantive issues; README coverage remains deferred to entrypoint milestone
-* Insights
-    - Pure helper + thin observer is the right shape for later probe checkers
-
-## 2026-07-21 - REFLECT - COMPLETE
-
-* Work completed
-    - Wrote `reflection/reflection-r1-e2e.md`
-    - Reconciled persistent files — no updates required
-* Decisions made
-    - Sub-run complete; next operator action is `/niko` for milestone advance
-* Insights
-    - Live emoji in the rule + absence assertions on the prompt enforce no-leakage early
+    - Milestone estimate (L3) matches the decision-tree outcome; shared indent + modified-file checkers are the TDD gate before rules/fixtures/prompts
