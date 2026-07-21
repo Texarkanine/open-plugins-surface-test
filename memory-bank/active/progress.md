@@ -62,3 +62,13 @@ Implement `scripts/check.py` with step arg parsing, JSONL append to `work/observ
     - No code changes required; README coverage deferred to entrypoint/README milestone
 * Insights
     - Observer TypedDict + registry callables are the right extension seam for later probe milestones
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-check-harness.md`
+    - Reconciled persistent files — no updates required
+* Decisions made
+    - Sub-run complete; next operator action is `/niko` for milestone advance
+* Insights
+    - Registry `observe` callables freeze the harness surface for later probe swaps
