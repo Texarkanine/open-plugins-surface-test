@@ -159,7 +159,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
 
 ## Preflight Amendments
 

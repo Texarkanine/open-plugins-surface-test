@@ -54,3 +54,14 @@ Deliver M1 MCP probe: PEP 723 `servers/probe_mcp.py`, `.mcp.json` with `${PLUGIN
     - No deviations from the preflight-amended plan
 * Insights
     - Skip-wins-over-artifact is the load-bearing integration assertion for the uv gate; substring `artifact_contains` matches S1/A1
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review vs plan: KISS/DRY/YAGNI/completeness/regression/integrity/docs
+    - Wrote `.qa-validation-status` PASS (no code fixes required)
+* Decisions made
+    - Kept `format_probe_hello` + deferred FastMCP import — required for unit-testability without repo `mcp` dep; not YAGNI
+    - No DESIGN/README edits — matches plan explicit non-scope
+* Insights
+    - M1 lands cleanly as another S1/A1-shaped token observer plus a skip gate; no accretion-layer smell
