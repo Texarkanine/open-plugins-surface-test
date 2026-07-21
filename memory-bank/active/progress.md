@@ -25,3 +25,14 @@ Create the plugin skeleton: `.plugin/plugin.json`, `.gitignore` for `work/`, and
     - Test only crucial skeleton contracts (manifest name/paths, `work/` gitignore); skip README prose
 * Insights
     - Greenfield needs one harness introduction; keeping the first suite tiny avoids overbuilding static-file tests
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against greenfield tree and TDD encoding
+    - Amended gitignore step for pytest/venv hygiene
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - Keep contract tests to `name`/paths + `work/` only; Python cache ignores are non-asserted hygiene
+* Insights
+    - Introducing pytest in the skeleton milestone is the right place for `.venv`/cache ignore rules

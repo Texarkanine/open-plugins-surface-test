@@ -41,7 +41,7 @@ Create the plugin skeleton from DESIGN.md implementation plan §1: `.plugin/plug
    - Changes: assert manifest name + component path fields; assert `.gitignore` ignores `work/`
 3. Implement skeleton files to satisfy tests
    - Files: `.plugin/plugin.json`, `.gitignore`
-   - Changes: vendor-neutral manifest with `name` (e.g. `open-plugins-conformance`) and explicit `./` component paths per DESIGN.md layout; root `.gitignore` with `work/`
+   - Changes: vendor-neutral manifest with `name` (e.g. `open-plugins-conformance`) and explicit `./` component paths per DESIGN.md layout; root `.gitignore` with `work/` plus Python/pytest noise (`.venv/`, `__pycache__/`, `.pytest_cache/`, `*.pyc`)
 4. README stub (prose — no tests)
    - Files: `README.md` (replace empty stub)
    - Changes: short placeholder: purpose one-liner + pointer that install/launch/invoke docs land in the entrypoint milestone
@@ -72,6 +72,16 @@ Create the plugin skeleton from DESIGN.md implementation plan §1: `.plugin/plug
 - Manifest field names wrong for target harnesses: already covered by Challenge on path fields; skeleton only needs loadable metadata, not probe behavior
 - Forgetting to gitignore `work/` before setup seeds fixtures: already covered by gitignore contract test
 
+## Preflight Amendments
+
+- Extended `.gitignore` step to also ignore `.venv/`, `__pycache__/`, `.pytest_cache/`, and `*.pyc` now that pytest lands in this milestone (keeps the contract test focused on `work/`; extras are hygiene).
+
+## Preflight Findings
+
+- Greenfield confirmed: no `.plugin/`, no `.gitignore`, empty `README.md`, no `tests/`
+- TDD ordering explicit per unit: step 2 tests before step 3 production files; README prose excluded by operator scope
+- `uv` 0.8.22 present on PATH
+
 ## Status
 
 - [x] Initialization complete
@@ -79,6 +89,6 @@ Create the plugin skeleton from DESIGN.md implementation plan §1: `.plugin/plug
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
