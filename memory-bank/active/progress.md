@@ -29,3 +29,14 @@ Implement `scripts/check.py` with step arg parsing, JSONL append to `work/observ
     - Summary: one row per recorded step; missing records omitted
 * Insights
     - Extension point is replacing registry callables in later milestones
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD ordering, paths, dependency impact, and milestone coverage
+    - Amended plan with pinned `STEP_REGISTRY` table
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No blocking findings; optional TypedDict/protocol left as advisory
+* Insights
+    - Registry ids should be frozen now so later probe milestones replace callables only

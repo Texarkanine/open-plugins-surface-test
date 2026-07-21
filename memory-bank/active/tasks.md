@@ -117,7 +117,22 @@ None - implementation approach is clear from DESIGN.md plus pinned decisions abo
      - Resolve `PLUGIN_ROOT` / `WORK_DIR` (`CONFORMANCE_WORK` override)
      - Arg parse: exactly one of integer step in `1..11` or `--summary`
      - Infra checks: work dir exists; `run.json` exists and parses
-     - `STEP_REGISTRY`: metadata for steps 1–11 matching DESIGN probe matrix (`surface`, `mode`, `probe`, `path` create|edit|null as appropriate)
+     - `STEP_REGISTRY` (exact metadata — do not invent ids):
+
+| step | surface | mode | probe | path |
+|---|---|---|---|---|
+| 1 | rules | alwaysApply | r1-global-scots | create |
+| 2 | rules | alwaysApply+globs | r2-js-indent | create |
+| 3 | rules | alwaysApply+globs | r2-js-indent | edit |
+| 4 | rules | globs | r3-py-indent | create |
+| 5 | rules | globs | r3-py-indent | edit |
+| 6 | rules | description | r4-sea-poem | create |
+| 7 | skills | description | s1-build-stamp | create |
+| 8 | agents | description | a1-listing-auditor | create |
+| 9 | hooks | events | h1-hooks-battery | aggregate |
+| 10 | mcp | server | m1-probe-mcp | create |
+| 11 | lsp | server | l1-probe-lsp | launched |
+
      - Stub `observe(step, work) -> {observed: false, detail: "probe checker not implemented"}`
      - Ensure `run_id` on `run.json`; append one JSON line to `work/observations/run.jsonl`; print observational status; exit 0
      - `--summary`: load header + JSONL; print capability table (one row per recorded step) with emoji status vocabulary; exit 0 even when all `not observed`
@@ -151,6 +166,14 @@ No new technology - validation not required. Stdlib + existing pytest/`uv` self-
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Findings
+
+- PASS: TDD ordering explicit (tests step before `check.py` implementation)
+- PASS: Paths match DESIGN/conventions (`scripts/check.py`, `tests/test_check.py`); no existing `check.py` conflict
+- PASS: Milestone requirements mapped (args, JSONL append, observe-not-judge exits, `--summary`)
+- Amendment: pinned exact `STEP_REGISTRY` metadata table from DESIGN probe matrix
+- Advisory: consider a tiny importable `Observation` TypedDict/protocol in `check.py` for later checker swaps — optional polish, not required for this milestone

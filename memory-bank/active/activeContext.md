@@ -1,13 +1,12 @@
 # Active Context
 
 ## Current Task: check-harness
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE
 
 ## What Was Done
-- Component analysis for `scripts/check.py` (CLI, registry, JSONL, summary, exit policy)
-- Pinned decisions: per-recorded-step summary rows, stub observers for steps 1–11, `run_id` on first append, `CONFORMANCE_WORK` seam
-- No open questions — skipped creative phase
-- TDD plan mapped to `tests/test_check.py` before implementing `scripts/check.py`
+- Validated plan against greenfield tree, DESIGN observation contract, and TDD encoding
+- Amended plan with exact `STEP_REGISTRY` metadata for steps 1–11
+- Wrote `.preflight-status` PASS
 
 ## Next Step
-- Preflight phase to validate the plan
+- Operator: run `/niko-build` to implement
