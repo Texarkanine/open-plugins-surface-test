@@ -1,6 +1,6 @@
 # Progress
 
-Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, prompts 02–05, shared indent checker, and edit-path file-modified recording — TDD: shared indent + modified-file checker tests before rules, fixtures, and prompts.
+Deliver R2/R3 indent probes: alwaysApply-only JS and globs-only Python rules, prompts 02–05, shared indent checker (N=7 / N=5), and edit-path file-modified recording — TDD: shared indent + modified-file checker tests before rules, fixtures, and prompts.
 
 **Complexity:** Level 3
 
@@ -72,3 +72,14 @@ Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, p
     - Ship indent probes as planned this milestone; contingency (alternate preference fingerprint, e.g. naming style) only after empirical attended-run evidence
 * Insights
     - Same DESIGN class as "suite measures the model, not the harness"; indent may be a worse accidental-compliance tradeoff than hoped if models simply will not comply
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - TDD: 26 contracts in `tests/test_r2_r3_indent.py`; helpers + create/edit observers in `check.py`
+    - Rules R2/R3 and prompts 02–05; DESIGN mode/matrix cleanup; full suite 66 green
+* Decisions made
+    - Prompt leakage allows `# Step N` titles; bare 5/7 still banned in prompt body
+    - Edit detail format: `indent widths seen: […]; file_modified: true|false`
+* Insights
+    - Parameterized `multiples_of(N)` kept JS/PY fingerprints cleanly isolated without duplicating observers

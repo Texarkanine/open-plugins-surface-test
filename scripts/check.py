@@ -5,8 +5,9 @@ CLI modes:
   scripts/check.py <step>     Observe a single step (1–11), append JSONL, exit 0
   scripts/check.py --summary  Render capability table from recorded observations
 
-Step 1 has a real Scots-flag observer; steps 2–11 still use stubs that return
-observed=false with detail "probe checker not implemented".
+Steps 1–5 have real observers (Scots flag + JS/Python indent create/edit);
+steps 6–11 still use stubs that return observed=false with detail
+"probe checker not implemented".
 Exit non-zero only on infrastructure errors — never on not observed / skipped.
 """
 
@@ -41,6 +42,57 @@ def contains_scots_flag(text: str) -> bool:
     return SCOTS_FLAG in text
 
 
+def indent_widths(source: str) -> set[int]:
+    """Collect leading-space indent widths from non-blank lines.
+
+    Blank lines are ignored. Leading ASCII spaces contribute their count when
+    positive. A leading tab yields the marker ``-1`` (not a positive width).
+    Semantics match ``tests/test_setup.py::_indent_widths``.
+    """
+    widths: set[int] = set()
+    for line in source.splitlines():
+        if not line.strip():
+            continue
+        if line.startswith("\t"):
+            widths.add(-1)
+            continue
+        leading = len(line) - len(line.lstrip(" "))
+        if leading:
+            widths.add(leading)
+    return widths
+
+
+def indent_multiples_of(widths: set[int], n: int) -> bool:
+    """Return True if widths is non-empty and every positive width is a multiple of n.
+
+    The tab marker ``-1`` makes the set non-compliant. An empty set is not
+    observed (nothing to credit).
+    """
+    if not widths:
+        return False
+    if -1 in widths:
+        return False
+    return all(width % n == 0 for width in widths)
+
+
+def format_indent_widths_detail(widths: set[int]) -> str:
+    """Format indent detail as ``indent widths seen: […]`` (sorted unique positives)."""
+    positives = sorted(width for width in widths if width > 0)
+    return f"indent widths seen: [{', '.join(str(w) for w in positives)}]"
+
+
+def file_modified(artifact: Path, fixture: Path) -> bool:
+    """Return True when artifact exists and its text differs from fixture text.
+
+    Missing artifact → False. Equal content → False. Different content → True.
+    """
+    if not artifact.is_file():
+        return False
+    if not fixture.is_file():
+        return True
+    return artifact.read_text(encoding="utf-8") != fixture.read_text(encoding="utf-8")
+
+
 def observe_r1_scots(_step: int, work: Path) -> ObservationResult:
     """Observe whether work/artifacts/cats.md carries the Scotland flag fingerprint."""
     artifact = work / "artifacts" / "cats.md"
@@ -52,10 +104,81 @@ def observe_r1_scots(_step: int, work: Path) -> ObservationResult:
     return {"observed": False, "detail": "scottish flag not present"}
 
 
+def observe_indent_create(
+    _step: int,
+    work: Path,
+    *,
+    relative: str,
+    n: int,
+) -> ObservationResult:
+    """Observe create-path indent fingerprint for ``work/artifacts/<relative>``.
+
+    Missing artifact → not observed. Empty or non-compliant widths for ``n`` →
+    not observed with indent detail. Compliant multiples of ``n`` → observed.
+    """
+    name = Path(relative).name
+    artifact = work / "artifacts" / relative
+    if not artifact.is_file():
+        return {"observed": False, "detail": f"{name} not found"}
+    widths = indent_widths(artifact.read_text(encoding="utf-8"))
+    detail = format_indent_widths_detail(widths)
+    if indent_multiples_of(widths, n):
+        return {"observed": True, "detail": detail}
+    return {"observed": False, "detail": detail}
+
+
+def observe_indent_edit(
+    _step: int,
+    work: Path,
+    *,
+    relative: str,
+    n: int,
+) -> ObservationResult:
+    """Observe edit-path indent fingerprint plus file-modified vs fixture seed.
+
+    ``observed`` is true only when the artifact differs from
+    ``work/fixtures/<relative>`` and indent widths are multiples of ``n``.
+    Detail always includes indent widths and ``file_modified: true|false``.
+    """
+    name = Path(relative).name
+    artifact = work / "artifacts" / relative
+    fixture = work / "fixtures" / relative
+    if not artifact.is_file():
+        return {
+            "observed": False,
+            "detail": f"{name} not found; file_modified: false",
+        }
+    modified = file_modified(artifact, fixture)
+    widths = indent_widths(artifact.read_text(encoding="utf-8"))
+    indent_detail = format_indent_widths_detail(widths)
+    modified_detail = f"file_modified: {'true' if modified else 'false'}"
+    detail = f"{indent_detail}; {modified_detail}"
+    observed = modified and indent_multiples_of(widths, n)
+    return {"observed": observed, "detail": detail}
+
+
+def observe_r2_js_create(step: int, work: Path) -> ObservationResult:
+    """Step 2: observe ``reverse.js`` for multiples of 7."""
+    return observe_indent_create(step, work, relative="reverse.js", n=7)
+
+
+def observe_r2_js_edit(step: int, work: Path) -> ObservationResult:
+    """Step 3: observe ``fib.js`` edit path (modified + multiples of 7)."""
+    return observe_indent_edit(step, work, relative="fib.js", n=7)
+
+
+def observe_r3_py_create(step: int, work: Path) -> ObservationResult:
+    """Step 4: observe ``strrev.py`` for multiples of 5."""
+    return observe_indent_create(step, work, relative="strrev.py", n=5)
+
+
+def observe_r3_py_edit(step: int, work: Path) -> ObservationResult:
+    """Step 5: observe ``fib.py`` edit path (modified + multiples of 5)."""
+    return observe_indent_edit(step, work, relative="fib.py", n=5)
+
 def observe_stub(step: int, work: Path) -> ObservationResult:
     """Placeholder observer until probe-specific checkers land."""
     return {"observed": False, "detail": "probe checker not implemented"}
-
 
 def _entry(
     surface: str,
@@ -81,10 +204,34 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "create",
         observe=observe_r1_scots,
     ),
-    2: _entry("rules", "alwaysApply+globs", "r2-js-indent", "create"),
-    3: _entry("rules", "alwaysApply+globs", "r2-js-indent", "edit"),
-    4: _entry("rules", "globs", "r3-py-indent", "create"),
-    5: _entry("rules", "globs", "r3-py-indent", "edit"),
+    2: _entry(
+        "rules",
+        "alwaysApply",
+        "r2-js-indent",
+        "create",
+        observe=observe_r2_js_create,
+    ),
+    3: _entry(
+        "rules",
+        "alwaysApply",
+        "r2-js-indent",
+        "edit",
+        observe=observe_r2_js_edit,
+    ),
+    4: _entry(
+        "rules",
+        "globs",
+        "r3-py-indent",
+        "create",
+        observe=observe_r3_py_create,
+    ),
+    5: _entry(
+        "rules",
+        "globs",
+        "r3-py-indent",
+        "edit",
+        observe=observe_r3_py_edit,
+    ),
     6: _entry("rules", "description", "r4-sea-poem", "create"),
     7: _entry("skills", "description", "s1-build-stamp", "create"),
     8: _entry("agents", "description", "a1-listing-auditor", "create"),

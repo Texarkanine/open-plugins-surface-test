@@ -31,7 +31,7 @@ graph LR
 
     subgraph Rules["📐 rules/ (.mdc)"]
         R1["R1 alwaysApply, no globs"]:::comp
-        R2["R2 alwaysApply + globs"]:::comp
+        R2["R2 alwaysApply, no globs"]:::comp
         R3["R3 globs only"]:::comp
         R4["R4 description only"]:::comp
     end
@@ -130,9 +130,9 @@ These hold or the results are meaningless.
 | Step | Surface | Component | Prompt provokes | Observation |
 |---|---|---|---|---|
 | 1 | Rule — `alwaysApply: true`, no globs | `r1-global-scots.mdc` | write `cats.md` extolling domestic felines, ≤2 paragraphs | Scottish flag present |
-| 2 | Rule — `alwaysApply: true` + globs `**/*.js` | `r2-js-indent.mdc` | create `reverse.js` with a string-reversing function | all indentation is a 7-space multiple |
+| 2 | Rule — `alwaysApply: true`, no globs (JS targeting in body) | `r2-js-indent.mdc` | create `reverse.js` with a string-reversing function | all indentation is a 7-space multiple |
 | 3 | ″ (edit path) | ″ | fixture `fib.js` (4-space, recursive) → "make this iterative" | ″, and file modified |
-| 4 | Rule — globs `**/*.py`, no `alwaysApply` | `r3-py-indent.mdc` | create `strrev.py` with a string-reversing function | all indentation is a 7-space multiple |
+| 4 | Rule — globs `**/*.py`, no `alwaysApply` | `r3-py-indent.mdc` | create `strrev.py` with a string-reversing function | all indentation is a 5-space multiple |
 | 5 | ″ (edit path) | ″ | fixture `fib.py` (4-space, recursive) → "make this iterative" | ″, and file modified |
 | 6 | Rule — `description` only | `r4-sea-poem.mdc` | "write me a poem, save it as `poem.txt`" | closing line sentinel present |
 | 7 | Skill | `skills/build-stamp/` | "stamp the build" | `stamp.txt` carries token |
@@ -148,9 +148,11 @@ being compliant.
 
 ### Rule modes are mutually exclusive
 
-Globs win. A rule with globs is glob-attached and its `description` is never consulted,
-so "strong description + globs" is not a real mode and gets no probe. The four probed
-modes are the full space.
+`alwaysApply` subsumes globs: a rule with `alwaysApply: true` is always-on, so
+`alwaysApply` + `globs` is not a real mode and gets no probe (R2 is alwaysApply-only;
+JS targeting lives in the rule body). Separately, globs win over description: a rule
+with globs is glob-attached and its `description` is never consulted, so "strong
+description + globs" is also not a real mode. The four probed modes are the full space.
 
 ### Step 9 — hook action battery
 
@@ -210,9 +212,9 @@ the real claim: did the harness launch the server and expose its tools.
 `work/observations/run.jsonl`, one object per check:
 
 ```json
-{"run_id":"…","step":2,"surface":"rules","mode":"alwaysApply+globs",
+{"run_id":"…","step":2,"surface":"rules","mode":"alwaysApply",
  "probe":"r2-js-indent","path":"create","observed":true,
- "detail":"indent widths seen: [7,14]","ts":"…"}
+ "detail":"indent widths seen: [7, 14]","ts":"…"}
 ```
 
 `work/run.json` holds the run header: operator-supplied harness label and model

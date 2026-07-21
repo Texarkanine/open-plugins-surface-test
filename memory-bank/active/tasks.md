@@ -184,6 +184,19 @@ No new technology - validation not required
 - **Over-scoped into setup.sh rewrite:** Fixtures already exist; scope stays checkers → rules → prompts → DESIGN label fix.
 - **Models refuse nonstandard indentation (strong training prior for 2/4-space):** The probe can be thwarted by the *model*, not the harness — `not observed` then under-claims rule delivery. DESIGN already names this class of failure (measures model vs harness). **Contingency if live runs show systematic indent refusal:** swap the demanded preference to a different arbitrary fingerprint (e.g. a distinctive variable-naming style) — noting naming is also style-tuned and may hit the same wall; pick whatever still has negligible accidental-compliance and survives model stubbornness. Do **not** change the fingerprint mid-build of this milestone; record the risk and revisit only after empirical attended runs.
 
+## Implementation Checklist
+
+- [x] 1. Pure indent helpers (TDD)
+- [x] 2. File-modified helper (TDD)
+- [x] 3. Create-path observers + mode correction (TDD)
+- [x] 4. Edit-path observers (TDD)
+- [x] 5. Harness CLI / fixture smoke (TDD)
+- [x] 6. Rule R2 + prompt 02 (TDD)
+- [x] 7. Rule R2 edit prompt 03 (TDD)
+- [x] 8. Rule R3 + prompts 04–05 (TDD)
+- [x] 9. DESIGN.md mode/label cleanup
+- [x] 10. Full suite verification (`uv run pytest` — 66 passed)
+
 ## Status
 
 - [x] Component analysis complete
@@ -193,7 +206,7 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
 
 ## Preflight Findings

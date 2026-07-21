@@ -250,7 +250,7 @@ def test_summary_status_vocabulary(work: Path) -> None:
             "run_id": "rid",
             "step": 2,
             "surface": "rules",
-            "mode": "alwaysApply+globs",
+            "mode": "alwaysApply",
             "probe": "r2-js-indent",
             "path": "create",
             "observed": False,
