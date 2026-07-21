@@ -117,7 +117,7 @@ None — implementation approach is clear from DESIGN.md (action battery, 13 eve
 
 1. **Helpers + mid-run constants (TDD)**
     - Files: `tests/test_h1_hooks.py`, `scripts/check.py`
-    - Changes: `MID_RUN_HOOK_EVENTS` / `SESSION_END_EVENT` (or equivalent), `hooks_log_path(work)`, `event_names_from_hooks_jsonl(path)`, `format_hook_events_detail(present: set[str])` covering the 12 mid-run names
+    - Changes: `MID_RUN_HOOK_EVENTS` / `SESSION_END_EVENT` (or equivalent), `hooks_log_path(work)`, `event_names_from_hooks_jsonl(path)`, `format_hook_events_detail(present: set[str])` covering the 12 mid-run names. Hooks JSONL parse must be **per-line tolerant** (skip blank/malformed lines) — do not call `_load_jsonl` as-is (it raises on bad JSON and would turn garbage log lines into infra failures).
 
 2. **`observe_h1_hooks` + registry bind (TDD)**
     - Files: `tests/test_h1_hooks.py`, `scripts/check.py`
@@ -129,7 +129,7 @@ None — implementation approach is clear from DESIGN.md (action battery, 13 eve
 
 4. **SessionEnd in `render_summary` (TDD)**
     - Files: `tests/test_h1_hooks.py`, `scripts/check.py`
-    - Changes: after table (or after empty-observations handling when header valid), print SessionEnd observational line from `hooks.jsonl`; keep exit semantics
+    - Changes: print SessionEnd observational line from `hooks.jsonl` whenever `run.json` is valid — including the `(no observations recorded)` path — so SessionEnd is not gated on `run.jsonl` rows; keep exit semantics
 
 5. **`scripts/hook_record.sh` (TDD)**
     - Files: `tests/test_h1_hooks.py`, `scripts/hook_record.sh`
@@ -176,6 +176,11 @@ No new technology — validation not required. Shell + Python + pytest already i
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Amendments
+
+- Helpers: tolerant per-line hooks JSONL parse (do not reuse raising `_load_jsonl`).
+- Summary: SessionEnd line prints even when `run.jsonl` is empty.

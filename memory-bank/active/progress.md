@@ -29,3 +29,14 @@ Deliver H1 hooks probe: `hooks/hooks.json`, `scripts/hook_record.sh`, step-09 ac
     - `${PLUGIN_ROOT}` + wrapper `{"hooks":…}` for hooks.json
 * Insights
     - H1 needs a summary extension beyond the usual step observer — SessionEnd is a structural late-bind, not a step-9 fingerprint
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD per-step ordering, conventions, dependency impact (`test_check.py` step-9 monkeypatch), no stub conflicts
+    - Plan amendments: tolerant hooks JSONL parse; SessionEnd line when run.jsonl empty
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No rearchitect; advisory only for durable SessionEnd JSONL (deferred)
+* Insights
+    - Reusing `_load_jsonl` would violate observe-not-judge if a single bad hooks line raised — helpers need their own tolerant reader
