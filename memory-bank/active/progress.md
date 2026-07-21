@@ -59,3 +59,13 @@ Create the plugin skeleton: `.plugin/plugin.json`, `.gitignore` for `work/`, and
     - Kept manifest `version`/`description` (harmless metadata, not speculative features)
 * Insights
     - Persistent tech context must land with the harness introduction, not wait for archive
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-plugin-skeleton.md`
+    - Reconciled persistent files (techContext already current)
+* Decisions made
+    - None new
+* Insights
+    - Bare uv init flags matter in a repo that already has README/git
