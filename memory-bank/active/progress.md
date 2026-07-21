@@ -65,3 +65,14 @@ Deliver M1 MCP probe: PEP 723 `servers/probe_mcp.py`, `.mcp.json` with `${PLUGIN
     - No DESIGN/README edits — matches plan explicit non-scope
 * Insights
     - M1 lands cleanly as another S1/A1-shaped token observer plus a skip gate; no accretion-layer smell
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-m1-mcp-probe.md`
+    - Persistent-file reconcile: no surgical updates needed
+* Decisions made
+    - None beyond documenting the deferred-import choice as the main build insight
+* Insights
+    - Pure formatter + deferred SDK import keeps PEP 723 server deps out of the harness venv
+    - Skip gates should share summary's `run.json` defaulting, not live-probe PATH
