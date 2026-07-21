@@ -12,7 +12,8 @@ Pinned fingerprint (DESIGN Challenges): full Scotland flag tag sequence — U+1F
 
 ### Behaviors to Verify
 
-- [Flag present]: `work/artifacts/cats.md` contains the full 7-codepoint Scotland flag sequence → observer returns `observed: true` with a detail noting presence
+- [Pure helper]: `contains_scots_flag(text)` is True iff the full 7-codepoint sequence is a substring; False for empty, ASCII-only, black-flag-only, and incomplete tag prefixes
+- [Flag present]: `work/artifacts/cats.md` contains the full sequence → observer returns `observed: true` with a detail noting presence
 - [Flag absent]: artifact exists but lacks the full sequence → `observed: false`, exit 0, observational wording
 - [Missing artifact]: no `cats.md` → `observed: false` (not infra failure), exit 0
 - [Partial sequence]: artifact contains only U+1F3F4 (black flag) or an incomplete tag prefix → `observed: false`
@@ -32,13 +33,13 @@ Pinned fingerprint (DESIGN Challenges): full Scotland flag tag sequence — U+1F
 
 ## Implementation Plan
 
-1. **Red — flag observer contracts**
+1. **Red — flag helper + observer contracts**
    - Files: `tests/test_r1_scots.py` (new)
-   - Changes: tests for observe callable / helpers covering present, absent, missing file, partial sequence; pin the 7 codepoints as a constant in tests
+   - Changes: tests for pure `contains_scots_flag` (present / empty / black-flag-only / incomplete prefix) and for `observe_r1_scots` (present / absent / missing file); pin expected codepoints in tests until the constant is exported from `check.py`
 
-2. **Green — implement step-1 observer**
+2. **Green — implement helper + step-1 observer**
    - Files: `scripts/check.py`
-   - Changes: add `SCOTS_FLAG` constant and `observe_r1_scots(step, work) -> ObservationResult` that reads `work/artifacts/cats.md` as UTF-8 and checks for the full sequence; wire `STEP_REGISTRY[1]["observe"]`; leave steps 2–11 on `observe_stub`
+   - Changes: add `SCOTS_FLAG` constant, `contains_scots_flag(text: str) -> bool`, and `observe_r1_scots(step, work) -> ObservationResult` that reads `work/artifacts/cats.md` as UTF-8 and uses the helper; wire `STEP_REGISTRY[1]` via `_entry(..., observe=observe_r1_scots)`; leave steps 2–11 on `observe_stub`
 
 3. **Red/green — harness step-1 contract update**
    - Files: `tests/test_check.py`
@@ -92,6 +93,10 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Amendments
+
+- Split fingerprint matching into a pure `contains_scots_flag(text)` helper tested before filesystem observer wiring (keeps tag-sequence edge cases unit-testable without temp dirs).

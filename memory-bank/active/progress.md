@@ -28,3 +28,14 @@ Deliver R1 end-to-end: `rules/r1-global-scots.mdc`, prompt 01, and Scottish-flag
     - Focused prompt-leakage tests only; build-time sentinel lint deferred
 * Insights
     - Existing `test_step_append_shape` stub detail is the main harness-contract touchpoint
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD encoding, paths, dependency impact (`test_step_append_shape`), and milestone coverage
+    - Amended plan with pure `contains_scots_flag` helper
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No blocking findings; helper split is within L2/brief scope
+* Insights
+    - Tag-sequence edge cases belong on a pure function; observer stays a thin file I/O wrapper
