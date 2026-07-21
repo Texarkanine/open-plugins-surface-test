@@ -1,73 +1,18 @@
 # Progress
 
-Deliver R4, S1, and A1 probes: description-only poem rule, `skills/build-stamp/`, `agents/listing-auditor.md`, prompts 06–08, and their token/sentinel checkers — TDD: per-step sentinel/token checker tests before each component and prompt.
+Deliver H1 hooks probe: `hooks/hooks.json`, `scripts/hook_record.sh`, step-09 action battery prompt, and per-event presence checker over accumulated `hooks.jsonl` — TDD: JSONL event-presence checker tests before hooks config, recorder, and prompt.
 
 **Complexity:** Level 3
 
 ## 2026-07-21 - COMPLEXITY-ANALYSIS - COMPLETE
 
 * Work completed
-    - Checked off completed L4 milestone (R2/R3 indent probes)
+    - Checked off completed L4 milestone (R4, S1, and A1 probes)
     - Cleared sub-run ephemeral files; preserved `milestones.md`, `projectbrief.md`, `reflection/`
-    - Selected first unchecked L4 milestone (R4, S1, and A1 probes) as classification target
+    - Selected first unchecked L4 milestone (H1 hooks probe) as classification target
     - Classified as Level 3 (Intermediate Feature)
 * Decisions made
-    - Decision tree: not a bug fix; not a small enhancement; complete feature with multiple components (poem rule, build-stamp skill, listing-auditor agent, prompts 06–08, token/sentinel checkers); no system-wide architectural redesign within this sub-run → L3
+    - Decision tree: not a bug fix; not a small enhancement; complete feature with multiple components (`hooks/hooks.json`, `scripts/hook_record.sh`, prompt 09, per-event presence checker over `hooks.jsonl`); SessionEnd deferred to summary is probe design, not system-wide architectural redesign → L3
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
-    - Milestone estimate (L3) matches the decision-tree outcome; three discrete surface slices share the established check pattern, with per-step checker tests as the TDD gate
-
-## 2026-07-21 - PLAN - COMPLETE
-
-* Work completed
-    - Component analysis across check.py steps 6–8, R4 rule, build-stamp skill, listing-auditor agent, prompts 06–08, tests
-    - TDD plan: shared text helpers → three observers → CLI → rule/skill/agent + prompts
-    - No creative phase — approach clear from DESIGN matrix + R1 presence-checker pattern
-* Decisions made
-    - R4 closing line must **equal** `SEA-POEM-OBSERVED` (last non-empty line); S1/A1 use substring tokens `BUILD-STAMP-OBSERVED` / `LISTING-AUDITOR-OBSERVED`
-    - R4 frontmatter description-only (no alwaysApply, no globs); skill/agent descriptions strong but token-free
-* Insights
-    - Three create-path slices share helper shape but not fingerprints; registry metadata for steps 6–8 already correct
-
-## 2026-07-21 - PREFLIGHT - COMPLETE
-
-* Work completed
-    - Validated TDD per-step ordering, R1-aligned conventions, registry metadata for steps 6–8, no stub-conflict tests
-    - Wrote `.preflight-status` PASS
-* Decisions made
-    - No plan amendments required
-* Insights
-    - Fingerprint centralization for build-time leakage lint belongs to the entrypoint milestone, not this slice
-
-## 2026-07-21 - BUILD - COMPLETE
-
-* Work completed
-    - Shared helpers + R4/S1/A1 observers wired into `check.py` steps 6–8
-    - Rule/skill/agent components and prompts 06–08
-    - `tests/test_r4_s1_a1.py` (27); full suite 93 passed
-* Decisions made
-    - Closing-line equality for R4; substring tokens for S1/A1
-    - Strong skill/agent descriptions without fingerprint leakage
-* Insights
-    - Three create-path slices share helper shape cleanly; registry metadata needed no edits beyond observer binding
-
-## 2026-07-21 - QA - COMPLETE
-
-* Work completed
-    - Semantic review vs plan (KISS/DRY/YAGNI/completeness/regression/integrity/docs)
-    - Trivial docstring cleanup on `last_nonempty_line`
-    - Wrote `.qa-validation-status` PASS
-* Decisions made
-    - Left S1/A1 observers un-merged (plan: independent slices; matches named R1/R2/R3 observer style)
-* Insights
-    - No over-engineering or leakage; documentation surface (README/DESIGN) needed no updates for this slice
-
-## 2026-07-21 - REFLECT - COMPLETE
-
-* Work completed
-    - Wrote `reflection/reflection-r4-s1-a1-probes.md`
-    - Reconciled persistent memory bank files (no changes)
-* Decisions made
-    - Milestone checkbox left for `/niko` Step 2a (do not check off in Reflect)
-* Insights
-    - Description-field trigger language vs body-only fingerprints is the safe split for description-matched surfaces
+    - Milestone estimate (L3) matches the decision-tree outcome; H1 is the deliberate multi-event aggregation exception to one-probe-per-prompt, built on the established observe-not-judge check pattern

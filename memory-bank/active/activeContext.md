@@ -1,12 +1,12 @@
 # Active Context
 
-## Current Task: r4-s1-a1-probes
-**Phase:** REFLECT - COMPLETE
+## Current Task: h1-hooks-probe
+**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
 
 ## What Was Done
-- Reflection written: `memory-bank/active/reflection/reflection-r4-s1-a1-probes.md`
-- Persistent files reconciled — no updates needed
-- Build + QA + Reflect complete for this L4 sub-run
+- Marked R4/S1/A1 milestone complete; cleared prior sub-run ephemeral files
+- Selected first unchecked L4 milestone (H1 hooks probe) as classification target
+- Classified as Level 3 (Intermediate Feature)
 
 ## Next Step
-- Operator: run `/niko` to continue to the next milestone
+- Load Level 3 workflow and execute Plan phase
