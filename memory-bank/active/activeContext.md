@@ -1,13 +1,13 @@
 # Active Context
 
 ## Current Task: m1-mcp-probe
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Advanced L4 milestone: H1 hooks probe marked complete
-- Cleared H1 sub-run ephemeral files; preserved `milestones.md`, `projectbrief.md`, `reflection/`
-- Selected first unchecked L4 milestone (M1 MCP probe) as classification target
-- Classified as Level 3 (Intermediate Feature)
+- Component analysis: check.py step-10 observer + uv skip helper, PEP 723 FastMCP server, `.mcp.json`, prompt 10
+- TDD plan: helper → observer → CLI → server → `.mcp.json` → prompt → full suite
+- Technology validation: FastMCP via `uv run --with mcp` PoC OK
+- No open questions / no creative phase
 
 ## Next Step
-- Load Level 3 workflow and execute Plan phase
+- Preflight phase to validate the plan

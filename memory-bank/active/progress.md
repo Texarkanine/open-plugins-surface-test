@@ -16,3 +16,17 @@ Deliver M1 MCP probe: PEP 723 `servers/probe_mcp.py`, `.mcp.json` with `${PLUGIN
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
     - Milestone estimate (L3) matches the decision-tree outcome; M1 adds the first in-plugin server surface plus a setup/check skip path when `uv` is absent
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Component analysis across check.py step 10, servers/probe_mcp.py, .mcp.json, prompt 10, tests
+    - TDD plan: uv helper → observer → CLI → server → .mcp.json → prompt
+    - Technology PoC: FastMCP under `uv run --with mcp` confirmed
+    - No creative phase — approach clear from DESIGN + open-plugin-spec + S1/A1 token pattern
+* Decisions made
+    - Skip gated on `run.json` `uv_version == "unavailable"` (setup already writes this); detail exact DESIGN string `skipped: uv not found`
+    - Fingerprint `MCP-OBSERVED-cats` via `artifact_contains`; skip wins over planted artifact
+    - `.mcp.json`: `uv run --script ${PLUGIN_ROOT}/servers/probe_mcp.py`; FastMCP + PEP 723 `mcp` dep
+* Insights
+    - Setup needs no M1 changes — uv preflight header is already the skip signal
