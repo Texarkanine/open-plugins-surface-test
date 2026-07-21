@@ -52,3 +52,14 @@ Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, p
     - JSONL `mode` for steps 2–3: `alwaysApply` (not `alwaysApply+globs`)
 * Insights
     - Measuring a compound mode the harness does not honor would produce a confidently wrong capability row
+
+## 2026-07-21 - PLAN AMENDMENT - COMPLETE
+
+* Work completed
+    - Operator: mermaid 7 (JS) vs 5 (PY) is intentional so fingerprints differ across languages/indent probes
+    - Amended plan: parameterized shared checker; matrix steps 4–5 to be corrected to 5-space during build
+* Decisions made
+    - R2/JS → multiples of 7; R3/Python → multiples of 5
+    - Mermaid ART2/ART3 authoritative over stale matrix "7" for Python
+* Insights
+    - Distinct N keeps accidental compliance and cross-probe credit negligible without relying only on file extensions
