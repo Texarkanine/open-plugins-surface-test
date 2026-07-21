@@ -16,3 +16,15 @@ Deliver R4, S1, and A1 probes: description-only poem rule, `skills/build-stamp/`
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
     - Milestone estimate (L3) matches the decision-tree outcome; three discrete surface slices share the established check pattern, with per-step checker tests as the TDD gate
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Component analysis across check.py steps 6–8, R4 rule, build-stamp skill, listing-auditor agent, prompts 06–08, tests
+    - TDD plan: shared text helpers → three observers → CLI → rule/skill/agent + prompts
+    - No creative phase — approach clear from DESIGN matrix + R1 presence-checker pattern
+* Decisions made
+    - R4 closing line must **equal** `SEA-POEM-OBSERVED` (last non-empty line); S1/A1 use substring tokens `BUILD-STAMP-OBSERVED` / `LISTING-AUDITOR-OBSERVED`
+    - R4 frontmatter description-only (no alwaysApply, no globs); skill/agent descriptions strong but token-free
+* Insights
+    - Three create-path slices share helper shape but not fingerprints; registry metadata for steps 6–8 already correct

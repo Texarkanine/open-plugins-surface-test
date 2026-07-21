@@ -1,12 +1,13 @@
 # Active Context
 
 ## Current Task: r4-s1-a1-probes
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Advanced L4 milestone: R2/R3 indent probes checked off; cleared sub-run ephemeral files
-- Selected first unchecked milestone: Deliver R4, S1, and A1 probes
-- Classified as Level 3 (Intermediate Feature): complete feature with multiple components (description-only poem rule, build-stamp skill, listing-auditor agent, prompts 06–08, per-step token/sentinel checkers); no system-wide architectural redesign within this sub-run
+- Component analysis: check.py steps 6–8, R4 rule, build-stamp skill, listing-auditor agent, prompts 06–08, new pytest file
+- Pinned fingerprints: closing line `SEA-POEM-OBSERVED`; tokens `BUILD-STAMP-OBSERVED` / `LISTING-AUDITOR-OBSERVED`
+- TDD plan: shared helpers → three observers → CLI → rule/skill/agent + prompts
+- No open questions / no creative phase — clear from DESIGN + R1 pattern
 
 ## Next Step
-- Load Level 3 workflow and execute Plan phase
+- Proceed to Preflight phase to validate the plan
