@@ -165,3 +165,71 @@ def test_step10_registry_binds_observe_m1_mcp() -> None:
     """STEP_REGISTRY[10] observe is observe_m1_mcp (not stub)."""
     check = _load_check_module()
     assert check.STEP_REGISTRY[10]["observe"] is check.observe_m1_mcp
+
+
+# --- CLI smoke step 10 ---
+
+
+def test_check_cli_step10_observed(work: Path) -> None:
+    """CLI step 10 with token → observed; mcp / server / m1-probe-mcp / create."""
+    artifact = work / "artifacts" / "mcp.txt"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text(f"{MCP_CATS_TOKEN}\n", encoding="utf-8")
+    result = _run_check(work, ["10"])
+    assert result.returncode == 0
+    assert "observed" in result.stdout.lower()
+    assert "not observed" not in result.stdout.lower()
+    assert "probe checker not implemented" not in result.stdout.lower()
+    record = json.loads(
+        (work / "observations" / "run.jsonl").read_text(encoding="utf-8").strip()
+    )
+    assert record["step"] == 10
+    assert record["surface"] == "mcp"
+    assert record["mode"] == "server"
+    assert record["probe"] == "m1-probe-mcp"
+    assert record["path"] == "create"
+    assert record["observed"] is True
+    assert "pass" not in record["detail"].lower()
+    assert "fail" not in record["detail"].lower()
+    assert "unsupported" not in record["detail"].lower()
+
+
+def test_check_cli_step10_not_observed_exit_zero(work: Path) -> None:
+    """CLI step 10 without artifact → not observed, exit 0."""
+    result = _run_check(work, ["10"])
+    assert result.returncode == 0
+    assert "not observed" in result.stdout.lower()
+    assert "probe checker not implemented" not in result.stdout.lower()
+
+
+def test_check_cli_step10_skipped_exit_zero(work: Path) -> None:
+    """CLI step 10 with uv unavailable → skipped, exit 0; no judgment language."""
+    _write_run_json(work, uv_version="unavailable")
+    result = _run_check(work, ["10"])
+    assert result.returncode == 0
+    assert "skipped" in result.stdout.lower()
+    assert "not observed" not in result.stdout.lower()
+    record = json.loads(
+        (work / "observations" / "run.jsonl").read_text(encoding="utf-8").strip()
+    )
+    assert record["observed"] is None
+    assert record["detail"] == "skipped: uv not found"
+    assert "pass" not in record["detail"].lower()
+    assert "fail" not in record["detail"].lower()
+    assert "unsupported" not in record["detail"].lower()
+
+
+def test_check_cli_step10_skip_wins_over_planted_artifact(work: Path) -> None:
+    """uv unavailable skips even when mcp.txt with token is planted."""
+    _write_run_json(work, uv_version="unavailable")
+    artifact = work / "artifacts" / "mcp.txt"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text(f"{MCP_CATS_TOKEN}\n", encoding="utf-8")
+    result = _run_check(work, ["10"])
+    assert result.returncode == 0
+    assert "skipped" in result.stdout.lower()
+    record = json.loads(
+        (work / "observations" / "run.jsonl").read_text(encoding="utf-8").strip()
+    )
+    assert record["observed"] is None
+    assert record["detail"] == "skipped: uv not found"

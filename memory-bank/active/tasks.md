@@ -107,7 +107,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
     - Files: `tests/test_m1_mcp.py`, `scripts/check.py`
     - Changes: implement observer per Boundary Changes; constant `MCP_CATS_TOKEN = "MCP-OBSERVED-cats"`; `STEP_REGISTRY[10]` `observe=observe_m1_mcp`; update module docstring (steps 1–10 real; 11 stub)
 
-3. [ ] **CLI step 10 smoke (TDD)**
+3. [x] **CLI step 10 smoke (TDD)**
     - Files: `tests/test_m1_mcp.py`
     - Changes: observed / not-observed / skipped / exit-0 / metadata / skip-wins-over-artifact tests
 
