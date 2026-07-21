@@ -16,3 +16,15 @@ Implement `scripts/setup.sh` with pinned reset boundary, 4-space recursive `fib.
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
     - Milestone estimate (L2) matches the decision-tree outcome
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Linear TDD plan for `scripts/setup.sh`: wipe/preserve/seed/`run.json` contracts
+    - Mapped tests to `tests/test_setup.py` with `CONFORMANCE_WORK` seam
+* Decisions made
+    - No new technology; drive harness/model prompts via stdin with empty-input defaults
+    - Assert fixture structure (4-space, recursive), not golden-file bytes
+    - Defer README updates to entrypoint milestone
+* Insights
+    - Load-bearing risk is over-broad `rm` of `work/` — tests must plant observation evidence before implementation

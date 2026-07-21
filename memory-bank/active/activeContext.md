@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: setup-script
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Advanced L4 milestone: plugin skeleton marked complete; sub-run ephemerals cleared
-- Classified next milestone (implement `scripts/setup.sh`) as Level 2
-- Rationale: not a bug fix; small self-contained setup subsystem with wipe/preserve and fixture seeding — no multi-component architectural scope
+- Produced Level 2 TDD plan for `scripts/setup.sh`
+- Behaviors: wipe artifacts, preserve observations, regenerate 4-space recursive fib fixtures, create-if-absent `run.json` with harness/model/OS/uv, stdin defaults
+- Test seam: `CONFORMANCE_WORK` env for tmp work roots; no new tooling
 
 ## Next Step
-- Load Level 2 workflow and execute plan phase
+- Run preflight validation
