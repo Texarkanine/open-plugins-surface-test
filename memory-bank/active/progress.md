@@ -16,3 +16,16 @@ Deliver H1 hooks probe: `hooks/hooks.json`, `scripts/hook_record.sh`, step-09 ac
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
     - Milestone estimate (L3) matches the decision-tree outcome; H1 is the deliberate multi-event aggregation exception to one-probe-per-prompt, built on the established observe-not-judge check pattern
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Component analysis across check.py step 9, hook_record.sh, hooks.json, prompt 09, tests
+    - TDD plan: helpers → observer → CLI → SessionEnd summary → recorder → hooks.json → prompt
+    - No creative phase — approach clear from DESIGN + open-plugin-spec + prior observer patterns
+* Decisions made
+    - Mid-run set is 12 events (exclude SessionEnd); `observed=true` if any mid-run event present; detail always lists all 12
+    - `hooks.jsonl` under `work/observations/`; SessionEnd reported as summary footer line only
+    - `${PLUGIN_ROOT}` + wrapper `{"hooks":…}` for hooks.json
+* Insights
+    - H1 needs a summary extension beyond the usual step observer — SessionEnd is a structural late-bind, not a step-9 fingerprint

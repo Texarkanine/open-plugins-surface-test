@@ -1,12 +1,13 @@
 # Active Context
 
 ## Current Task: h1-hooks-probe
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Marked R4/S1/A1 milestone complete; cleared prior sub-run ephemeral files
-- Selected first unchecked L4 milestone (H1 hooks probe) as classification target
-- Classified as Level 3 (Intermediate Feature)
+- Component analysis for H1 (check.py step 9, hook_record.sh, hooks.json, prompt 09, tests)
+- TDD plan: helpers → observer → CLI → SessionEnd summary → recorder → hooks.json → prompt
+- No creative phase — DESIGN + open-plugin-spec + R2/R4 detail pattern are sufficient
+- Key contracts pinned: mid-run 12-event detail; SessionEnd summary-only; `hooks.jsonl` under observations
 
 ## Next Step
-- Load Level 3 workflow and execute Plan phase
+- Preflight phase to validate the plan
