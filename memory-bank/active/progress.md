@@ -36,3 +36,15 @@ Create the plugin skeleton: `.plugin/plugin.json`, `.gitignore` for `work/`, and
     - Keep contract tests to `name`/paths + `work/` only; Python cache ignores are non-asserted hygiene
 * Insights
     - Introducing pytest in the skeleton milestone is the right place for `.venv`/cache ignore rules
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - Introduced `uv` + pytest self-check harness
+    - Implemented skeleton: `.plugin/plugin.json`, `.gitignore`, README stub
+    - Full suite green: 2 passed
+* Decisions made
+    - Plugin name `open-plugins-conformance`
+    - Bare uv init to avoid clobbering existing README/git
+* Insights
+    - Two contract tests are enough to lock the skeleton invariants without testing prose

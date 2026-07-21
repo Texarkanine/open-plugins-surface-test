@@ -33,19 +33,19 @@ Create the plugin skeleton from DESIGN.md implementation plan §1: `.plugin/plug
 
 ## Implementation Plan
 
-1. Bootstrap `uv` + pytest (no production logic yet)
+1. [x] Bootstrap `uv` + pytest (no production logic yet)
    - Files: `pyproject.toml`, `uv.lock` (via `uv add --dev pytest`), `.python-version` if `uv` creates one
    - Changes: declare project + pytest dev dependency; document run command as `uv run pytest`
-2. TDD — failing contract tests for skeleton invariants
+2. [x] TDD — failing contract tests for skeleton invariants
    - Files: `tests/test_plugin_skeleton.py`
    - Changes: assert manifest name + component path fields; assert `.gitignore` ignores `work/`
-3. Implement skeleton files to satisfy tests
+3. [x] Implement skeleton files to satisfy tests
    - Files: `.plugin/plugin.json`, `.gitignore`
    - Changes: vendor-neutral manifest with `name` (e.g. `open-plugins-conformance`) and explicit `./` component paths per DESIGN.md layout; root `.gitignore` with `work/` plus Python/pytest noise (`.venv/`, `__pycache__/`, `.pytest_cache/`, `*.pyc`)
-4. README stub (prose — no tests)
+4. [x] README stub (prose — no tests)
    - Files: `README.md` (replace empty stub)
    - Changes: short placeholder: purpose one-liner + pointer that install/launch/invoke docs land in the entrypoint milestone
-5. Run suite green
+5. [x] Run suite green
    - Files: none
    - Changes: `uv run pytest` passes
 
@@ -90,5 +90,5 @@ Create the plugin skeleton from DESIGN.md implementation plan §1: `.plugin/plug
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA

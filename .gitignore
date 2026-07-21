@@ -1,0 +1,8 @@
+# Runtime workspace (fixtures, artifacts, observations)
+work/
+
+# Python / pytest (self-check harness)
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
