@@ -63,3 +63,12 @@ Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, p
     - Mermaid ART2/ART3 authoritative over stale matrix "7" for Python
 * Insights
     - Distinct N keeps accidental compliance and cross-probe credit negligible without relying only on file extensions
+
+## 2026-07-21 - PLAN AMENDMENT - COMPLETE
+
+* Work completed
+    - Operator pre-mortem: models may refuse 5/7-space indent due to strong training priors — probe can fail as model stubbornness, not harness gap
+* Decisions made
+    - Ship indent probes as planned this milestone; contingency (alternate preference fingerprint, e.g. naming style) only after empirical attended-run evidence
+* Insights
+    - Same DESIGN class as "suite measures the model, not the harness"; indent may be a worse accidental-compliance tradeoff than hoped if models simply will not comply

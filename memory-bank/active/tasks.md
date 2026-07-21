@@ -173,6 +173,7 @@ No new technology - validation not required
 - **Edit no-op vs indent failure:** Detail always carries `file_modified` on edit steps; `observed` requires both.
 - **Prompt leakage of "7" / "5" / "indent":** Focused absence tests on prompts (mirror R1); ban both width numerals.
 - **Agent writes edit result into fixtures instead of artifacts:** Prompts state artifacts paths; checker only credits `work/artifacts/fib.*`.
+- **Model stubbornness on indent (see Pre-Mortem):** Out of scope for this build; ship indent probes as designed. If attended runs show systematic refusal, redesign fingerprint (not the create/edit / alwaysApply-vs-globs structure).
 
 ## Pre-Mortem
 
@@ -181,6 +182,7 @@ No new technology - validation not required
 - **Treated file-modified as detail-only and marked edit steps observed on indent alone:** Step 4 behaviors require both for `observed: true`.
 - **Put indent demands in prompts "to help the model":** Leakage tests are a hard gate.
 - **Over-scoped into setup.sh rewrite:** Fixtures already exist; scope stays checkers → rules → prompts → DESIGN label fix.
+- **Models refuse nonstandard indentation (strong training prior for 2/4-space):** The probe can be thwarted by the *model*, not the harness — `not observed` then under-claims rule delivery. DESIGN already names this class of failure (measures model vs harness). **Contingency if live runs show systematic indent refusal:** swap the demanded preference to a different arbitrary fingerprint (e.g. a distinctive variable-naming style) — noting naming is also style-tuned and may hit the same wall; pick whatever still has negligible accidental-compliance and survives model stubbornness. Do **not** change the fingerprint mid-build of this milestone; record the risk and revisit only after empirical attended runs.
 
 ## Status
 
