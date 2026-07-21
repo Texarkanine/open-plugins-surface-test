@@ -207,7 +207,12 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Findings
+
+- PASS — plan complete; no substantive gaps
+- Trivial fixes applied: removed unused `JS7`/`PY5` test constants; restored blank lines before `observe_stub` / `_entry`
 
 ## Preflight Findings
 

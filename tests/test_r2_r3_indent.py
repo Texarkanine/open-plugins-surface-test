@@ -21,7 +21,6 @@ PROMPT_03 = ROOT / "prompts" / "03-r2-js-edit.md"
 PROMPT_04 = ROOT / "prompts" / "04-r3-py-create.md"
 PROMPT_05 = ROOT / "prompts" / "05-r3-py-edit.md"
 
-JS7 = "function reverse(s) {\n       return s.split('').reverse().join('');\n}\n"
 JS7_NESTED = (
     "function reverse(s) {\n"
     "       if (!s) {\n"
@@ -30,7 +29,6 @@ JS7_NESTED = (
     "       return s.split('').reverse().join('');\n"
     "}\n"
 )
-PY5 = "def strrev(s):\n     return s[::-1]\n"
 PY5_NESTED = (
     "def strrev(s):\n"
     "     if not s:\n"

@@ -176,9 +176,11 @@ def observe_r3_py_edit(step: int, work: Path) -> ObservationResult:
     """Step 5: observe ``fib.py`` edit path (modified + multiples of 5)."""
     return observe_indent_edit(step, work, relative="fib.py", n=5)
 
+
 def observe_stub(step: int, work: Path) -> ObservationResult:
     """Placeholder observer until probe-specific checkers land."""
     return {"observed": False, "detail": "probe checker not implemented"}
+
 
 def _entry(
     surface: str,

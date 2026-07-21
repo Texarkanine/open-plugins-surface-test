@@ -83,3 +83,13 @@ Deliver R2/R3 indent probes: alwaysApply-only JS and globs-only Python rules, pr
     - Edit detail format: `indent widths seen: […]; file_modified: true|false`
 * Insights
     - Parameterized `multiples_of(N)` kept JS/PY fingerprints cleanly isolated without duplicating observers
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review vs plan; trivial dead-code/style fixes; suite re-verified 66 green
+    - Wrote `.qa-validation-status` PASS
+* Decisions made
+    - No substantive FAIL findings; unused nested-fixture-free helpers left (JS7/PY5 constants removed)
+* Insights
+    - Plan amendments (mode split + distinct N) prevented the two most likely wrong-ship modes
