@@ -61,3 +61,13 @@ Deliver R4, S1, and A1 probes: description-only poem rule, `skills/build-stamp/`
     - Left S1/A1 observers un-merged (plan: independent slices; matches named R1/R2/R3 observer style)
 * Insights
     - No over-engineering or leakage; documentation surface (README/DESIGN) needed no updates for this slice
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-r4-s1-a1-probes.md`
+    - Reconciled persistent memory bank files (no changes)
+* Decisions made
+    - Milestone checkbox left for `/niko` Step 2a (do not check off in Reflect)
+* Insights
+    - Description-field trigger language vs body-only fingerprints is the safe split for description-matched surfaces

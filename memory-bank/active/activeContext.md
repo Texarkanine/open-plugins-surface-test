@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: r4-s1-a1-probes
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- Semantic QA against plan: complete, no substantive findings
-- Trivial fix: clarified `last_nonempty_line` docstring
-- `.qa-validation-status` = PASS
+- Reflection written: `memory-bank/active/reflection/reflection-r4-s1-a1-probes.md`
+- Persistent files reconciled — no updates needed
+- Build + QA + Reflect complete for this L4 sub-run
 
 ## Next Step
-- Reflect phase (auto-transition)
+- Operator: run `/niko` to continue to the next milestone
