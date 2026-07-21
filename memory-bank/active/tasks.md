@@ -1,3 +1,3 @@
-# Current Task: open-plugins-conformance-suite
+# Current Task: plugin-skeleton
 
-**Complexity:** Level 4
+**Complexity:** Level 2

@@ -1,11 +1,11 @@
 # Active Context
 
-## Current Task: open-plugins-conformance-suite
+## Current Task: plugin-skeleton
 **Phase:** COMPLEXITY-ANALYSIS - COMPLETE
 
 ## What Was Done
-- Intent confirmed: implement DESIGN.md as the authoritative product spec
-- Complexity determined: Level 4 (Complex System) — greenfield multi-subsystem instrument (plugin surfaces + driver + servers + observation model) with architectural invariants
+- Classified first unchecked L4 milestone as Level 2 (Simple Enhancement)
+- Rationale: self-contained project bootstrap (manifest, gitignore, README stub) with no probe logic and no multi-component coupling
 
 ## Next Step
-- Load Level 4 workflow and execute Plan phase (generate milestones)
+- Load Level 2 workflow and execute the Plan phase

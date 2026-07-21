@@ -1,16 +1,16 @@
 # Progress
 
-Implement the open-plugins conformance measurement instrument as specified in DESIGN.md: probe plugin, driver loop, observation records, and capability-report summary.
+Create the plugin skeleton: `.plugin/plugin.json`, `.gitignore` for `work/`, and a README stub — with TDD asserting manifest/`work/` gitignore expectations before adding those files.
 
-**Complexity:** Level 4
+**Complexity:** Level 2
 
 ## 2026-07-21 - COMPLEXITY-ANALYSIS - COMPLETE
 
 * Work completed
-    - Clarified intent against DESIGN.md
-    - Classified task as Level 4 (Complex System)
-    - Initialized ephemeral memory-bank files
+    - Selected first unchecked L4 milestone (plugin skeleton) as classification target
+    - Classified as Level 2 (Simple Enhancement)
 * Decisions made
-    - DESIGN.md is the authoritative requirements source for this L4 project
+    - Decision tree: not a bug fix; small self-contained bootstrap with no probe logic → L2
+    - Preserved L4 `projectbrief.md` and `milestones.md`; replaced stale L4 `progress.md` for this sub-run
 * Insights
-    - DESIGN.md already contains an ordered implementation plan that can seed L4 milestones
+    - Milestone estimate (L2) matches the decision-tree outcome
