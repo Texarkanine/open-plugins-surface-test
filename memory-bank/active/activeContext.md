@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: r1-e2e
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Advanced L4 milestone: check harness marked complete
-- Classified next milestone (R1 end-to-end) as Level 2
-- Rationale: self-contained first probe vertical slice (rule + prompt + flag checker); no architectural redesign
+- Planned R1 vertical slice: flag observer → wire step 1 → rule + prompt
+- Pinned fingerprint (7-codepoint Scotland flag), artifact path `work/artifacts/cats.md`, prompt name `prompts/01-r1-cats.md`
+- TDD: `tests/test_r1_scots.py` first; update stub assumptions in `tests/test_check.py`
 
 ## Next Step
-- Load Level 2 workflow and execute Plan phase
+- Preflight validation (automatic)
