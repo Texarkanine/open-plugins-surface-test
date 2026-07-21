@@ -233,3 +233,38 @@ def test_check_cli_step10_skip_wins_over_planted_artifact(work: Path) -> None:
     )
     assert record["observed"] is None
     assert record["detail"] == "skipped: uv not found"
+
+
+# --- Server ---
+
+
+def _load_server_module():
+    spec = importlib.util.spec_from_file_location("probe_mcp", SERVER)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_format_probe_hello_cats() -> None:
+    """format_probe_hello('cats') returns MCP-OBSERVED-cats."""
+    server = _load_server_module()
+    assert server.format_probe_hello("cats") == MCP_CATS_TOKEN
+
+
+def test_probe_mcp_has_pep723_mcp_dependency() -> None:
+    """servers/probe_mcp.py declares PEP 723 script metadata with mcp dep."""
+    assert SERVER.is_file()
+    text = SERVER.read_text(encoding="utf-8")
+    assert "# /// script" in text
+    assert "dependencies" in text
+    assert '"mcp"' in text or "'mcp'" in text
+
+
+def test_probe_mcp_defines_probe_hello_tool() -> None:
+    """Server source registers a probe_hello tool wired to the formatter."""
+    text = SERVER.read_text(encoding="utf-8")
+    assert "def probe_hello" in text
+    assert "format_probe_hello" in text
+    assert "FastMCP" in text
+    assert "mcp.run()" in text or "mcp.run(" in text

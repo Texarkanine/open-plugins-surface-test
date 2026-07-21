@@ -111,7 +111,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
     - Files: `tests/test_m1_mcp.py`
     - Changes: observed / not-observed / skipped / exit-0 / metadata / skip-wins-over-artifact tests
 
-4. [ ] **Server return format + PEP 723 file (TDD)**
+4. [x] **Server return format + PEP 723 file (TDD)**
     - Files: `tests/test_m1_mcp.py`, `servers/probe_mcp.py`
     - Changes: FastMCP server; `probe_hello`; PEP 723 header with `mcp`; `mcp.run()` stdio default under `__main__`. Structure so the return string is unit-testable (decorate a named function).
 
