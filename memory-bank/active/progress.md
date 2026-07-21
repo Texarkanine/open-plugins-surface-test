@@ -62,3 +62,13 @@ Implement `scripts/setup.sh` with pinned reset boundary, 4-space recursive `fib.
     - README remains stub per plan (entrypoint milestone)
 * Insights
     - Persistent tech context should land when setup becomes a real operator entrypoint
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-setup-script.md`
+    - Reconciled persistent files (techContext already current)
+* Decisions made
+    - None new
+* Insights
+    - `CONFORMANCE_WORK` is the right isolation seam for shell reset-boundary tests
