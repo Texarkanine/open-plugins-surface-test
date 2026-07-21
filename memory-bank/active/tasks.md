@@ -16,7 +16,7 @@ Implement `scripts/setup.sh` as the session reset + seed step: wipe `work/artifa
 - [Fixture shape]: seeded `fib.js` / `fib.py` → recursive Fibonacci-style implementations whose indentation uses 4-space multiples (not tabs; not 7-space)
 - [No fixture leakage]: fixture bodies → contain no probe sentinels / demanded behaviors (no 7-space instruction, Scottish-flag guidance, or other probe tokens)
 - [Create run.json if absent]: with no `work/run.json`, running setup with harness/model on stdin → `work/run.json` exists with harness, model, OS, and `uv` version fields
-- [Default declined prompts]: empty stdin answers for harness/model → `run.json` still written with non-empty default strings
+- [Default declined prompts]: empty stdin answers for harness/model → `run.json` uses harness `"unknown"` and model `"unspecified"`
 - [Preserve existing run.json]: with `work/run.json` already present, running setup with different stdin → file content unchanged
 - [Idempotent second run]: run setup twice → second run still preserves observations, reseeds fixtures, leaves existing `run.json` alone
 - [Missing work/]: with no `work/` directory, running setup → creates needed wipe/seed targets and `run.json` without creating or clearing `work/observations/` solely to "initialize" it
@@ -36,7 +36,7 @@ Implement `scripts/setup.sh` as the session reset + seed step: wipe `work/artifa
    - Changes: subprocess-invoke `scripts/setup.sh` with controlled stdin and `CONFORMANCE_WORK`; assert wipe/preserve/seed/`run.json` behaviors above
 2. Implement `scripts/setup.sh` to green the suite
    - Files: `scripts/setup.sh` (new)
-   - Changes: resolve plugin root from script location; `WORK_DIR=${CONFORMANCE_WORK:-$PLUGIN_ROOT/work}`; delete `artifacts/`; delete+recreate `fixtures/` with embedded 4-space recursive `fib.js`/`fib.py`; prompt harness+model (defaults on empty); write `run.json` only if absent (include OS + `uv --version` when available); never read/write/delete under `observations/`
+   - Changes: resolve plugin root from script location; `WORK_DIR=${CONFORMANCE_WORK:-$PLUGIN_ROOT/work}`; delete `artifacts/`; delete+recreate `fixtures/` with embedded 4-space recursive `fib.js`/`fib.py`; prompt harness+model (defaults `"unknown"` / `"unspecified"` on empty); write `run.json` only if absent (keys: `harness`, `model`, `os`, `uv_version`; include OS + `uv --version` when available); never read/write/delete under `observations/`
 3. Confirm full self-check suite green
    - Files: none (verification only)
    - Changes: `uv run pytest` — skeleton + setup contracts
@@ -71,6 +71,12 @@ No new technology - validation not required. Reuses POSIX shell + existing pytes
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Findings
+
+- PASS: TDD ordering explicit (tests step before `setup.sh` implementation)
+- PASS: Paths match DESIGN (`scripts/setup.sh`, `tests/test_setup.py`)
+- Amendment: pinned declined-prompt defaults (`unknown` / `unspecified`) and `run.json` key names

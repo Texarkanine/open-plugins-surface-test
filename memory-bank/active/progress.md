@@ -28,3 +28,14 @@ Implement `scripts/setup.sh` with pinned reset boundary, 4-space recursive `fib.
     - Defer README updates to entrypoint milestone
 * Insights
     - Load-bearing risk is over-broad `rm` of `work/` — tests must plant observation evidence before implementation
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated plan against greenfield tree, DESIGN reset boundary, and TDD encoding
+    - Amended plan with pinned prompt defaults and `run.json` keys
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - Declined-prompt defaults: harness `unknown`, model `unspecified`
+* Insights
+    - No conflicting `scripts/` yet; `CONFORMANCE_WORK` seam is the only new surface
