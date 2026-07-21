@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: m1-mcp-probe
-**Phase:** PREFLIGHT - COMPLETE
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Validated TDD per-step ordering, conventions, dependency impact, completeness
-- Plan amendment: uv skip gate defaults missing `uv_version` like `render_summary`
-- Wrote `.preflight-status` PASS
+- Verified preflight PASS; no creative-phase docs (plan skipped creative)
+- Confirmed pre-build commit already present; working tree clean
+- Beginning implementation plan step 1 (uv skip helper) under TDD
 
 ## Next Step
-- Operator: run `/niko-build` to implement
+- TDD through plan steps 1–7: helper → observer → CLI → server → `.mcp.json` → prompt → full suite

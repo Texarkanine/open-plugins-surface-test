@@ -182,6 +182,19 @@ def observe_r3_py_edit(step: int, work: Path) -> ObservationResult:
 SEA_POEM_SENTINEL = "SEA-POEM-OBSERVED"
 BUILD_STAMP_TOKEN = "BUILD-STAMP-OBSERVED"
 LISTING_AUDITOR_TOKEN = "LISTING-AUDITOR-OBSERVED"
+MCP_CATS_TOKEN = "MCP-OBSERVED-cats"
+
+
+def uv_unavailable(work: Path) -> bool:
+    """Return True when ``run.json`` reports uv as unavailable.
+
+    Uses the same default as ``render_summary``: a missing ``uv_version`` key
+    is treated as ``"unavailable"``. Caller must ensure ``run.json`` exists
+    and is valid JSON (as ``observe_step`` / ``ensure_run_id`` already require).
+    """
+    with (work / "run.json").open(encoding="utf-8") as fh:
+        header = json.load(fh)
+    return header.get("uv_version", "unavailable") == "unavailable"
 
 
 def last_nonempty_line(text: str) -> str:

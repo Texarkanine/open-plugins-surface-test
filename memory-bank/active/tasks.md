@@ -99,31 +99,31 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
 
 ## Implementation Plan
 
-1. **uv skip helper (TDD)**
+1. [x] **uv skip helper (TDD)**
     - Files: `tests/test_m1_mcp.py`, `scripts/check.py`
     - Changes: `uv_unavailable(work: Path) -> bool` reading `work/run.json` (`uv_version == "unavailable"`); missing/malformed handled as not-unavailable for the helper itself only if observe_step already infra-fails on bad run.json — prefer reading inside observer after observe_step validated the file exists (observer may assume run.json present, or re-read safely)
 
-2. **`observe_m1_mcp` + registry bind (TDD)**
+2. [ ] **`observe_m1_mcp` + registry bind (TDD)**
     - Files: `tests/test_m1_mcp.py`, `scripts/check.py`
     - Changes: implement observer per Boundary Changes; constant `MCP_CATS_TOKEN = "MCP-OBSERVED-cats"`; `STEP_REGISTRY[10]` `observe=observe_m1_mcp`; update module docstring (steps 1–10 real; 11 stub)
 
-3. **CLI step 10 smoke (TDD)**
+3. [ ] **CLI step 10 smoke (TDD)**
     - Files: `tests/test_m1_mcp.py`
     - Changes: observed / not-observed / skipped / exit-0 / metadata / skip-wins-over-artifact tests
 
-4. **Server return format + PEP 723 file (TDD)**
+4. [ ] **Server return format + PEP 723 file (TDD)**
     - Files: `tests/test_m1_mcp.py`, `servers/probe_mcp.py`
     - Changes: FastMCP server; `probe_hello`; PEP 723 header with `mcp`; `mcp.run()` stdio default under `__main__`. Structure so the return string is unit-testable (decorate a named function).
 
-5. **`.mcp.json` (TDD)**
+5. [ ] **`.mcp.json` (TDD)**
     - Files: `tests/test_m1_mcp.py`, `.mcp.json`
     - Changes: single `mcpServers` entry as above; assert `${PLUGIN_ROOT}` present; assert script path
 
-6. **Prompt 10 (TDD)**
+6. [ ] **Prompt 10 (TDD)**
     - Files: `tests/test_m1_mcp.py`, `prompts/10-m1-mcp.md` (name may vary; keep `10-` prefix)
     - Changes: call `probe_hello(name="cats")`, save to `work/artifacts/mcp.txt`; leakage assertions
 
-7. **Full suite verification**
+7. [ ] **Full suite verification**
     - Files: none new
     - Changes: `uv run pytest` entire suite green; confirm existing skip/summary cases still pass
 
