@@ -172,7 +172,9 @@ No new technology - validation not required. Stdlib + existing pytest/`uv` self-
   - [x] Write failing check-harness contract tests (TDD red)
   - [x] Implement `scripts/check.py` (TDD green)
   - [x] Confirm full self-check suite green
-- [ ] QA
+- [x] QA
+  - Findings: none blocking
+  - Notes: README mention of `check.py` deferred to entrypoint/README milestone; stub observers intentional
 
 ## Preflight Findings
 

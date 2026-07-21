@@ -52,3 +52,13 @@ Implement `scripts/check.py` with step arg parsing, JSONL append to `work/observ
     - Empty observations render an explicit empty state rather than judgment language
 * Insights
     - Importable `STEP_REGISTRY` + `observe` callables make skipped-status tests possible without planting fake checkers on disk
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan (KISS/DRY/YAGNI/completeness/regression/integrity/docs)
+    - Wrote `.qa-validation-status` PASS
+* Decisions made
+    - No code changes required; README coverage deferred to entrypoint/README milestone
+* Insights
+    - Observer TypedDict + registry callables are the right extension seam for later probe milestones
