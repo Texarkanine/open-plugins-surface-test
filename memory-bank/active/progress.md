@@ -39,3 +39,14 @@ Implement `scripts/setup.sh` with pinned reset boundary, 4-space recursive `fib.
     - Declined-prompt defaults: harness `unknown`, model `unspecified`
 * Insights
     - No conflicting `scripts/` yet; `CONFORMANCE_WORK` seam is the only new surface
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - TDD: 12 setup contracts red against stub, then green with `scripts/setup.sh`
+    - Full suite green: 14 passed
+* Decisions made
+    - `CONFORMANCE_WORK` override for test isolation
+    - `python3` for `run.json` emission (escaping); TTY vs non-TTY prompt paths
+* Insights
+    - Structural fixture asserts (indent + recursion) keep fib content flexible without golden files

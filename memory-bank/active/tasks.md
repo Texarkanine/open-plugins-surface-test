@@ -31,13 +31,13 @@ Implement `scripts/setup.sh` as the session reset + seed step: wipe `work/artifa
 
 ## Implementation Plan
 
-1. Write failing setup contract tests (TDD red)
+1. [x] Write failing setup contract tests (TDD red)
    - Files: `tests/test_setup.py`
    - Changes: subprocess-invoke `scripts/setup.sh` with controlled stdin and `CONFORMANCE_WORK`; assert wipe/preserve/seed/`run.json` behaviors above
-2. Implement `scripts/setup.sh` to green the suite
+2. [x] Implement `scripts/setup.sh` to green the suite
    - Files: `scripts/setup.sh` (new)
    - Changes: resolve plugin root from script location; `WORK_DIR=${CONFORMANCE_WORK:-$PLUGIN_ROOT/work}`; delete `artifacts/`; delete+recreate `fixtures/` with embedded 4-space recursive `fib.js`/`fib.py`; prompt harness+model (defaults `"unknown"` / `"unspecified"` on empty); write `run.json` only if absent (keys: `harness`, `model`, `os`, `uv_version`; include OS + `uv --version` when available); never read/write/delete under `observations/`
-3. Confirm full self-check suite green
+3. [x] Confirm full self-check suite green
    - Files: none (verification only)
    - Changes: `uv run pytest` — skeleton + setup contracts
 
@@ -72,7 +72,7 @@ No new technology - validation not required. Reuses POSIX shell + existing pytes
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
 
 ## Preflight Findings
