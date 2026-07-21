@@ -1,12 +1,13 @@
 # Active Context
 
-## Current Task: h1-hooks-probe
-**Phase:** REFLECT - COMPLETE
+## Current Task: m1-mcp-probe
+**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
 
 ## What Was Done
-- Reflection written: `memory-bank/active/reflection/reflection-h1-hooks-probe.md`
-- Persistent files scanned; no surgical updates needed (hooks-as-aggregation-exception and hook recorders already documented)
-- H1 milestone remains unchecked in `milestones.md` for `/niko` advance
+- Advanced L4 milestone: H1 hooks probe marked complete
+- Cleared H1 sub-run ephemeral files; preserved `milestones.md`, `projectbrief.md`, `reflection/`
+- Selected first unchecked L4 milestone (M1 MCP probe) as classification target
+- Classified as Level 3 (Intermediate Feature)
 
 ## Next Step
-- Operator: run `/niko` to continue to the next milestone
+- Load Level 3 workflow and execute Plan phase
