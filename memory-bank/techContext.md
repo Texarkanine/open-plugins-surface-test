@@ -15,5 +15,6 @@ Greenfield open-plugins conformance instrument: shell setup, Python checkers, an
 
 ## Testing Process
 
-- Runtime checks are observation recorders (`scripts/check.py`), not a pass/fail unit suite.
-- Repo self-checks planned around invariant enforcement (e.g. sentinel leakage lint over `prompts/` and the entrypoint skill). Exact CI wiring lives with whatever config lands in-repo.
+- Repo self-checks: `uv run pytest` (pytest as a `uv` dev dependency in `pyproject.toml`; tests under `tests/`).
+- Runtime capability checks are observation recorders (`scripts/check.py`), not a pass/fail unit suite — keep those separate from pytest.
+- Prefer testing only load-bearing logic/contracts; skip prompts, prose, and trivial helpers.

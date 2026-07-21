@@ -48,3 +48,14 @@ Create the plugin skeleton: `.plugin/plugin.json`, `.gitignore` for `work/`, and
     - Bare uv init to avoid clobbering existing README/git
 * Insights
     - Two contract tests are enough to lock the skeleton invariants without testing prose
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan (KISS/DRY/YAGNI/completeness)
+    - Updated `techContext.md` Testing Process for `uv run pytest`
+    - Wrote `.qa-validation-status` PASS
+* Decisions made
+    - Kept manifest `version`/`description` (harmless metadata, not speculative features)
+* Insights
+    - Persistent tech context must land with the harness introduction, not wait for archive
