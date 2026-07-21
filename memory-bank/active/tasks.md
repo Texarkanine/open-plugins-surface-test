@@ -117,7 +117,7 @@ None - implementation approach is clear from DESIGN probe matrix, Challenges (in
 
 1. **Pure indent helpers (TDD)**
     - Files: `tests/test_r2_r3_indent.py`, `scripts/check.py`
-    - Changes: add failing tests for `leading_indent_widths` / `indents_are_multiple_of` (names may match project style); implement helpers; cover empty, 4-space, 7/14, mixed, tabs
+    - Changes: add failing tests for indent-width extraction + multiples-of-N predicate; implement helpers whose **leading-space algorithm matches** `tests/test_setup.py::_indent_widths` (skip blank lines; count leading ASCII spaces only; leading tab → non-compliant marker, not a positive width). Cover empty, 4-space, 7/14, mixed, tabs. Detail format pinned to DESIGN: `indent widths seen: […]` with sorted unique positive widths.
 
 2. **File-modified helper (TDD)**
     - Files: same
@@ -158,7 +158,7 @@ No new technology - validation not required
 ## Challenges & Mitigations
 
 - **Stale DESIGN diagram (5-space Python):** Follow probe matrix (7 for both). Do not implement a 5-space Python checker. Optional diagram fix deferred.
-- **Indent measurement ambiguity (comments, tabs, mixed):** Define: only leading ASCII spaces on non-blank lines count; any leading tab → non-compliant; comment lines with indent still count (language-agnostic). Document in helper docstring + tests.
+- **Indent measurement ambiguity (comments, tabs, mixed):** Match existing setup-test helper semantics (`_indent_widths`): only leading ASCII spaces on non-blank lines; leading tab → non-compliant; indented comment lines still count (language-agnostic). Document in helper docstring + tests. Do **not** invent a second indent dialect.
 - **Empty / single-line no-indent files:** No positive widths → not observed (cannot credit indent delivery). Detail explains no indented lines / widths `[]`.
 - **Edit no-op vs indent failure:** Detail always carries `file_modified` on edit steps so operators can distinguish; `observed` requires both.
 - **Prompt leakage of "7" / "indent":** Focused absence tests on prompts (mirror R1). Build-time sentinel lint remains a later milestone.
@@ -180,6 +180,12 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
+
+## Preflight Findings
+
+- **PASS** — TDD ordering explicit per implementation step; conventions match R1 observer/registry pattern; setup fixtures already present; no blocking conflicts.
+- **Amendment:** Indent helper must reuse `tests/test_setup.py::_indent_widths` semantics (not a new dialect); detail string pinned to DESIGN example shape.
+- **Advisory:** Optionally fix DESIGN mermaid ART3 ("5 spaces" → "7 spaces") in a later docs pass — not required for this sub-run.

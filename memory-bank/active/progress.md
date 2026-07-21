@@ -29,3 +29,14 @@ Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, p
     - Edit write target is `work/artifacts/fib.{js,py}` with fixtures as seeds
 * Insights
     - Shared checker + extension-isolated paths is the whole multi-component coupling for this slice
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD per-step ordering, R1-aligned conventions, fixture readiness, milestone coverage
+    - Amended plan: indent helper mirrors `test_setup._indent_widths`; detail format pinned to DESIGN
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No blocking findings; DESIGN diagram "5 spaces" left as advisory/deferred
+* Insights
+    - Setup tests already encode the indent dialect this probe must share — reuse beats reinvention
