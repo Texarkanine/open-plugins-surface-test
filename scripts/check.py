@@ -5,12 +5,12 @@ CLI modes:
   scripts/check.py <step>     Observe a single step (1–11), append JSONL, exit 0
   scripts/check.py --summary  Render capability table from recorded observations
 
-Steps 1–9 have real observers (Scots flag, JS/Python indent create/edit,
-R4 closing-line sentinel, S1/A1 token presence, H1 hooks event presence);
-steps 10–11 still use stubs that return observed=false with detail
-"probe checker not implemented". Summary also prints a SessionEnd line from
-hooks.jsonl. Exit non-zero only on infrastructure errors — never on not
-observed / skipped.
+Steps 1–10 have real observers (Scots flag, JS/Python indent create/edit,
+R4 closing-line sentinel, S1/A1 token presence, H1 hooks event presence,
+M1 MCP token / uv-skip); step 11 still uses a stub that returns
+observed=false with detail "probe checker not implemented". Summary also
+prints a SessionEnd line from hooks.jsonl. Exit non-zero only on
+infrastructure errors — never on not observed / skipped.
 """
 
 from __future__ import annotations
@@ -328,6 +328,22 @@ def observe_h1_hooks(_step: int, work: Path) -> ObservationResult:
     return {"observed": True, "detail": detail}
 
 
+def observe_m1_mcp(_step: int, work: Path) -> ObservationResult:
+    """Step 10: observe ``mcp.txt`` for MCP-OBSERVED-cats, or skip if uv absent.
+
+    Skip when ``run.json`` uv_version is unavailable (or missing). Otherwise
+    look for the cats fingerprint substring in ``work/artifacts/mcp.txt``.
+    """
+    if uv_unavailable(work):
+        return {"observed": None, "detail": "skipped: uv not found"}
+    artifact = work / "artifacts" / "mcp.txt"
+    if not artifact.is_file():
+        return {"observed": False, "detail": "mcp.txt not found"}
+    if artifact_contains(artifact, MCP_CATS_TOKEN):
+        return {"observed": True, "detail": "mcp token present"}
+    return {"observed": False, "detail": "mcp token not present"}
+
+
 def observe_stub(step: int, work: Path) -> ObservationResult:
     """Placeholder observer until probe-specific checkers land."""
     return {"observed": False, "detail": "probe checker not implemented"}
@@ -413,7 +429,13 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "aggregate",
         observe=observe_h1_hooks,
     ),
-    10: _entry("mcp", "server", "m1-probe-mcp", "create"),
+    10: _entry(
+        "mcp",
+        "server",
+        "m1-probe-mcp",
+        "create",
+        observe=observe_m1_mcp,
+    ),
     11: _entry("lsp", "server", "l1-probe-lsp", "launched"),
 }
 

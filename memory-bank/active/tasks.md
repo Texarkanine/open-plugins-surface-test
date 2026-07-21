@@ -103,7 +103,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
     - Files: `tests/test_m1_mcp.py`, `scripts/check.py`
     - Changes: `uv_unavailable(work: Path) -> bool` reading `work/run.json` (`uv_version == "unavailable"`); missing/malformed handled as not-unavailable for the helper itself only if observe_step already infra-fails on bad run.json — prefer reading inside observer after observe_step validated the file exists (observer may assume run.json present, or re-read safely)
 
-2. [ ] **`observe_m1_mcp` + registry bind (TDD)**
+2. [x] **`observe_m1_mcp` + registry bind (TDD)**
     - Files: `tests/test_m1_mcp.py`, `scripts/check.py`
     - Changes: implement observer per Boundary Changes; constant `MCP_CATS_TOKEN = "MCP-OBSERVED-cats"`; `STEP_REGISTRY[10]` `observe=observe_m1_mcp`; update module docstring (steps 1–10 real; 11 stub)
 

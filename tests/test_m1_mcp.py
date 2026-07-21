@@ -100,3 +100,68 @@ def test_uv_unavailable_false_for_real_version(work: Path) -> None:
     check = _load_check_module()
     _write_run_json(work, uv_version="0.6.14")
     assert check.uv_unavailable(work) is False
+
+
+# --- Step 10 M1 observer ---
+
+
+def test_observe_m1_skip_when_uv_unavailable(work: Path) -> None:
+    """uv_version unavailable → observed=null; detail is skipped: uv not found."""
+    check = _load_check_module()
+    _write_run_json(work, uv_version="unavailable")
+    result = check.observe_m1_mcp(10, work)
+    assert result["observed"] is None
+    assert result["detail"] == "skipped: uv not found"
+
+
+def test_observe_m1_skip_when_uv_key_missing(work: Path) -> None:
+    """Missing uv_version key → skip (same default as summary)."""
+    check = _load_check_module()
+    _write_run_json(work, uv_version=None)
+    result = check.observe_m1_mcp(10, work)
+    assert result["observed"] is None
+    assert result["detail"] == "skipped: uv not found"
+
+
+def test_observe_m1_missing_mcp_txt(work: Path) -> None:
+    """uv present, missing mcp.txt → not observed; detail names the file."""
+    check = _load_check_module()
+    result = check.observe_m1_mcp(10, work)
+    assert result["observed"] is False
+    assert "mcp.txt" in result["detail"].lower()
+
+
+def test_observe_m1_token_absent(work: Path) -> None:
+    """mcp.txt without token → not observed."""
+    check = _load_check_module()
+    artifact = work / "artifacts" / "mcp.txt"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text("tool returned something else\n", encoding="utf-8")
+    result = check.observe_m1_mcp(10, work)
+    assert result["observed"] is False
+
+
+def test_observe_m1_wrong_name_token(work: Path) -> None:
+    """mcp.txt with MCP-OBSERVED-dogs only → not observed (prompt demands cats)."""
+    check = _load_check_module()
+    artifact = work / "artifacts" / "mcp.txt"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text("MCP-OBSERVED-dogs\n", encoding="utf-8")
+    result = check.observe_m1_mcp(10, work)
+    assert result["observed"] is False
+
+
+def test_observe_m1_token_present(work: Path) -> None:
+    """mcp.txt containing MCP-OBSERVED-cats → observed."""
+    check = _load_check_module()
+    artifact = work / "artifacts" / "mcp.txt"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text(f"note: {MCP_CATS_TOKEN}\n", encoding="utf-8")
+    result = check.observe_m1_mcp(10, work)
+    assert result["observed"] is True
+
+
+def test_step10_registry_binds_observe_m1_mcp() -> None:
+    """STEP_REGISTRY[10] observe is observe_m1_mcp (not stub)."""
+    check = _load_check_module()
+    assert check.STEP_REGISTRY[10]["observe"] is check.observe_m1_mcp
