@@ -183,7 +183,7 @@ LISTING_AUDITOR_TOKEN = "LISTING-AUDITOR-OBSERVED"
 
 
 def last_nonempty_line(text: str) -> str:
-    """Return the last non-empty line of text, stripped; else ``\"\"``."""
+    """Return the last non-empty line of text, stripped; else an empty string."""
     for line in reversed(text.splitlines()):
         stripped = line.strip()
         if stripped:
