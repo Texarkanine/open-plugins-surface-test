@@ -50,3 +50,15 @@ Implement `scripts/setup.sh` with pinned reset boundary, 4-space recursive `fib.
     - `python3` for `run.json` emission (escaping); TTY vs non-TTY prompt paths
 * Insights
     - Structural fixture asserts (indent + recursion) keep fib content flexible without golden files
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review (KISS/DRY/YAGNI/completeness) against plan
+    - Updated `techContext.md` Environment Setup for setup reset + `CONFORMANCE_WORK`
+    - Wrote `.qa-validation-status` PASS
+* Decisions made
+    - Keep `python3` JSON emission (escaping > pure-shell printf)
+    - README remains stub per plan (entrypoint milestone)
+* Insights
+    - Persistent tech context should land when setup becomes a real operator entrypoint

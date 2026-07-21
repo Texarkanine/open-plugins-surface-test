@@ -73,7 +73,12 @@ No new technology - validation not required. Reuses POSIX shell + existing pytes
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
+
+## QA Findings
+
+- PASS: reset boundary, fixture seed, `run.json` create-if-absent match plan
+- Fix: documented setup reset + `CONFORMANCE_WORK` in `techContext.md`
 
 ## Preflight Findings
 
