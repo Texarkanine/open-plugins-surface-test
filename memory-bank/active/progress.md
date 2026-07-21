@@ -40,3 +40,15 @@ Deliver R2/R3 indent probes: alwaysApply+globs JS and globs-only Python rules, p
     - No blocking findings; DESIGN diagram "5 spaces" left as advisory/deferred
 * Insights
     - Setup tests already encode the indent dialect this probe must share — reuse beats reinvention
+
+## 2026-07-21 - PLAN AMENDMENT - COMPLETE
+
+* Work completed
+    - Operator: `alwaysApply+globs` collapses to alwaysApply — do not put both on a rule
+    - Amended plan: R2 alwaysApply-only; fix `STEP_REGISTRY`/tests/DESIGN mode strings during build
+* Decisions made
+    - R2 frontmatter: `alwaysApply: true`, no `globs:`; JS scope in rule body
+    - R3 unchanged: globs-only
+    - JSONL `mode` for steps 2–3: `alwaysApply` (not `alwaysApply+globs`)
+* Insights
+    - Measuring a compound mode the harness does not honor would produce a confidently wrong capability row
