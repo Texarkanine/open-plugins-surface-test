@@ -115,7 +115,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
     - Files: `tests/test_m1_mcp.py`, `servers/probe_mcp.py`
     - Changes: FastMCP server; `probe_hello`; PEP 723 header with `mcp`; `mcp.run()` stdio default under `__main__`. Structure so the return string is unit-testable (decorate a named function).
 
-5. [ ] **`.mcp.json` (TDD)**
+5. [x] **`.mcp.json` (TDD)**
     - Files: `tests/test_m1_mcp.py`, `.mcp.json`
     - Changes: single `mcpServers` entry as above; assert `${PLUGIN_ROOT}` present; assert script path
 

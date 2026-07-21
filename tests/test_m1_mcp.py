@@ -268,3 +268,27 @@ def test_probe_mcp_defines_probe_hello_tool() -> None:
     assert "format_probe_hello" in text
     assert "FastMCP" in text
     assert "mcp.run()" in text or "mcp.run(" in text
+
+
+# --- .mcp.json ---
+
+
+def test_mcp_json_launches_uv_script_with_plugin_root() -> None:
+    """.mcp.json mcpServers entry uses uv run --script with ${PLUGIN_ROOT} path."""
+    assert MCP_JSON.is_file()
+    data = json.loads(MCP_JSON.read_text(encoding="utf-8"))
+    assert "mcpServers" in data
+    servers = data["mcpServers"]
+    assert isinstance(servers, dict) and servers
+    entry = next(iter(servers.values()))
+    assert entry.get("command") == "uv"
+    args = entry.get("args")
+    assert isinstance(args, list)
+    assert "run" in args
+    assert "--script" in args
+    script_args = [a for a in args if isinstance(a, str) and "probe_mcp.py" in a]
+    assert script_args, "args must include path to probe_mcp.py"
+    assert any("${PLUGIN_ROOT}" in a for a in script_args)
+    assert any(
+        "${PLUGIN_ROOT}/servers/probe_mcp.py" in a for a in script_args
+    )

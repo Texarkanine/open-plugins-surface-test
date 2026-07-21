@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "probe-mcp": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--script",
+        "${PLUGIN_ROOT}/servers/probe_mcp.py"
+      ]
+    }
+  }
+}
