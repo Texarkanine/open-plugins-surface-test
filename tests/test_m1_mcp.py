@@ -292,3 +292,18 @@ def test_mcp_json_launches_uv_script_with_plugin_root() -> None:
     assert any(
         "${PLUGIN_ROOT}/servers/probe_mcp.py" in a for a in script_args
     )
+
+
+# --- Prompt 10 ---
+
+
+def test_prompt_10_mcp_no_fingerprint_leakage() -> None:
+    """Prompt 10 calls probe_hello(cats) + mcp.txt path; no fingerprint leakage."""
+    assert PROMPT_10.is_file()
+    text = PROMPT_10.read_text(encoding="utf-8")
+    assert text.strip(), "prompt must not be empty"
+    assert "probe_hello" in text
+    assert "cats" in text
+    assert "mcp.txt" in text
+    assert "artifacts" in text.lower()
+    _assert_no_prompt_leakage(text)

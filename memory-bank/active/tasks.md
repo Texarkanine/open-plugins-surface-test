@@ -119,7 +119,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
     - Files: `tests/test_m1_mcp.py`, `.mcp.json`
     - Changes: single `mcpServers` entry as above; assert `${PLUGIN_ROOT}` present; assert script path
 
-6. [ ] **Prompt 10 (TDD)**
+6. [x] **Prompt 10 (TDD)**
     - Files: `tests/test_m1_mcp.py`, `prompts/10-m1-mcp.md` (name may vary; keep `10-` prefix)
     - Changes: call `probe_hello(name="cats")`, save to `work/artifacts/mcp.txt`; leakage assertions
 
