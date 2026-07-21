@@ -18,3 +18,7 @@ Every surface uses the same shape: a plugin component demands arbitrary behavior
 ## One Probe Per Prompt Boundary
 
 Surfaces that only exist across turn boundaries (and interference between probes) require a stepped loop with an operator "next," not a single mega-prompt. Hooks are the deliberate exception: one step aggregates many events from an accumulated log.
+
+## Create vs Edit Observation
+
+Create-path checks look only at the artifact fingerprint. Edit-path checks require the fingerprint **and** that the artifact differs from the seeded fixture — otherwise a no-op turn can look like delivery. Rule frontmatter modes are mutually exclusive: do not combine `alwaysApply` with `globs` on one rule (`alwaysApply` subsumes).

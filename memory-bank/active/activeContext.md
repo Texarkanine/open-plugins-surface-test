@@ -1,12 +1,12 @@
 # Active Context
 
 ## Current Task: r2-r3-indent
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- Semantic QA against plan: KISS/DRY/YAGNI/completeness/regression/integrity/docs
-- Trivial cleanup only (unused test constants, blank-line style)
-- Full suite still 66 green; `.qa-validation-status` = PASS
+- Reflection written: `memory-bank/active/reflection/reflection-r2-r3-indent.md`
+- Reconciled `systemPatterns.md`: create vs edit observation + mutually exclusive rule modes
+- Build/QA delivered R2/R3 indent probes; suite 66 green
 
 ## Next Step
-- Reflect phase (`/niko-reflect` / automatic L3 transition)
+- Operator: run `/niko` to continue to the next L4 milestone

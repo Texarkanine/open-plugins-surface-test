@@ -93,3 +93,13 @@ Deliver R2/R3 indent probes: alwaysApply-only JS and globs-only Python rules, pr
     - No substantive FAIL findings; unused nested-fixture-free helpers left (JS7/PY5 constants removed)
 * Insights
     - Plan amendments (mode split + distinct N) prevented the two most likely wrong-ship modes
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-r2-r3-indent.md`
+    - Reconciled `systemPatterns.md` (create vs edit observation; exclusive rule modes)
+* Decisions made
+    - Milestone checklist wording left stale until archive/reconcile (advisory from preflight)
+* Insights
+    - See reflection: parameterized N + edit AND; challenge compound modes before locking registry
