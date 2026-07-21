@@ -51,3 +51,14 @@ Deliver H1 hooks probe: `hooks/hooks.json`, `scripts/hook_record.sh`, step-09 ac
     - Word-boundary judgment ban in H1 tests to allow event name `PostToolUseFailure`
 * Insights
     - Substring bans on "fail" collide with DESIGN event names; observational detail must keep canonical names
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review vs plan (KISS/DRY/YAGNI/completeness/regression/integrity/docs)
+    - Fixed unreadable-hooks.jsonl OSError propagation; re-ran full suite (112 passed)
+    - Wrote `.qa-validation-status` PASS
+* Decisions made
+    - Summary maps unreadable hooks log → SessionEnd not observed (no infra fail)
+* Insights
+    - Tolerant line parse must not also swallow I/O errors if observers need a distinct unreadable path

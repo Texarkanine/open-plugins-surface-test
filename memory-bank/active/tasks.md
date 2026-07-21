@@ -178,7 +178,7 @@ No new technology — validation not required. Shell + Python + pytest already i
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
 
 ## Preflight Amendments
 
@@ -190,3 +190,9 @@ No new technology — validation not required. Shell + Python + pytest already i
 - Implementation plan steps 1–8 completed via TDD (`tests/test_h1_hooks.py` first; 19 new tests).
 - Judgment-language assertion in H1 suite uses word boundaries so `PostToolUseFailure` is not a false positive.
 - Full suite: `uv run pytest` → 112 passed.
+
+## QA Results
+
+- **Status:** PASS (`.qa-validation-status`)
+- **Finding (fixed):** `event_names_from_hooks_jsonl` swallowed `OSError`, making the planned unreadable-log detail path dead; OSError now propagates; summary treats unreadable as SessionEnd not observed.
+- **Otherwise:** Plan complete; KISS/DRY/YAGNI clean; no TODOs/debug debris; docs scoped as planned (no README/manifest edits).

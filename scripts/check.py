@@ -265,14 +265,12 @@ def event_names_from_hooks_jsonl(path: Path) -> set[str]:
 
     Missing files yield an empty set. Blank lines and malformed JSON lines are
     skipped (tolerant parse — never raises for bad line content).
+    OSError from reading an existing path propagates to the caller.
     """
     if not path.is_file():
         return set()
     names: set[str] = set()
-    try:
-        text = path.read_text(encoding="utf-8")
-    except OSError:
-        return set()
+    text = path.read_text(encoding="utf-8")
     for line in text.splitlines():
         if not line.strip():
             continue
@@ -506,8 +504,11 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
 
 
 def session_end_summary_line(work: Path) -> str:
-    """Observational SessionEnd status from hooks.jsonl (missing log → not observed)."""
-    present = event_names_from_hooks_jsonl(hooks_log_path(work))
+    """Observational SessionEnd status from hooks.jsonl (missing/unreadable → not observed)."""
+    try:
+        present = event_names_from_hooks_jsonl(hooks_log_path(work))
+    except OSError:
+        present = set()
     return f"SessionEnd: {_status_emoji(SESSION_END_EVENT in present)}"
 
 
