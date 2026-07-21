@@ -1,12 +1,12 @@
 # Active Context
 
-## Current Task: check-harness
-**Phase:** REFLECT - COMPLETE
+## Current Task: r1-e2e
+**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
 
 ## What Was Done
-- Wrote `memory-bank/active/reflection/reflection-check-harness.md`
-- Persistent files unchanged (techContext/systemPatterns/productContext already accurate)
-- QA PASS; build delivered check harness to plan
+- Advanced L4 milestone: check harness marked complete
+- Classified next milestone (R1 end-to-end) as Level 2
+- Rationale: self-contained first probe vertical slice (rule + prompt + flag checker); no architectural redesign
 
 ## Next Step
-- Operator: run `/niko` to continue to the next L4 milestone
+- Load Level 2 workflow and execute Plan phase
