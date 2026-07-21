@@ -123,7 +123,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
     - Files: `tests/test_m1_mcp.py`, `prompts/10-m1-mcp.md` (name may vary; keep `10-` prefix)
     - Changes: call `probe_hello(name="cats")`, save to `work/artifacts/mcp.txt`; leakage assertions
 
-7. [ ] **Full suite verification**
+7. [x] **Full suite verification**
     - Files: none new
     - Changes: `uv run pytest` entire suite green; confirm existing skip/summary cases still pass
 
@@ -158,7 +158,7 @@ None — implementation approach is clear from DESIGN.md (tool return, mcp.txt, 
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
 
 ## Preflight Amendments

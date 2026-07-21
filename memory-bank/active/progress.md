@@ -41,3 +41,16 @@ Deliver M1 MCP probe: PEP 723 `servers/probe_mcp.py`, `.mcp.json` with `${PLUGIN
     - No rearchitect; advisory only: optional PEP 723 version pin if SDK churn bites during build
 * Insights
     - Step 10 registry metadata already correct — build is bind + observer + components, same shape as R4/S1/A1
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - `uv_unavailable` + `observe_m1_mcp` + STEP_REGISTRY[10] bind; module docstring steps 1–10 real / 11 stub
+    - `servers/probe_mcp.py` PEP 723 FastMCP with unit-testable `format_probe_hello`
+    - `.mcp.json` and `prompts/10-m1-mcp.md`
+    - `tests/test_m1_mcp.py` (19); full suite 131 passed
+* Decisions made
+    - Deferred FastMCP import into `main()` so pytest can import the formatter without installing `mcp` in the repo venv
+    - No deviations from the preflight-amended plan
+* Insights
+    - Skip-wins-over-artifact is the load-bearing integration assertion for the uv gate; substring `artifact_contains` matches S1/A1
