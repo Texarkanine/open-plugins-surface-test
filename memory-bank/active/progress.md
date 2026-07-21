@@ -40,3 +40,14 @@ Deliver H1 hooks probe: `hooks/hooks.json`, `scripts/hook_record.sh`, step-09 ac
     - No rearchitect; advisory only for durable SessionEnd JSONL (deferred)
 * Insights
     - Reusing `_load_jsonl` would violate observe-not-judge if a single bad hooks line raised — helpers need their own tolerant reader
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - Implemented H1 end-to-end: helpers/observer/summary in `check.py`, `hook_record.sh`, `hooks/hooks.json`, prompt 09
+    - Added `tests/test_h1_hooks.py` (19); full suite 112 green
+* Decisions made
+    - Mid-run detail: `Event=present|absent` catalog order; SessionEnd summary footer always printed when `run.json` valid
+    - Word-boundary judgment ban in H1 tests to allow event name `PostToolUseFailure`
+* Insights
+    - Substring bans on "fail" collide with DESIGN event names; observational detail must keep canonical names

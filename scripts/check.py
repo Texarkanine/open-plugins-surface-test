@@ -5,10 +5,12 @@ CLI modes:
   scripts/check.py <step>     Observe a single step (1–11), append JSONL, exit 0
   scripts/check.py --summary  Render capability table from recorded observations
 
-Steps 1–8 have real observers (Scots flag, JS/Python indent create/edit,
-R4 closing-line sentinel, S1/A1 token presence); steps 9–11 still use stubs
-that return observed=false with detail "probe checker not implemented".
-Exit non-zero only on infrastructure errors — never on not observed / skipped.
+Steps 1–9 have real observers (Scots flag, JS/Python indent create/edit,
+R4 closing-line sentinel, S1/A1 token presence, H1 hooks event presence);
+steps 10–11 still use stubs that return observed=false with detail
+"probe checker not implemented". Summary also prints a SessionEnd line from
+hooks.jsonl. Exit non-zero only on infrastructure errors — never on not
+observed / skipped.
 """
 
 from __future__ import annotations
@@ -235,6 +237,86 @@ def observe_a1_listing_auditor(_step: int, work: Path) -> ObservationResult:
     return {"observed": False, "detail": "listing auditor token not present"}
 
 
+# DESIGN step-9 mid-run catalog (SessionEnd is summary-only).
+SESSION_END_EVENT = "SessionEnd"
+MID_RUN_HOOK_EVENTS: tuple[str, ...] = (
+    "SessionStart",
+    "UserPromptSubmit",
+    "PreToolUse",
+    "PostToolUse",
+    "PostToolUseFailure",
+    "BeforeReadFile",
+    "AfterFileEdit",
+    "BeforeShellExecution",
+    "AfterShellExecution",
+    "Stop",
+    "SubagentStart",
+    "SubagentStop",
+)
+
+
+def hooks_log_path(work: Path) -> Path:
+    """Return ``work/observations/hooks.jsonl``."""
+    return work / "observations" / "hooks.jsonl"
+
+
+def event_names_from_hooks_jsonl(path: Path) -> set[str]:
+    """Collect distinct ``event`` string values from a hooks JSONL log.
+
+    Missing files yield an empty set. Blank lines and malformed JSON lines are
+    skipped (tolerant parse — never raises for bad line content).
+    """
+    if not path.is_file():
+        return set()
+    names: set[str] = set()
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return set()
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(row, dict):
+            continue
+        event = row.get("event")
+        if isinstance(event, str) and event:
+            names.add(event)
+    return names
+
+
+def format_hook_events_detail(present: set[str]) -> str:
+    """Format mid-run hook presence as ``Name=present|absent`` in catalog order."""
+    parts: list[str] = []
+    for name in MID_RUN_HOOK_EVENTS:
+        marker = "present" if name in present else "absent"
+        parts.append(f"{name}={marker}")
+    return " ".join(parts)
+
+
+def observe_h1_hooks(_step: int, work: Path) -> ObservationResult:
+    """Step 9: observe per-event presence of mid-run hooks in hooks.jsonl.
+
+    SessionEnd is excluded from ``observed`` / detail (reported by summary).
+    Any mid-run event present → observed=true; incomplete sets are fine.
+    """
+    path = hooks_log_path(work)
+    if not path.is_file():
+        return {"observed": False, "detail": "hooks.jsonl not found"}
+    try:
+        present = event_names_from_hooks_jsonl(path)
+    except OSError:
+        return {"observed": False, "detail": "hooks.jsonl not readable"}
+    mid_present = {name for name in present if name in MID_RUN_HOOK_EVENTS}
+    detail = format_hook_events_detail(present)
+    if not mid_present:
+        return {"observed": False, "detail": detail}
+    return {"observed": True, "detail": detail}
+
+
 def observe_stub(step: int, work: Path) -> ObservationResult:
     """Placeholder observer until probe-specific checkers land."""
     return {"observed": False, "detail": "probe checker not implemented"}
@@ -313,7 +395,13 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "create",
         observe=observe_a1_listing_auditor,
     ),
-    9: _entry("hooks", "events", "h1-hooks-battery", "aggregate"),
+    9: _entry(
+        "hooks",
+        "events",
+        "h1-hooks-battery",
+        "aggregate",
+        observe=observe_h1_hooks,
+    ),
     10: _entry("mcp", "server", "m1-probe-mcp", "create"),
     11: _entry("lsp", "server", "l1-probe-lsp", "launched"),
 }
@@ -417,6 +505,12 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
     return records
 
 
+def session_end_summary_line(work: Path) -> str:
+    """Observational SessionEnd status from hooks.jsonl (missing log → not observed)."""
+    present = event_names_from_hooks_jsonl(hooks_log_path(work))
+    return f"SessionEnd: {_status_emoji(SESSION_END_EVENT in present)}"
+
+
 def render_summary(work: Path) -> int:
     """Load run.json + JSONL and print capability table; return exit code."""
     if not work.is_dir():
@@ -449,6 +543,8 @@ def render_summary(work: Path) -> int:
 
     if not records:
         print("(no observations recorded)")
+        print()
+        print(session_end_summary_line(work))
         return 0
 
     # One row per step that has a JSONL record (latest wins if re-checked).
@@ -483,6 +579,8 @@ def render_summary(work: Path) -> int:
     print(fmt(tuple("-" * w for w in widths)))
     for row in rows:
         print(fmt(row))
+    print()
+    print(session_end_summary_line(work))
     return 0
 
 

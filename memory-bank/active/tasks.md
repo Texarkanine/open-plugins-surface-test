@@ -177,10 +177,16 @@ No new technology — validation not required. Shell + Python + pytest already i
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
 
 ## Preflight Amendments
 
 - Helpers: tolerant per-line hooks JSONL parse (do not reuse raising `_load_jsonl`).
 - Summary: SessionEnd line prints even when `run.jsonl` is empty.
+
+## Build Notes
+
+- Implementation plan steps 1–8 completed via TDD (`tests/test_h1_hooks.py` first; 19 new tests).
+- Judgment-language assertion in H1 suite uses word boundaries so `PostToolUseFailure` is not a false positive.
+- Full suite: `uv run pytest` → 112 passed.
