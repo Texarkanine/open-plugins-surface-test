@@ -1,12 +1,12 @@
 # Active Context
 
-## Current Task: m1-mcp-probe
-**Phase:** REFLECT - COMPLETE
+## Current Task: lsp-open-question
+**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
 
 ## What Was Done
-- Wrote `memory-bank/active/reflection/reflection-m1-mcp-probe.md`
-- Reconciled persistent files: no updates (techContext/systemPatterns already cover PEP 723 + uv skip + MCP surface)
-- QA and Build both clean; suite 131 green
+- Advanced L4 milestone: M1 MCP probe marked complete; sub-run ephemerals cleared
+- Classified next milestone (Resolve LSP open question) as Level 2
+- Rationale: bounded open-question resolution (ship launch-marker probe or cut+document); self-contained; matches milestone estimate
 
 ## Next Step
-- Operator: run `/niko` to continue to the next L4 milestone
+- Load Level 2 workflow and execute Plan phase
