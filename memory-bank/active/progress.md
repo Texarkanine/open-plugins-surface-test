@@ -59,3 +59,13 @@ Deliver R1 end-to-end: `rules/r1-global-scots.mdc`, prompt 01, and Scottish-flag
     - No substantive issues; README coverage remains deferred to entrypoint milestone
 * Insights
     - Pure helper + thin observer is the right shape for later probe checkers
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-r1-e2e.md`
+    - Reconciled persistent files — no updates required
+* Decisions made
+    - Sub-run complete; next operator action is `/niko` for milestone advance
+* Insights
+    - Live emoji in the rule + absence assertions on the prompt enforce no-leakage early
