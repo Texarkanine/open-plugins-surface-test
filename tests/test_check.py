@@ -151,7 +151,7 @@ def test_step_append_shape(work: Path) -> None:
     assert record["probe"] == "r1-global-scots"
     assert record["path"] == "create"
     assert record["observed"] is False
-    assert record["detail"] == "probe checker not implemented"
+    assert "cats.md" in record["detail"].lower()
     assert isinstance(record["run_id"], str) and record["run_id"]
     assert isinstance(record["ts"], str) and record["ts"]
 

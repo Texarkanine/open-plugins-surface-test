@@ -5,8 +5,8 @@ CLI modes:
   scripts/check.py <step>     Observe a single step (1–11), append JSONL, exit 0
   scripts/check.py --summary  Render capability table from recorded observations
 
-Stub observers currently return observed=false with detail
-"probe checker not implemented". Later milestones replace per-step callables.
+Step 1 has a real Scots-flag observer; steps 2–11 still use stubs that return
+observed=false with detail "probe checker not implemented".
 Exit non-zero only on infrastructure errors — never on not observed / skipped.
 """
 
@@ -32,6 +32,26 @@ Observer = Callable[[int, Path], ObservationResult]
 
 PLUGIN_ROOT = Path(__file__).resolve().parent.parent
 
+# Scotland flag emoji tag sequence (U+1F3F4 + gbsct tags + cancel).
+SCOTS_FLAG = "\U0001f3f4\U000e0067\U000e0062\U000e0073\U000e0063\U000e0074\U000e007f"
+
+
+def contains_scots_flag(text: str) -> bool:
+    """Return True if text contains the full Scotland flag tag sequence."""
+    return SCOTS_FLAG in text
+
+
+def observe_r1_scots(step: int, work: Path) -> ObservationResult:
+    """Observe whether work/artifacts/cats.md carries the Scotland flag fingerprint."""
+    del step  # registry supplies step; signature matches Observer
+    artifact = work / "artifacts" / "cats.md"
+    if not artifact.is_file():
+        return {"observed": False, "detail": "cats.md not found"}
+    text = artifact.read_text(encoding="utf-8")
+    if contains_scots_flag(text):
+        return {"observed": True, "detail": "scottish flag present"}
+    return {"observed": False, "detail": "scottish flag not present"}
+
 
 def observe_stub(step: int, work: Path) -> ObservationResult:
     """Placeholder observer until probe-specific checkers land."""
@@ -55,7 +75,13 @@ def _entry(
 
 
 STEP_REGISTRY: dict[int, dict[str, Any]] = {
-    1: _entry("rules", "alwaysApply", "r1-global-scots", "create"),
+    1: _entry(
+        "rules",
+        "alwaysApply",
+        "r1-global-scots",
+        "create",
+        observe=observe_r1_scots,
+    ),
     2: _entry("rules", "alwaysApply+globs", "r2-js-indent", "create"),
     3: _entry("rules", "alwaysApply+globs", "r2-js-indent", "edit"),
     4: _entry("rules", "globs", "r3-py-indent", "create"),

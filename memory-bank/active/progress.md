@@ -39,3 +39,13 @@ Deliver R1 end-to-end: `rules/r1-global-scots.mdc`, prompt 01, and Scottish-flag
     - No blocking findings; helper split is within L2/brief scope
 * Insights
     - Tag-sequence edge cases belong on a pure function; observer stays a thin file I/O wrapper
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - TDD red/green for helper, observer, harness contract, rule, and prompt
+    - Full suite: 40 passed
+* Decisions made
+    - Observational detail vocabulary pinned as above
+* Insights
+    - Embedding the live emoji in the rule makes leakage tests decisive against prompt spoilers

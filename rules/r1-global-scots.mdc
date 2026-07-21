@@ -1,0 +1,6 @@
+---
+description: Global conformance probe for alwaysApply rule delivery
+alwaysApply: true
+---
+
+Whenever you create or write `cats.md`, include the Scotland flag emoji 🏴󠁧󠁢󠁳󠁣󠁴󠁿 somewhere in the file body. Do not omit it. The emoji is the seven-codepoint tag sequence beginning with U+1F3F4 (waving black flag) for Scotland (gbsct).
