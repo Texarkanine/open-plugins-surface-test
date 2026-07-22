@@ -82,14 +82,17 @@ None - implementation approach is clear from DESIGN sequence diagram, pre-mortem
 - [Frontmatter]: `name: conformance-run` matches directory; description present; `disable-model-invocation: true`
 - [Driver shape]: body orders setup.sh → steps 1–11 (read matching `prompts/NN-*.md`, follow, run `check.py N`, report observation, wait for operator "next") → `check.py --summary`
 - [Observational wording]: uses observed / not observed / skipped; no pass/fail / unsupported judgment
-- [No leakage]: skill body fails the same sentinel catalog as prompts
-- [No checker coaching]: no fingerprint/sentinel/indent-width coaching vocabulary (reuse existing `PROMPT_LEAK_PATTERNS` spirit)
+- [No leakage]: skill body fails the same **sentinel catalog** as prompts (tokens, flag, indent width phrases, `lsp.launched`)
+- [No checker coaching]: forbid `fingerprint`, `sentinel`, `pass`/`fail` as judgment, `unsupported` — **do not** forbid `observed` / `not observed` / `skipped` (required reporting vocabulary; prompts forbid those words, the driver must use them)
 
 **README**
 - [Sections]: install, launch, invoke (namespaced skill), how to read capability table (incl. discretionary + SessionEnd note), single-step re-run, headless footnote
 - [Self-checks]: documents `uv run pytest` (includes leakage lint)
 - [No sentinel leakage]: README text does not contain probe sentinel catalog strings
 - [Replaces stub]: no longer defers to DESIGN-only for operator instructions
+
+**DESIGN close-out**
+- [Steps 12–13 delivered]: `DESIGN.md` Implementation Plan no longer presents entrypoint skill / README as future work ("Written last" / deferred)
 
 ### Test Infrastructure
 
@@ -112,15 +115,15 @@ None - implementation approach is clear from DESIGN sequence diagram, pre-mortem
 2. **Implement leakage lint** → `scripts/lint_leakage.py`
     - Files: `scripts/lint_leakage.py`
     - Changes: scan `prompts/**/*.md` + `skills/conformance-run/**`; import/reuse check.py constants where possible; exit non-zero with file:line findings
-3. **Discretionary summary tests (failing)** → `tests/test_check.py` (or `tests/test_entrypoint_readme.py`)
-    - Files: test file + fixtures with sample JSONL for steps 6–8 vs others
-    - Changes: assert discretionary marker present/absent per DESIGN
+3. **Discretionary summary tests (failing)** → `tests/test_check.py`
+    - Files: `tests/test_check.py` + fixtures with sample JSONL for steps 6–8 vs others
+    - Changes: assert discretionary marker present/absent per DESIGN; keep existing status-emoji contracts green
 4. **Implement discretionary summary marks** → `scripts/check.py`
     - Files: `scripts/check.py`
     - Changes: `discretionary: true` on registry entries 6–8 (extend `_entry`); `render_summary` emits marker (e.g. `*` / `(discretionary)` column)
 5. **Entrypoint skill structure + leakage tests (failing)** → `tests/test_entrypoint_readme.py`
     - Files: `tests/test_entrypoint_readme.py`
-    - Changes: frontmatter, driver shape, observational wording, sentinel + coaching-vocabulary checks
+    - Changes: frontmatter, driver shape, observational wording, sentinel catalog + skill-safe coaching checks (see Behaviors)
 6. **Implement entrypoint skill** → `skills/conformance-run/SKILL.md`
     - Files: `skills/conformance-run/SKILL.md`
     - Changes: full driver instructions; no sentinels; paths relative to plugin root / `$PLUGIN_ROOT`
@@ -130,10 +133,13 @@ None - implementation approach is clear from DESIGN sequence diagram, pre-mortem
 8. **Implement README** → `README.md`
     - Files: `README.md`
     - Changes: install (clone/load plugin per open-plugins; `.agents/plugins/` note), launch in empty worktree, invoke `/open-plugins-conformance:conformance-run` (+ harness namespace variants), reading table (status emojis, discretionary, SessionEnd), re-run one step (`setup.sh` idempotent; `check.py N`), `uv run pytest`, headless footnote
-9. **DESIGN close-out** → `DESIGN.md`
+9. **DESIGN close-out tests (failing)** → `tests/test_entrypoint_readme.py`
+    - Files: `tests/test_entrypoint_readme.py`
+    - Changes: assert Implementation Plan treats entrypoint + README as delivered (not future/deferred)
+10. **Close DESIGN implementation steps 12–13** → `DESIGN.md`
     - Files: `DESIGN.md`
-    - Changes: mark implementation plan items 12–13 done / note delivered (light touch; no rewrite)
-10. **Full suite** → `uv run pytest`
+    - Changes: mark items 12–13 delivered (light touch; no rewrite)
+11. **Full suite** → `uv run pytest`
 
 ## Technology Validation
 
@@ -147,6 +153,13 @@ No new technology - validation not required. Lint is stdlib Python; skill/README
 - **Per-harness install recipes unknown:** Stick to open-plugins vendor-neutral install + namespaced skill name; do not invent Cursor/Claude CLI flags.
 - **Discretionary mark vs existing summary tests:** Extend tests that snapshot/parse summary output; keep emoji status contract intact.
 - **techContext "skip prompts/prose" preference:** Milestone explicitly requires leakage + structural README/skill tests; prefer contract assertions over prose snapshots.
+- **Skill must say `observed` but prompt leak patterns forbid it:** Skill anti-coaching checks are a distinct allowlist from prompt leak patterns (see Behaviors).
+
+## Preflight Amendments
+
+- Split DESIGN close-out into explicit test-before-code pair (steps 9–10).
+- Pinned discretionary summary tests to `tests/test_check.py`.
+- Clarified skill vocabulary: sentinel catalog + skill-safe coaching checks; `observed`/`not observed`/`skipped` allowed in the driver.
 
 ## Pre-Mortem
 
@@ -163,6 +176,6 @@ No new technology - validation not required. Lint is stdlib Python; skill/README
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA

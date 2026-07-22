@@ -30,3 +30,15 @@ Deliver entrypoint skill `skills/conformance-run/`, build-time sentinel-leakage 
     - Include discretionary summary marks now (DESIGN pre-mortem gap; required for readable table)
 * Insights
     - Indent leaks need phrase patterns, not bare digits; token probes can import check.py constants
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD pairs, conventions (`scripts/` + `skills/<name>/SKILL.md`), dependency impact on `test_check.py` summary contracts
+    - Amended plan for DESIGN test-before-code and skill vs prompt vocabulary split
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No rearchitect; ship path stands
+    - Advisory only: adding CI that runs `uv run pytest` is out of this milestone's brief (pytest remains the gate)
+* Insights
+    - Prompt leak patterns that ban `observed` must not be copied onto the entrypoint skill

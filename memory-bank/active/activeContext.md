@@ -1,13 +1,12 @@
 # Active Context
 
 ## Current Task: entrypoint-readme
-**Phase:** PLAN - COMPLETE
+**Phase:** PREFLIGHT - COMPLETE
 
 ## What Was Done
-- Component analysis: entrypoint skill, leakage lint script+tests, README, discretionary summary marks (DESIGN pre-mortem gap)
-- TDD plan: lint → summary marks → skill → README → DESIGN close-out
-- No open questions; no creative phase required
-- Decisions: `disable-model-invocation: true`; pytest-gated lint (no CI yet); vendor-neutral README install; import check.py constants into lint catalog
+- Validated TDD encoding, conventions, dependency impact, conflicts, completeness
+- Amended plan: DESIGN close-out test-before-code; pin summary tests to `test_check.py`; skill vocabulary must allow observational wording
+- Wrote `.preflight-status` PASS
 
 ## Next Step
-- Preflight phase to validate the plan
+- Operator: run `/niko-build` to implement
