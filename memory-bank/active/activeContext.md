@@ -1,12 +1,11 @@
 # Active Context
 
 ## Current Task: entrypoint-readme
-**Phase:** PREFLIGHT - COMPLETE
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Validated TDD encoding, conventions, dependency impact, conflicts, completeness
-- Amended plan: DESIGN close-out test-before-code; pin summary tests to `test_check.py`; skill vocabulary must allow observational wording
-- Wrote `.preflight-status` PASS
+- Preflight PASS; entering Level 3 build
+- Checkpoint commit already present (`chore: saving work before build phase`)
 
 ## Next Step
-- Operator: run `/niko-build` to implement
+- Execute implementation plan TDD: leakage lint → discretionary summary → entrypoint skill → README → DESIGN close-out

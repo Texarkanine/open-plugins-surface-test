@@ -109,10 +109,10 @@ None - implementation approach is clear from DESIGN sequence diagram, pre-mortem
 
 ## Implementation Plan
 
-1. **Leakage lint tests (failing)** → `tests/test_leakage_lint.py`
+1. [x] **Leakage lint tests (failing)** → `tests/test_leakage_lint.py`
     - Files: `tests/test_leakage_lint.py`
     - Changes: catalog, clean-tree, planted-leak (tmp_path), out-of-scope ignore, CLI exit codes
-2. **Implement leakage lint** → `scripts/lint_leakage.py`
+2. [x] **Implement leakage lint** → `scripts/lint_leakage.py`
     - Files: `scripts/lint_leakage.py`
     - Changes: scan `prompts/**/*.md` + `skills/conformance-run/**`; import/reuse check.py constants where possible; exit non-zero with file:line findings
 3. **Discretionary summary tests (failing)** → `tests/test_check.py`
