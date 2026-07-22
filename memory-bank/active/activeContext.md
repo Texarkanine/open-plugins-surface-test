@@ -1,12 +1,13 @@
 # Active Context
 
 ## Current Task: lsp-open-question
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Advanced L4 milestone: M1 MCP probe marked complete; sub-run ephemerals cleared
-- Classified next milestone (Resolve LSP open question) as Level 2
-- Rationale: bounded open-question resolution (ship launch-marker probe or cut+document); self-contained; matches milestone estimate
+- Classified L4 milestone (LSP open question) as Level 2
+- Chose **ship** path (not cut): stdlib LSP initialize→`lsp.launched` PoC succeeded
+- Wrote TDD plan: observer/claim → server → `.lsp.json` → setup fixture `.lspprobe` → passive prompt 11 → DESIGN open-question close
+- Tech validation: no new deps; `uv run --script` retained for MCP parity + skip gate
 
 ## Next Step
-- Load Level 2 workflow and execute Plan phase
+- Preflight validation (automatic for Level 2)

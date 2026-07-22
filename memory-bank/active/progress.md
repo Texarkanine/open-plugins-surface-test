@@ -16,3 +16,19 @@ Resolve LSP open question: ship `.lsp.json` + PEP 723 `probe_lsp.py` writing `ls
     - Preserved L4 `projectbrief.md` and `milestones.md`; created fresh sub-run `progress.md`
 * Insights
     - Milestone estimate (L2) matches the decision-tree outcome; DESIGN already names the proposed resolution and the designated cut if it fights back
+
+## 2026-07-21 - PLAN - COMPLETE
+
+* Work completed
+    - Component analysis: step-11 stub, M1 template, open-plugins `.lsp.json` schema, setup fixtures
+    - TDD plan: observer + claim → CLI → server helpers/handshake → `.lsp.json` → setup `.lspprobe` → prompt 11 → DESIGN close
+    - Technology PoC: stdlib Content-Length LSP writes `lsp.launched` on `initialize`
+    - Decision: ship (not cut) — approach is not awkward
+* Decisions made
+    - Unique `.lspprobe` extension + seeded fixture so harness lifecycle ("matching files present") can launch the server
+    - Optional registry `claim` merged into step-11 JSONL only; `ObservationResult` unchanged
+    - Stdlib server (no pygls); still launched via `uv run --script` for skip-gate parity with MCP
+    - Work root: `CONFORMANCE_WORK` else `$PLUGIN_ROOT/work` from `__file__`
+* Insights
+    - open-plugins `.lsp.json` has no wrap key (unlike `.mcp.json`); `extensionToLanguage` is required
+    - Marker must live under `observations/` so setup artifact wipes cannot erase launch evidence
