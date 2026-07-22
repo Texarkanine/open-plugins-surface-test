@@ -42,3 +42,15 @@ Deliver entrypoint skill `skills/conformance-run/`, build-time sentinel-leakage 
     - Advisory only: adding CI that runs `uv run pytest` is out of this milestone's brief (pytest remains the gate)
 * Insights
     - Prompt leak patterns that ban `observed` must not be copied onto the entrypoint skill
+
+## 2026-07-22 - BUILD - COMPLETE
+
+* Work completed
+    - Implemented leakage lint, discretionary summary marks, entrypoint skill, README, DESIGN 12–13 close-out (TDD)
+    - Full suite green: 168 passed
+* Decisions made
+    - Summary marker text: `(discretionary)` appended to status cell
+    - Lint CLI accepts optional root arg for planted-tree tests; default scans plugin root
+    - Skill avoids judgment vocabulary (`pass`/`fail`) even in non-judgment noun phrases
+* Insights
+    - importlib-loaded modules with `@dataclass` need `sys.modules` registration under Python 3.13

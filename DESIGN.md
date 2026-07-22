@@ -263,8 +263,8 @@ behind it; the table is what someone reads, files a bug with, or pastes into an 
 9. **Hooks + step 9.** `hook_record.sh`, all 13 events, log checker.
 10. **MCP + step 10.** PEP 723 server, `.mcp.json`, `uv` preflight.
 11. **LSP + step 11.** Launch-marker observer with `"claim":"launched"` (resolved above).
-12. **Entrypoint skill.** Written last, once the loop's real shape is known.
-13. **README.** Install → launch → invoke, per harness. How to read the capability
+12. **Entrypoint skill.** Delivered — `skills/conformance-run/SKILL.md` (operator-only driver).
+13. **README.** Delivered — install → launch → invoke, how to read the capability
     table, and how to re-run a single step. Headless/batch driving is a footnote, not
     a supported path.
 

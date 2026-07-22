@@ -121,25 +121,25 @@ None - implementation approach is clear from DESIGN sequence diagram, pre-mortem
 4. [x] **Implement discretionary summary marks** → `scripts/check.py`
     - Files: `scripts/check.py`
     - Changes: `discretionary: true` on registry entries 6–8 (extend `_entry`); `render_summary` emits marker (e.g. `*` / `(discretionary)` column)
-5. **Entrypoint skill structure + leakage tests (failing)** → `tests/test_entrypoint_readme.py`
+5. [x] **Entrypoint skill structure + leakage tests (failing)** → `tests/test_entrypoint_readme.py`
     - Files: `tests/test_entrypoint_readme.py`
     - Changes: frontmatter, driver shape, observational wording, sentinel catalog + skill-safe coaching checks (see Behaviors)
-6. **Implement entrypoint skill** → `skills/conformance-run/SKILL.md`
+6. [x] **Implement entrypoint skill** → `skills/conformance-run/SKILL.md`
     - Files: `skills/conformance-run/SKILL.md`
     - Changes: full driver instructions; no sentinels; paths relative to plugin root / `$PLUGIN_ROOT`
-7. **README structure + leakage tests (failing)** → `tests/test_entrypoint_readme.py`
+7. [x] **README structure + leakage tests (failing)** → `tests/test_entrypoint_readme.py`
     - Files: `tests/test_entrypoint_readme.py`
     - Changes: required section/heading assertions; sentinel catalog absence
-8. **Implement README** → `README.md`
+8. [x] **Implement README** → `README.md`
     - Files: `README.md`
     - Changes: install (clone/load plugin per open-plugins; `.agents/plugins/` note), launch in empty worktree, invoke `/open-plugins-conformance:conformance-run` (+ harness namespace variants), reading table (status emojis, discretionary, SessionEnd), re-run one step (`setup.sh` idempotent; `check.py N`), `uv run pytest`, headless footnote
-9. **DESIGN close-out tests (failing)** → `tests/test_entrypoint_readme.py`
+9. [x] **DESIGN close-out tests (failing)** → `tests/test_entrypoint_readme.py`
     - Files: `tests/test_entrypoint_readme.py`
     - Changes: assert Implementation Plan treats entrypoint + README as delivered (not future/deferred)
-10. **Close DESIGN implementation steps 12–13** → `DESIGN.md`
+10. [x] **Close DESIGN implementation steps 12–13** → `DESIGN.md`
     - Files: `DESIGN.md`
     - Changes: mark items 12–13 delivered (light touch; no rewrite)
-11. **Full suite** → `uv run pytest`
+11. [x] **Full suite** → `uv run pytest`
 
 ## Technology Validation
 
@@ -177,5 +177,5 @@ No new technology - validation not required. Lint is stdlib Python; skill/README
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA
