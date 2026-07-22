@@ -65,3 +65,12 @@ Deliver entrypoint skill `skills/conformance-run/`, build-time sentinel-leakage 
     - No code changes required from QA
 * Insights
     - README may use operator-facing words (`fingerprint`) that the entrypoint skill must not
+
+## 2026-07-22 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection written; persistent files unchanged
+* Decisions made
+    - Left `milestones.md` unchecked for `/niko` lifecycle advance (do not self-check)
+* Insights
+    - Driver reporting vocabulary must be allowlisted separately from prompt leak catalogs

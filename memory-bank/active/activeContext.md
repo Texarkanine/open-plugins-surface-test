@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: entrypoint-readme
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- Semantic QA against plan: complete, no substantive or trivial fixes required
-- `.qa-validation-status` PASS
+- Wrote `memory-bank/active/reflection/reflection-entrypoint-readme.md`
+- Reconciled persistent files: no updates needed
+- L4 milestone remains unchecked until `/niko` advances it (lifecycle rule)
 
 ## Next Step
-- Reflect phase (`/niko-reflect` / automatic L3 transition)
+- Operator: run `/niko` to continue to the next milestone (capstone archive — this was the last unchecked milestone)
