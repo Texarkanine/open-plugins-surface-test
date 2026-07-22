@@ -57,3 +57,14 @@ Resolve LSP open question: ship `.lsp.json` + PEP 723 `probe_lsp.py` writing `ls
     - Dropped unused mermaid `classDef open` when L1 left the open styling
 * Insights
     - Launch-marker claim is a one-field registry extension, not a global schema break
+
+## 2026-07-21 - QA - COMPLETE
+
+* Work completed
+    - Semantic review vs plan: KISS/DRY/YAGNI/completeness/regression/integrity/docs
+    - Wrote `.qa-validation-status` PASS (no code fixes required)
+* Decisions made
+    - Kept stdlib framing + optional registry `claim` — required for unit-testability and DESIGN claim labeling; not YAGNI
+    - README left to later entrypoint milestone — matches plan explicit non-scope
+* Insights
+    - LSP lands as M1-shaped skip gate plus a weaker `claim: launched` observation under `observations/`

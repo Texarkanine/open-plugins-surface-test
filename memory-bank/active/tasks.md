@@ -85,4 +85,4 @@ No new packaged dependency. Stdlib-only Content-Length JSON-RPC LSP PoC confirme
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
