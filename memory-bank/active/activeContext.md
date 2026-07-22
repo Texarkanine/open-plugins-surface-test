@@ -1,11 +1,12 @@
 # Active Context
 
 ## Current Task: lsp-open-question
-**Phase:** QA - COMPLETE
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- Semantic review vs plan: KISS/DRY/YAGNI/completeness/regression/integrity/docs
-- Wrote `.qa-validation-status` PASS (no code fixes required)
+- Wrote `memory-bank/active/reflection/reflection-lsp-open-question.md`
+- Reconciled persistent files: no updates (techContext/systemPatterns already cover MCP/LSP + uv skip)
+- QA and Build both clean; suite 148 green
 
 ## Next Step
-- Reflect phase (automatic for Level 2)
+- Operator: run `/niko` to continue to the next L4 milestone

@@ -68,3 +68,14 @@ Resolve LSP open question: ship `.lsp.json` + PEP 723 `probe_lsp.py` writing `ls
     - README left to later entrypoint milestone — matches plan explicit non-scope
 * Insights
     - LSP lands as M1-shaped skip gate plus a weaker `claim: launched` observation under `observations/`
+
+## 2026-07-21 - REFLECT - COMPLETE
+
+* Work completed
+    - Wrote `reflection/reflection-lsp-open-question.md`
+    - Persistent-file reconcile: no surgical updates needed
+* Decisions made
+    - None beyond documenting optional registry `claim` and probe-owned extension as the main build insights
+* Insights
+    - Weaker claims belong on the JSONL record, not in `detail`
+    - Matching-files lifecycle → unique fixture extension + passive prompt
