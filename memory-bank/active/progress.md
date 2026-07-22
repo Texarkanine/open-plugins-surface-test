@@ -54,3 +54,14 @@ Deliver entrypoint skill `skills/conformance-run/`, build-time sentinel-leakage 
     - Skill avoids judgment vocabulary (`pass`/`fail`) even in non-judgment noun phrases
 * Insights
     - importlib-loaded modules with `@dataclass` need `sys.modules` registration under Python 3.13
+
+## 2026-07-22 - QA - COMPLETE
+
+* Work completed
+    - Semantic review against plan (KISS/DRY/YAGNI/completeness/regression/integrity/docs)
+    - Verified all plan behaviors delivered; no TODOs/stubs/debug debris
+    - Wrote `.qa-validation-status` PASS
+* Decisions made
+    - No code changes required from QA
+* Insights
+    - README may use operator-facing words (`fingerprint`) that the entrypoint skill must not

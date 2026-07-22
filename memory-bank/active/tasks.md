@@ -178,4 +178,4 @@ No new technology - validation not required. Lint is stdlib Python; skill/README
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
