@@ -5,10 +5,9 @@ CLI modes:
   scripts/check.py <step>     Observe a single step (1–11), append JSONL, exit 0
   scripts/check.py --summary  Render capability table from recorded observations
 
-Steps 1–10 have real observers (Scots flag, JS/Python indent create/edit,
+Steps 1–11 have real observers (Scots flag, JS/Python indent create/edit,
 R4 closing-line sentinel, S1/A1 token presence, H1 hooks event presence,
-M1 MCP token / uv-skip); step 11 still uses a stub that returns
-observed=false with detail "probe checker not implemented". Summary also
+M1 MCP token / uv-skip, L1 LSP launch-marker / uv-skip). Summary also
 prints a SessionEnd line from hooks.jsonl. Exit non-zero only on
 infrastructure errors — never on not observed / skipped.
 """
@@ -344,6 +343,20 @@ def observe_m1_mcp(_step: int, work: Path) -> ObservationResult:
     return {"observed": False, "detail": "mcp token not present"}
 
 
+def observe_l1_lsp(_step: int, work: Path) -> ObservationResult:
+    """Step 11: observe ``lsp.launched`` marker, or skip if uv absent.
+
+    Skip when ``run.json`` uv_version is unavailable (or missing). Otherwise
+    look for ``work/observations/lsp.launched`` (server-written on initialize).
+    """
+    if uv_unavailable(work):
+        return {"observed": None, "detail": "skipped: uv not found"}
+    marker = work / "observations" / "lsp.launched"
+    if not marker.is_file():
+        return {"observed": False, "detail": "lsp.launched not found"}
+    return {"observed": True, "detail": "lsp.launched marker present"}
+
+
 def observe_stub(step: int, work: Path) -> ObservationResult:
     """Placeholder observer until probe-specific checkers land."""
     return {"observed": False, "detail": "probe checker not implemented"}
@@ -355,14 +368,18 @@ def _entry(
     probe: str,
     path: str,
     observe: Observer = observe_stub,
+    claim: str | None = None,
 ) -> dict[str, Any]:
-    return {
+    entry: dict[str, Any] = {
         "surface": surface,
         "mode": mode,
         "probe": probe,
         "path": path,
         "observe": observe,
     }
+    if claim is not None:
+        entry["claim"] = claim
+    return entry
 
 
 STEP_REGISTRY: dict[int, dict[str, Any]] = {
@@ -436,7 +453,14 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "create",
         observe=observe_m1_mcp,
     ),
-    11: _entry("lsp", "server", "l1-probe-lsp", "launched"),
+    11: _entry(
+        "lsp",
+        "server",
+        "l1-probe-lsp",
+        "launched",
+        observe=observe_l1_lsp,
+        claim="launched",
+    ),
 }
 
 
@@ -518,6 +542,8 @@ def observe_step(step: int, work: Path) -> int:
             "detail": result["detail"],
             "ts": datetime.now(timezone.utc).isoformat(),
         }
+        if "claim" in meta:
+            record["claim"] = meta["claim"]
         append_observation(work, record)
     except OSError as exc:
         print(f"error: {exc}", file=sys.stderr)

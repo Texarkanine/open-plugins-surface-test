@@ -1,12 +1,10 @@
 # Active Context
 
 ## Current Task: lsp-open-question
-**Phase:** PREFLIGHT - COMPLETE
+**Phase:** BUILD - IN-PROGRESS
 
 ## What Was Done
-- Validated TDD per-unit ordering; amended plan to split wiring/setup/prompt/DESIGN into test-then-code pairs
-- Confirmed conventions (M1 mirror), dependency impact (optional `claim` compatible with `REQUIRED_RECORD_KEYS`), no cut path
-- Wrote `.preflight-status` PASS
+- Preflight PASS; beginning TDD build at step 1
 
 ## Next Step
-- Build phase (automatic for Level 2)
+- Write failing observer + claim + CLI tests in `tests/test_l1_lsp.py`
