@@ -27,7 +27,6 @@ graph LR
     classDef comp fill:#e1f5fe,stroke:#01579b;
     classDef probe fill:#f3e5f5,stroke:#7b1fa2;
     classDef art fill:#e8f5e9,stroke:#2e7d32;
-    classDef open fill:#fff3e0,stroke:#ef6c00;
 
     subgraph Rules["📐 rules/ (.mdc)"]
         R1["R1 alwaysApply, no globs"]:::comp
@@ -41,7 +40,7 @@ graph LR
         A1["A1 agents/"]:::comp
         H1["H1 hooks/hooks.json"]:::comp
         M1["M1 .mcp.json"]:::comp
-        L1["L1 .lsp.json"]:::open
+        L1["L1 .lsp.json"]:::comp
     end
 
     R1 --> ART1["cats.md carries 🏴 flag"]:::art
@@ -228,15 +227,19 @@ behind it; the table is what someone reads, files a bug with, or pastes into an 
 
 ---
 
-## Open Questions
+## Resolved Design Choices
 
 - **LSP observability.** LSP has no artifact side-channel: diagnostics may reach the
-  agent's context without ever touching disk. *Proposed resolution:* have the server
-  write `work/observations/lsp.launched` on `initialize`. That proves the harness
+  agent's context without ever touching disk. The probe server writes
+  `work/observations/lsp.launched` on `initialize`. That proves the harness
   **launched** the server — a real and weaker conformance claim than "diagnostics
-  reached the agent," and it must be labeled as such in the record
-  (`"claim":"launched"`, not `"claim":"diagnostics_delivered"`). If this proves
-  awkward, LSP is the designated cut.
+  reached the agent," and it is labeled as such in the JSONL record
+  (`"claim":"launched"`, not `"claim":"diagnostics_delivered"`). Setup seeds
+  `work/fixtures/probe.lspprobe` so the harness lifecycle can start the server when
+  matching files are present; prompt 11 only asks the operator to open that file.
+
+## Open Questions
+
 - **Mode 3 vs. mode 4 determinism.** Deliberately *not* resolved in the design. The
   suite exists to measure it.
 - **Namespaced invocation.** Harnesses namespace differently (`/plugin:skill` vs
@@ -248,7 +251,8 @@ behind it; the table is what someone reads, files a bug with, or pastes into an 
 
 1. **Skeleton + manifest.** `.plugin/plugin.json`, `.gitignore` (`work/`), README stub.
 2. **Setup script.** `scripts/setup.sh` — reset boundary per diagram, seed `fib.js` and
-   `fib.py` at 4-space recursive, prompt for harness label, write `work/run.json`.
+   `fib.py` at 4-space recursive plus `probe.lspprobe`, prompt for harness label, write
+   `work/run.json`.
 3. **Check harness.** `scripts/check.py` — arg parsing, JSONL append, `--summary`.
    Python for codepoint-accurate matching (see Challenges).
 4. **R1 + step 1.** Rule, prompt, checker. First end-to-end slice; validates the loop.
@@ -258,7 +262,7 @@ behind it; the table is what someone reads, files a bug with, or pastes into an 
 8. **A1 + step 8.**
 9. **Hooks + step 9.** `hook_record.sh`, all 13 events, log checker.
 10. **MCP + step 10.** PEP 723 server, `.mcp.json`, `uv` preflight.
-11. **LSP + step 11.** Per open question; cut if it fights back.
+11. **LSP + step 11.** Launch-marker observer with `"claim":"launched"` (resolved above).
 12. **Entrypoint skill.** Written last, once the loop's real shape is known.
 13. **README.** Install → launch → invoke, per harness. How to read the capability
     table, and how to re-run a single step. Headless/batch driving is a footnote, not

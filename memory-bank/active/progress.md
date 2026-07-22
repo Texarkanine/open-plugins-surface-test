@@ -44,3 +44,16 @@ Resolve LSP open question: ship `.lsp.json` + PEP 723 `probe_lsp.py` writing `ls
     - Advisory only: optional `.lsp.json` `env` for `CONFORMANCE_WORK` is unnecessary if `__file__`-based default holds for attended runs
 * Insights
     - `REQUIRED_RECORD_KEYS <= set(record)` means optional `claim` on step 11 cannot break steps 1–10 shape tests
+
+## 2026-07-21 - BUILD - COMPLETE
+
+* Work completed
+    - `observe_l1_lsp` + STEP_REGISTRY[11] bind + optional `claim` on JSONL records
+    - `servers/probe_lsp.py` stdlib LSP writes `lsp.launched` on initialize
+    - `.lsp.json`, setup `probe.lspprobe`, prompt 11, DESIGN Resolved Design Choices
+    - Full suite 148 passed
+* Decisions made
+    - No deviations from preflight-amended plan
+    - Dropped unused mermaid `classDef open` when L1 left the open styling
+* Insights
+    - Launch-marker claim is a one-field registry extension, not a global schema break

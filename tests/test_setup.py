@@ -102,6 +102,7 @@ def test_setup_regenerates_fixtures_and_removes_junk(work: Path) -> None:
     assert not junk.exists()
     assert (work / "fixtures" / "fib.js").is_file()
     assert (work / "fixtures" / "fib.py").is_file()
+    assert (work / "fixtures" / "probe.lspprobe").is_file()
 
 
 @pytest.mark.parametrize("name", ["fib.js", "fib.py"])
@@ -181,6 +182,7 @@ def test_setup_second_run_is_idempotent_on_observations_and_run_json(work: Path)
     assert (work / "run.json").read_text(encoding="utf-8") == run_after_first
     assert (work / "fixtures" / "fib.js").is_file()
     assert (work / "fixtures" / "fib.py").is_file()
+    assert (work / "fixtures" / "probe.lspprobe").is_file()
 
 
 def test_setup_missing_work_does_not_create_observations(tmp_path: Path) -> None:
@@ -193,4 +195,5 @@ def test_setup_missing_work_does_not_create_observations(tmp_path: Path) -> None
     assert work.is_dir()
     assert (work / "run.json").is_file()
     assert (work / "fixtures" / "fib.js").is_file()
+    assert (work / "fixtures" / "probe.lspprobe").is_file()
     assert not (work / "observations").exists()

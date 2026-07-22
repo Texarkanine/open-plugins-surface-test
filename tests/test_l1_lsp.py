@@ -307,3 +307,60 @@ def test_initialize_writes_launch_marker(work: Path) -> None:
     marker = work / "observations" / "lsp.launched"
     assert marker.is_file()
     assert proc.returncode == 0
+
+
+# --- .lsp.json ---
+
+
+def test_lsp_json_launches_uv_script_with_plugin_root() -> None:
+    """.lsp.json top-level entry uses uv run --script with ${PLUGIN_ROOT} path."""
+    assert LSP_JSON.is_file()
+    data = json.loads(LSP_JSON.read_text(encoding="utf-8"))
+    assert "lspServers" not in data
+    assert isinstance(data, dict) and data
+    entry = data.get("probe-lsp")
+    assert isinstance(entry, dict)
+    assert entry.get("command") == "uv"
+    args = entry.get("args")
+    assert isinstance(args, list)
+    assert "run" in args
+    assert "--script" in args
+    script_args = [a for a in args if isinstance(a, str) and "probe_lsp.py" in a]
+    assert script_args, "args must include path to probe_lsp.py"
+    assert any("${PLUGIN_ROOT}" in a for a in script_args)
+    assert any(
+        "${PLUGIN_ROOT}/servers/probe_lsp.py" in a for a in script_args
+    )
+    ext_map = entry.get("extensionToLanguage")
+    assert isinstance(ext_map, dict)
+    assert ext_map.get(".lspprobe") == "lspprobe"
+
+
+# --- Prompt 11 ---
+
+
+def _assert_no_prompt_leakage(text: str) -> None:
+    for pattern in PROMPT_LEAK_PATTERNS:
+        assert pattern.search(text) is None, f"prompt leaked: {pattern.pattern}"
+
+
+def test_prompt_11_lsp_passive_no_leakage() -> None:
+    """Prompt 11 opens probe.lspprobe only; no marker/claim/checker leakage."""
+    assert PROMPT_11.is_file()
+    text = PROMPT_11.read_text(encoding="utf-8")
+    assert text.strip(), "prompt must not be empty"
+    assert "probe.lspprobe" in text
+    assert "fixtures" in text.lower()
+    _assert_no_prompt_leakage(text)
+
+
+# --- DESIGN open-question close-out ---
+
+
+def test_design_lsp_open_question_resolved() -> None:
+    """DESIGN.md resolves LSP observability with launch marker + claim: launched."""
+    text = DESIGN.read_text(encoding="utf-8")
+    open_section = text.split("## Open Questions", 1)[1].split("## Implementation Plan", 1)[0]
+    assert "LSP observability" not in open_section
+    assert "lsp.launched" in text
+    assert '"claim":"launched"' in text or '"claim": "launched"' in text

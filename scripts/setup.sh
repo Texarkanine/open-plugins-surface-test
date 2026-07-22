@@ -37,6 +37,9 @@ def fib(n):
     return fib(n - 1) + fib(n - 2)
 EOF
 
+# Neutral matching file so harness LSP lifecycle can start the probe server.
+: > "$WORK_DIR/fixtures/probe.lspprobe"
+
 # Create run.json only when absent.
 if [[ ! -f "$WORK_DIR/run.json" ]]; then
     if [[ -t 0 ]]; then
