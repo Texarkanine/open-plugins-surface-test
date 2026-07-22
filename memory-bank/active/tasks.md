@@ -115,10 +115,10 @@ None - implementation approach is clear from DESIGN sequence diagram, pre-mortem
 2. [x] **Implement leakage lint** → `scripts/lint_leakage.py`
     - Files: `scripts/lint_leakage.py`
     - Changes: scan `prompts/**/*.md` + `skills/conformance-run/**`; import/reuse check.py constants where possible; exit non-zero with file:line findings
-3. **Discretionary summary tests (failing)** → `tests/test_check.py`
+3. [x] **Discretionary summary tests (failing)** → `tests/test_check.py`
     - Files: `tests/test_check.py` + fixtures with sample JSONL for steps 6–8 vs others
     - Changes: assert discretionary marker present/absent per DESIGN; keep existing status-emoji contracts green
-4. **Implement discretionary summary marks** → `scripts/check.py`
+4. [x] **Implement discretionary summary marks** → `scripts/check.py`
     - Files: `scripts/check.py`
     - Changes: `discretionary: true` on registry entries 6–8 (extend `_entry`); `render_summary` emits marker (e.g. `*` / `(discretionary)` column)
 5. **Entrypoint skill structure + leakage tests (failing)** → `tests/test_entrypoint_readme.py`

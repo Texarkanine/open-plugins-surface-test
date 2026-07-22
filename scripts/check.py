@@ -369,6 +369,8 @@ def _entry(
     path: str,
     observe: Observer = observe_stub,
     claim: str | None = None,
+    *,
+    discretionary: bool = False,
 ) -> dict[str, Any]:
     entry: dict[str, Any] = {
         "surface": surface,
@@ -379,6 +381,8 @@ def _entry(
     }
     if claim is not None:
         entry["claim"] = claim
+    if discretionary:
+        entry["discretionary"] = True
     return entry
 
 
@@ -424,6 +428,7 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "r4-sea-poem",
         "create",
         observe=observe_r4_sea_poem,
+        discretionary=True,
     ),
     7: _entry(
         "skills",
@@ -431,6 +436,7 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "s1-build-stamp",
         "create",
         observe=observe_s1_build_stamp,
+        discretionary=True,
     ),
     8: _entry(
         "agents",
@@ -438,6 +444,7 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
         "a1-listing-auditor",
         "create",
         observe=observe_a1_listing_auditor,
+        discretionary=True,
     ),
     9: _entry(
         "hooks",
@@ -618,6 +625,9 @@ def render_summary(work: Path) -> int:
     rows: list[tuple[str, ...]] = []
     for step in sorted(by_step):
         rec = by_step[step]
+        status = _status_emoji(rec.get("observed"))
+        if STEP_REGISTRY.get(step, {}).get("discretionary"):
+            status = f"{status} (discretionary)"
         rows.append(
             (
                 str(step),
@@ -625,7 +635,7 @@ def render_summary(work: Path) -> int:
                 str(rec.get("mode", "")),
                 str(rec.get("probe", "")),
                 str(rec.get("path", "")),
-                _status_emoji(rec.get("observed")),
+                status,
             )
         )
 

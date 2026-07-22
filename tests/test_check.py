@@ -231,6 +231,89 @@ def test_summary_empty_jsonl(work: Path) -> None:
     _assert_no_judgment_language(combined)
 
 
+def test_summary_marks_discretionary_steps_6_through_8(work: Path) -> None:
+    """Summary marks steps 6–8 (description rule / skill / agent) as discretionary."""
+    observations = work / "observations"
+    observations.mkdir(parents=True)
+    planted = []
+    for step, surface, mode, probe, path in (
+        (6, "rules", "description", "r4-sea-poem", "create"),
+        (7, "skills", "description", "s1-build-stamp", "create"),
+        (8, "agents", "description", "a1-listing-auditor", "create"),
+    ):
+        planted.append(
+            {
+                "run_id": "rid",
+                "step": step,
+                "surface": surface,
+                "mode": mode,
+                "probe": probe,
+                "path": path,
+                "observed": False,
+                "detail": "nope",
+                "ts": f"t{step}",
+            }
+        )
+    (observations / "run.jsonl").write_text(
+        "".join(json.dumps(row) + "\n" for row in planted),
+        encoding="utf-8",
+    )
+
+    result = _run_check(work, ["--summary"])
+    assert result.returncode == 0
+    out = result.stdout
+    for step in (6, 7, 8):
+        step_lines = [line for line in out.splitlines() if line.strip().startswith(f"{step} ")]
+        assert step_lines, f"missing summary row for step {step}"
+        assert "discretionary" in step_lines[0].lower(), step_lines[0]
+    _assert_no_judgment_language(out)
+
+
+def test_summary_non_discretionary_steps_unmarked(work: Path) -> None:
+    """Steps 1–5 and 9–11 have no discretionary mark in the summary."""
+    observations = work / "observations"
+    observations.mkdir(parents=True)
+    planted = []
+    for step in (1, 2, 3, 4, 5, 9, 10, 11):
+        planted.append(
+            {
+                "run_id": "rid",
+                "step": step,
+                "surface": "rules",
+                "mode": "alwaysApply",
+                "probe": f"probe-{step}",
+                "path": "create",
+                "observed": True,
+                "detail": "ok",
+                "ts": f"t{step}",
+            }
+        )
+    (observations / "run.jsonl").write_text(
+        "".join(json.dumps(row) + "\n" for row in planted),
+        encoding="utf-8",
+    )
+
+    result = _run_check(work, ["--summary"])
+    assert result.returncode == 0
+    out = result.stdout
+    for step in (1, 2, 3, 4, 5, 9, 10, 11):
+        step_lines = [line for line in out.splitlines() if line.strip().startswith(f"{step} ")]
+        assert step_lines, f"missing summary row for step {step}"
+        assert "discretionary" not in step_lines[0].lower(), step_lines[0]
+    _assert_no_judgment_language(out)
+
+
+def test_registry_discretionary_flags() -> None:
+    """STEP_REGISTRY marks only steps 6–8 as discretionary."""
+    check = _load_check_module()
+    for step in range(1, 12):
+        entry = check.STEP_REGISTRY[step]
+        if step in (6, 7, 8):
+            assert entry.get("discretionary") is True, step
+        else:
+            assert not entry.get("discretionary"), step
+
+
 def test_summary_status_vocabulary(work: Path) -> None:
     observations = work / "observations"
     observations.mkdir(parents=True)
