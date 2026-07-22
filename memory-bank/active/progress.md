@@ -32,3 +32,15 @@ Resolve LSP open question: ship `.lsp.json` + PEP 723 `probe_lsp.py` writing `ls
 * Insights
     - open-plugins `.lsp.json` has no wrap key (unlike `.mcp.json`); `extensionToLanguage` is required
     - Marker must live under `observations/` so setup artifact wipes cannot erase launch evidence
+
+## 2026-07-21 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated TDD encoding, conventions, dependency impact, conflicts, completeness
+    - Amended plan: split combined steps 6–9 into explicit test-before-code pairs; fold CLI smoke into step 1
+    - Wrote `.preflight-status` PASS
+* Decisions made
+    - No rearchitect; ship path stands
+    - Advisory only: optional `.lsp.json` `env` for `CONFORMANCE_WORK` is unnecessary if `__file__`-based default holds for attended runs
+* Insights
+    - `REQUIRED_RECORD_KEYS <= set(record)` means optional `claim` on step 11 cannot break steps 1–10 shape tests

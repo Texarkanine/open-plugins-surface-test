@@ -42,44 +42,62 @@ Ship the DESIGN-proposed LSP resolution: `.lsp.json` + PEP 723 `servers/probe_ls
 
 ## Implementation Plan
 
-1. **Observer + claim tests (failing)**
+1. **Observer + claim + CLI tests (failing)**
    - Files: `tests/test_l1_lsp.py`
-   - Changes: Add cases for `observe_l1_lsp` skip/marker/bind and for step-11 JSONL including `claim: launched`
+   - Changes: Add failing cases for `observe_l1_lsp` skip/marker/bind, step-11 JSONL `claim: launched`, and subprocess `check.py 11` smoke (observed / not observed / skipped / skip-wins) — **no** `check.py` edits in this step
 
 2. **Implement `observe_l1_lsp` + bind + claim emission**
    - Files: `scripts/check.py`
-   - Changes: Add `observe_l1_lsp` (reuse `uv_unavailable`; marker existence under `work/observations/lsp.launched`); bind `STEP_REGISTRY[11]`; extend `observe_step` so records include `"claim": "launched"` when registry entry carries `claim` (add optional `claim` on `_entry` / step 11 only); update module docstring (steps 1–11 real)
+   - Changes: Add `observe_l1_lsp` (reuse `uv_unavailable`; marker existence under `work/observations/lsp.launched`); bind `STEP_REGISTRY[11]`; extend `observe_step` so records include `"claim": "launched"` when registry entry carries `claim` (add optional `claim` on `_entry` / step 11 only); update module docstring (steps 1–11 real); run step-1 tests until green
 
-3. **CLI smoke tests (failing → pass against observer)**
+3. **Server unit + initialize handshake tests (failing)**
    - Files: `tests/test_l1_lsp.py`
-   - Changes: subprocess `check.py 11` for observed / not observed / skipped / skip-wins
+   - Changes: Assert `write_launch_marker`, work-root resolution, and a client-driven initialize writes the marker (stdlib framing, no `pygls`) — **no** server file yet
 
-4. **Server unit + initialize handshake tests (failing)**
-   - Files: `tests/test_l1_lsp.py`
-   - Changes: Assert `write_launch_marker`, work-root resolution, and a client-driven initialize writes the marker (stdlib framing, no `pygls`)
-
-5. **Implement `servers/probe_lsp.py`**
+4. **Implement `servers/probe_lsp.py`**
    - Files: `servers/probe_lsp.py` (new)
-   - Changes: PEP 723 script (`requires-python` only; no deps — stdlib JSON-RPC stdio); pure `resolve_work_root()` + `write_launch_marker(work)`; `main()` loop handles `initialize` (write marker + capabilities), `shutdown`/`exit`; defer nothing exotic — keep unit-testable helpers at module top
+   - Changes: PEP 723 script (`requires-python` only; no deps — stdlib JSON-RPC stdio); pure `resolve_work_root()` + `write_launch_marker(work)`; `main()` loop handles `initialize` (write marker + capabilities), `shutdown`/`exit`; keep unit-testable helpers at module top; run step-3 tests until green
 
-6. **`.lsp.json` + wiring tests**
-   - Files: `.lsp.json` (new), `tests/test_l1_lsp.py`
-   - Changes: Server name `probe-lsp`; `command`/`args` mirror MCP (`uv`, `run`, `--script`, `${PLUGIN_ROOT}/servers/probe_lsp.py`); `extensionToLanguage`: `{".lspprobe":"lspprobe"}`; optional `env` passthrough not required if script resolves work from `CONFORMANCE_WORK` / `__file__`
+5. **`.lsp.json` wiring tests (failing)**
+   - Files: `tests/test_l1_lsp.py`
+   - Changes: Assert top-level server entry (no wrap key); `uv run --script ${PLUGIN_ROOT}/servers/probe_lsp.py`; `extensionToLanguage` for `.lspprobe` — **no** `.lsp.json` file yet
 
-7. **Setup fixture seed + setup tests**
-   - Files: `scripts/setup.sh`, `tests/test_setup.py`
-   - Changes: Regenerate empty (or one-line neutral) `work/fixtures/probe.lspprobe`; extend fixture assertions
+6. **Implement `.lsp.json`**
+   - Files: `.lsp.json` (new)
+   - Changes: Server name `probe-lsp`; `command`/`args` as asserted; `extensionToLanguage`: `{".lspprobe":"lspprobe"}`; run step-5 tests until green
 
-8. **Prompt 11 + leakage test**
-   - Files: `prompts/11-l1-lsp.md` (new), `tests/test_l1_lsp.py`
-   - Changes: Passive prompt — open `work/fixtures/probe.lspprobe` and wait; ban leakage of marker name, claim, checker vocabulary, `observed`
+7. **Setup fixture tests (failing)**
+   - Files: `tests/test_setup.py`
+   - Changes: Assert setup regenerates `work/fixtures/probe.lspprobe` — **no** `setup.sh` edits in this step
 
-9. **Close DESIGN open question**
-   - Files: `DESIGN.md`
-   - Changes: Move LSP observability from Open Questions to resolved approach (launch marker + `claim: launched`); keep probe matrix/component tree aligned; no full README rewrite (entrypoint README is a later milestone)
+8. **Implement setup fixture seed**
+   - Files: `scripts/setup.sh`
+   - Changes: Regenerate empty (or one-line neutral) `work/fixtures/probe.lspprobe`; run step-7 tests until green
 
-10. **Full suite**
+9. **Prompt leakage tests (failing)**
+   - Files: `tests/test_l1_lsp.py`
+   - Changes: Assert `prompts/11-l1-lsp.md` will exist and must not leak marker name, claim, checker vocabulary, `observed` — **no** prompt file yet
+
+10. **Implement prompt 11**
+    - Files: `prompts/11-l1-lsp.md` (new)
+    - Changes: Passive prompt — open `work/fixtures/probe.lspprobe` and wait; run step-9 tests until green
+
+11. **DESIGN close-out tests (failing)**
+    - Files: `tests/test_l1_lsp.py`
+    - Changes: Assert DESIGN.md no longer lists LSP observability under Open Questions and documents launch-marker + `claim: launched` — **no** DESIGN edits in this step
+
+12. **Close DESIGN open question**
+    - Files: `DESIGN.md`
+    - Changes: Move LSP observability from Open Questions to resolved approach (launch marker + `claim: launched`); keep probe matrix/component tree aligned; no full README rewrite (entrypoint README is a later milestone); run step-11 tests until green
+
+13. **Full suite**
     - Run `uv run pytest`; fix any registry/docstring/stub fallout
+
+## Preflight Amendments
+
+- Split former combined steps (wiring/setup/prompt/DESIGN) so each unit is explicitly **tests-before-code**.
+- Folded CLI smoke into step 1 so CLI contracts fail before `check.py` changes.
+- Confirmed `tests/test_check.py` uses `REQUIRED_RECORD_KEYS <= set(record)` — optional step-11 `claim` does not break other steps.
 
 ## Technology Validation
 
@@ -113,6 +131,6 @@ No new packaged dependency. Stdlib-only Content-Length JSON-RPC LSP PoC (2026-07
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA
