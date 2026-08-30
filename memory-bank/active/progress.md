@@ -14,3 +14,15 @@ Add Claude Code and Cursor marketplace manifests that catalog this repo's existi
     - Live harness confirmation after push is operator work, not a build gate.
 * Insights
     - Claude marketplace and plugin manifests both live under `.claude-plugin/`; if the plugin source is repo root, `marketplace.json` and a Claude `plugin.json` would share that directory — plan must pick a valid source/strict layout.
+
+## 2026-08-30 - PLAN - COMPLETE
+
+* Work completed
+    - Wrote Level 2 plan: `tests/test_marketplace.py` contracts, four JSON manifests, README marketplace-add section.
+    - Pinned names, `./` vs `.` sources, thin vendor `plugin.json` beside each catalog, probe tree stays at repo root.
+* Decisions made
+    - Default `strict: true` plus vendor `plugin.json` rather than `strict: false` component lists in the catalog.
+    - Cursor marketplace plugin entries limited to `name` / `source` / `description`.
+    - Live harness install is operator-after-push, not a pytest gate.
+* Insights
+    - Claude docs explicitly allow `source: "./"` (marketplace root is the plugin). Cursor's single-plugin template drops marketplace.json; we keep it because the install path is marketplace-add of this branch.

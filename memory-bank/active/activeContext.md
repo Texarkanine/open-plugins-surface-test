@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: harness-marketplace-manifests
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Intent confirmed: Claude and Cursor marketplace manifests cataloging this repo's existing plugin; operator will push and add the branch as a marketplace.
-- Complexity: Level 2 (simple enhancement). Decision tree: not a bug fix; small self-contained add of two catalog files; no architectural change to the probe instrument.
+- Level 2 plan: contract tests for both marketplace catalogs + thin vendor `plugin.json` files; README marketplace-add instructions.
+- Pinned: marketplace name `open-plugins-surface-test`; plugin `open-plugins-conformance`; Claude `source` `./`; Cursor `source` `.`; vendor manifests share `.claude-plugin/` / `.cursor-plugin/` with their marketplace files; do not move the probe tree.
 
 ## Next Step
-- Load Level 2 workflow and execute the plan phase
+- Preflight validation
