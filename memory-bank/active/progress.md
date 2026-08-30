@@ -81,3 +81,12 @@ Add Claude Code and Cursor marketplace manifests that catalog this repo's existi
     - First line of `.qa-validation-status`: `PASS`. Task may proceed to Reflect.
 * Insights
     - The lockstep test fully closes the drift gap the first QA pass identified: it now asserts every copy of `name`/`version`/`description` this task introduced, not just `name`.
+
+## 2026-08-30 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection written; `techContext.md` updated for marketplace load path and identity lockstep.
+* Decisions made
+    - productContext / systemPatterns: no update (product and probe architecture unchanged).
+* Insights
+    - Harness-native `plugin.json` next to `.plugin/plugin.json` is an identity contract; test lockstep when the second copy is introduced.
