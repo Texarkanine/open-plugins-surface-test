@@ -1,3 +1,3 @@
 # Step 8
 
-Audit the fixtures directory listing under `work/fixtures/`. Save your audit notes as `work/artifacts/agent.txt`.
+Audit the fixtures directory listing under `plugintest/CURRENT/fixtures/`. Save your audit notes as `plugintest/CURRENT/artifacts/agent.txt`.

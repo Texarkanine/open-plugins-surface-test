@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 import sys
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +17,21 @@ ROOT = Path(__file__).resolve().parents[1]
 CHECK = ROOT / "scripts" / "check.py"
 SETUP = ROOT / "scripts" / "setup.sh"
 REPO_WORK = ROOT / "work"
+
+
+@contextmanager
+def _without_plugin_pointer():
+    pointer = ROOT / ".conformance-work"
+    backup = pointer.read_text(encoding="utf-8") if pointer.is_file() else None
+    if pointer.is_file():
+        pointer.unlink()
+    try:
+        yield
+    finally:
+        if backup is not None:
+            pointer.write_text(backup, encoding="utf-8")
+        elif pointer.is_file():
+            pointer.unlink()
 
 REQUIRED_RECORD_KEYS = {
     "run_id",
@@ -437,3 +453,17 @@ def test_coexistence_with_setup(tmp_path: Path) -> None:
     assert (work / "fixtures" / "fib.js").read_text(encoding="utf-8") == fib_js
     assert (work / "fixtures" / "fib.py").read_text(encoding="utf-8") == fib_py
     assert (work / "artifacts").is_dir()
+
+
+def test_resolve_work_dir_defaults_to_cwd_plugintest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Importlib-loaded check.py resolves cwd plugintest/CURRENT when override is unset."""
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("CONFORMANCE_WORK", raising=False)
+    with _without_plugin_pointer():
+        check = _load_check_module()
+        result = check.resolve_work_dir()
+        current = (tmp_path / "plugintest" / "CURRENT").resolve()
+        assert result.resolve() == current
+        assert result.resolve() != (ROOT / "work").resolve()

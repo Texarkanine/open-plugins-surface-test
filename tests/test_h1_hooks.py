@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 import sys
+from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
@@ -15,6 +16,23 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 CHECK = ROOT / "scripts" / "check.py"
 HOOK_RECORD = ROOT / "scripts" / "hook_record.sh"
+
+
+@contextmanager
+def _without_plugin_pointer():
+    pointer = ROOT / ".conformance-work"
+    backup = pointer.read_text(encoding="utf-8") if pointer.is_file() else None
+    if pointer.is_file():
+        pointer.unlink()
+    try:
+        yield
+    finally:
+        if backup is not None:
+            pointer.write_text(backup, encoding="utf-8")
+        elif pointer.is_file():
+            pointer.unlink()
+
+
 HOOKS_JSON = ROOT / "hooks" / "hooks.json"
 PROMPT_09 = ROOT / "prompts" / "09-h1-hooks-battery.md"
 
@@ -344,6 +362,34 @@ def test_hook_record_appends_jsonl(work: Path) -> None:
     assert row["event"] == "PreToolUse"
     assert isinstance(row["matcher_context"], str) and row["matcher_context"]
     assert isinstance(row["ts"], str) and row["ts"]
+
+
+def test_hook_record_without_override_writes_under_current(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Without CONFORMANCE_WORK, hook_record appends under plugintest/CURRENT."""
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("CONFORMANCE_WORK", raising=False)
+    env = os.environ.copy()
+    env.pop("CONFORMANCE_WORK", None)
+    with _without_plugin_pointer():
+        proc = subprocess.run(
+            ["bash", str(HOOK_RECORD), "PreToolUse"],
+            input='{"matcher":"Bash","tool_name":"Bash"}',
+            text=True,
+            capture_output=True,
+            env=env,
+            cwd=str(tmp_path),
+            check=False,
+        )
+        assert proc.returncode == 0, proc.stderr
+        current = tmp_path / "plugintest" / "CURRENT"
+        path = current / "observations" / "hooks.jsonl"
+        assert path.is_file()
+        lines = [ln for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
+        assert len(lines) == 1
+        row = json.loads(lines[0])
+        assert row["event"] == "PreToolUse"
 
 
 def test_hook_record_then_observer_sees_event(work: Path) -> None:

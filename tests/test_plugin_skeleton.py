@@ -1,4 +1,4 @@
-"""Contract checks for the plugin skeleton (manifest + work/ gitignore)."""
+"""Contract checks for the plugin skeleton (manifest + gitignore)."""
 
 from __future__ import annotations
 
@@ -40,3 +40,5 @@ def test_gitignore_ignores_work_directory() -> None:
         if line.strip() and not line.strip().startswith("#")
     }
     assert "work/" in lines
+    assert "plugintest/" in lines
+    assert ".conformance-work" in lines

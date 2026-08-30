@@ -31,7 +31,7 @@ That suite includes the build-time sentinel-leakage lint over `prompts/` and the
 
 ## Launch
 
-Start your harness in an **empty working directory** (or a clean worktree) with this plugin loaded. SessionStart hooks may write into `work/observations/` before you invoke the driver — do not delete that directory between launch and setup.
+Start your harness in an **empty working directory** (or a clean worktree) with this plugin loaded. The run lives under `$PWD/plugintest/<UTC-stamp>/`, with `plugintest/CURRENT` pointing at the active stamp. SessionStart hooks may write into `plugintest/CURRENT/observations/` before you invoke the driver — do not delete `plugintest/CURRENT` between launch and setup. `${PLUGIN_ROOT}` is the plugin install tree (scripts, servers), not the run.
 
 ## Invoke
 
@@ -45,13 +45,13 @@ Some harnesses shorten or alter the slash-command shape (`/plugin:skill` vs `/sk
 
 The skill will:
 
-1. Run `scripts/setup.sh` (harness / model prompts; resets fixtures and artifacts; never clears observations).
-2. Walk steps 1–11: follow each `prompts/NN-*.md`, run `scripts/check.py N`, report the observation, wait for you to say `next`.
-3. Print `scripts/check.py --summary`.
+1. Run `$PLUGIN_ROOT/scripts/setup.sh` from the **launch workspace** (harness / model prompts; resets fixtures and artifacts; never clears observations). Do not `cd` into the plugin cache.
+2. Walk steps 1–11: follow each `prompts/NN-*.md`, run `$PLUGIN_ROOT/scripts/check.py N`, report the observation, wait for you to say `next`.
+3. Print `$PLUGIN_ROOT/scripts/check.py --summary`.
 
 ## Reading the capability table
 
-The summary header shows harness, model, OS, and `uv` version from `work/run.json`. Each row is one probe step with a status:
+The summary header shows harness, model, OS, and `uv` version from `plugintest/CURRENT/run.json`. Each row is one probe step with a status:
 
 | Status | Meaning |
 | --- | --- |
@@ -65,16 +65,16 @@ Rows marked `(discretionary)` are description-matched surfaces (description-only
 
 `SessionEnd` appears on its own summary line from the hooks log. It is structurally unobservable mid-run; a miss there often means the prior session never closed cleanly, not that the harness lacks the event.
 
-Full per-step records append to `work/observations/run.jsonl`.
+Full per-step records append to `plugintest/CURRENT/observations/run.jsonl`.
 
 ## Re-run a single step
 
 `scripts/setup.sh` is idempotent for fixtures and artifacts. To re-check one step after a soft miss:
 
-1. Ensure fixtures are fresh if the step needs them (`bash scripts/setup.sh`).
+1. Ensure fixtures are fresh if the step needs them (`bash $PLUGIN_ROOT/scripts/setup.sh` from the launch workspace).
 2. Follow that step's prompt again (`prompts/NN-*.md`).
-3. Run `python scripts/check.py N` for that step number.
-4. Re-print the table with `python scripts/check.py --summary` (latest record per step wins).
+3. Run `python $PLUGIN_ROOT/scripts/check.py N` for that step number.
+4. Re-print the table with `python $PLUGIN_ROOT/scripts/check.py --summary` (latest record per step wins).
 
 ## Headless and batch driving
 

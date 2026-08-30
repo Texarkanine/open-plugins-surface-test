@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Append one hooks observation line to work/observations/hooks.jsonl.
+# Append one hooks observation line to observations/hooks.jsonl.
 #
 # Usage: hook_record.sh <EventName>
-# Optional: CONFORMANCE_WORK=/path/to/work overrides the default $PLUGIN_ROOT/work.
+# Optional: CONFORMANCE_WORK=/path/to/work overrides the cwd plugintest default.
 # Stdin (optional): host hook payload JSON; matcher_context is derived from it.
 set -euo pipefail
 
@@ -13,7 +13,7 @@ fi
 
 EVENT="$1"
 PLUGIN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-WORK_DIR="${CONFORMANCE_WORK:-$PLUGIN_ROOT/work}"
+WORK_DIR="$(python3 "$PLUGIN_ROOT/scripts/work_root.py" ensure)"
 LOG_DIR="$WORK_DIR/observations"
 LOG_FILE="$LOG_DIR/hooks.jsonl"
 

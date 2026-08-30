@@ -6,12 +6,28 @@ import json
 import os
 import re
 import subprocess
+from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 SETUP = ROOT / "scripts" / "setup.sh"
+
+
+@contextmanager
+def _without_plugin_pointer():
+    pointer = ROOT / ".conformance-work"
+    backup = pointer.read_text(encoding="utf-8") if pointer.is_file() else None
+    if pointer.is_file():
+        pointer.unlink()
+    try:
+        yield
+    finally:
+        if backup is not None:
+            pointer.write_text(backup, encoding="utf-8")
+        elif pointer.is_file():
+            pointer.unlink()
 
 PROBE_LEAK_PATTERNS = (
     re.compile(r"7[-\s]?space", re.IGNORECASE),
@@ -197,3 +213,49 @@ def test_setup_missing_work_does_not_create_observations(tmp_path: Path) -> None
     assert (work / "fixtures" / "fib.js").is_file()
     assert (work / "fixtures" / "probe.lspprobe").is_file()
     assert not (work / "observations").exists()
+
+
+def test_setup_without_override_uses_cwd_plugintest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Without CONFORMANCE_WORK, setup uses plugintest/CURRENT and keeps observations."""
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("CONFORMANCE_WORK", raising=False)
+    env = os.environ.copy()
+    env.pop("CONFORMANCE_WORK", None)
+
+    def run() -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            ["bash", str(SETUP)],
+            input="h\nm\n",
+            text=True,
+            capture_output=True,
+            env=env,
+            cwd=str(tmp_path),
+            check=False,
+        )
+
+    with _without_plugin_pointer():
+        first = run()
+        _assert_setup_ok(first)
+        current = tmp_path / "plugintest" / "CURRENT"
+        assert current.is_symlink()
+        work = current.resolve()
+        assert (work / "fixtures" / "fib.js").is_file()
+        assert not (ROOT / "work" / "fixtures" / "fib.js").exists() or (
+            (ROOT / "work").resolve() != work
+        )
+
+        planted = work / "artifacts" / "stale.txt"
+        planted.write_text("keep-me-not\n", encoding="utf-8")
+        hooks = work / "observations" / "hooks.jsonl"
+        hooks.parent.mkdir(parents=True, exist_ok=True)
+        payload = '{"event":"SessionStart"}\n'
+        hooks.write_text(payload, encoding="utf-8")
+
+        second = run()
+        _assert_setup_ok(second)
+        assert current.resolve() == work
+        assert not planted.exists()
+        assert hooks.read_text(encoding="utf-8") == payload
+        assert (work / "fixtures" / "fib.py").is_file()

@@ -13,13 +13,23 @@ from pathlib import Path
 PLUGIN_ROOT = Path(__file__).resolve().parent.parent
 MARKER_NAME = "lsp.launched"
 
+_SCRIPTS_DIR = str(PLUGIN_ROOT / "scripts")
+if _SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPTS_DIR)
+import work_root  # noqa: E402
+
 
 def resolve_work_root() -> Path:
-    """Return CONFORMANCE_WORK override or default $PLUGIN_ROOT/work."""
+    """Return CONFORMANCE_WORK override or the shared cwd plugintest run."""
     override = os.environ.get("CONFORMANCE_WORK")
     if override:
         return Path(override).resolve()
-    return (PLUGIN_ROOT / "work").resolve()
+    return work_root.resolve_work_dir(
+        create=True,
+        cwd=Path.cwd(),
+        plugin_root=PLUGIN_ROOT,
+        env=os.environ,
+    ).resolve()
 
 
 def write_launch_marker(work: Path) -> Path:

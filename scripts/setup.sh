@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Reset work/artifacts and regenerate work/fixtures; create work/run.json if absent.
-# Never touches work/observations/.
+# Reset artifacts and regenerate fixtures; create run.json if absent.
+# Never touches observations/.
 #
 # Usage: scripts/setup.sh
-# Optional: CONFORMANCE_WORK=/path/to/work overrides the default $PLUGIN_ROOT/work.
+# Optional: CONFORMANCE_WORK=/path/to/work overrides the cwd plugintest default.
 set -euo pipefail
 
 PLUGIN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-WORK_DIR="${CONFORMANCE_WORK:-$PLUGIN_ROOT/work}"
+WORK_DIR="$(python3 "$PLUGIN_ROOT/scripts/work_root.py" ensure)"
 
 mkdir -p "$WORK_DIR"
 

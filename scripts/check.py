@@ -34,6 +34,11 @@ Observer = Callable[[int, Path], ObservationResult]
 
 PLUGIN_ROOT = Path(__file__).resolve().parent.parent
 
+_SCRIPTS_DIR = str(Path(__file__).resolve().parent)
+if _SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPTS_DIR)
+import work_root  # noqa: E402
+
 # Scotland flag emoji tag sequence (U+1F3F4 + gbsct tags + cancel).
 SCOTS_FLAG = "\U0001f3f4\U000e0067\U000e0062\U000e0073\U000e0063\U000e0074\U000e007f"
 
@@ -472,11 +477,13 @@ STEP_REGISTRY: dict[int, dict[str, Any]] = {
 
 
 def resolve_work_dir() -> Path:
-    """Return CONFORMANCE_WORK override or default $PLUGIN_ROOT/work."""
-    override = os.environ.get("CONFORMANCE_WORK")
-    if override:
-        return Path(override)
-    return PLUGIN_ROOT / "work"
+    """Return CONFORMANCE_WORK override or the shared cwd plugintest run."""
+    return work_root.resolve_work_dir(
+        create=True,
+        cwd=Path.cwd(),
+        plugin_root=PLUGIN_ROOT,
+        env=os.environ,
+    )
 
 
 def ensure_run_id(run_json_path: Path) -> str:

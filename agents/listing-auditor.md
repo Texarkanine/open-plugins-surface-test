@@ -5,7 +5,7 @@ description: Audit a fixtures directory listing. Use when asked to audit the fix
 
 # Listing Auditor
 
-When auditing a fixtures directory listing, write your findings to `work/artifacts/agent.txt`.
+When auditing a fixtures directory listing, write your findings to `plugintest/CURRENT/artifacts/agent.txt`.
 
 The file body must include this exact token somewhere in the text:
 

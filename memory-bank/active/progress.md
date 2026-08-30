@@ -73,3 +73,14 @@ Move conformance run scratch from `$PLUGIN_ROOT/work` to `$PWD/plugintest/<UTC-d
 * Insights
     - All executable units now strictly enforce test-first implementation steps, and import isolation for both `check.py` and `probe_lsp.py` is explicitly planned.
 
+## 2026-08-30 - BUILD - COMPLETE
+
+* Work completed
+    - `scripts/work_root.py` resolves `CONFORMANCE_WORK`, then the install-tree pointer, then `plugintest/CURRENT`, else creates a UTC stamp dir with a relative `CURRENT` symlink.
+    - Wired `setup.sh`, `hook_record.sh`, `check.py`, and `probe_lsp.py` to that resolver. Prompts/skills/agent/docs use `plugintest/CURRENT/...`. gitignore covers `plugintest/` and `.conformance-work`.
+    - Full suite: 182 passed (`uv run pytest`).
+* Decisions made
+    - Unset-override tests isolate `.conformance-work` and chdir to tmp so the repo is not the launch cwd.
+* Insights
+    - `check.py` importlib loading still requires the `sys.path` insert; without it `import work_root` fails in every existing checker test.
+

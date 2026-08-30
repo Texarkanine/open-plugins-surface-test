@@ -65,7 +65,7 @@ sequenceDiagram
     participant O as 👤 Operator
     participant H as 🌐 Harness
     participant E as 🔄 Entrypoint skill
-    participant F as 📊 work/
+    participant F as 📊 plugintest/
 
     O->>H: launch in empty dir
     Note over H,F: SessionStart hook fires → observations/
@@ -74,7 +74,7 @@ sequenceDiagram
 
     loop each step N
         E->>E: read prompts/NN-*.md, follow it
-        Note over H,F: agent writes into work/artifacts/
+        Note over H,F: agent writes into plugintest/CURRENT/artifacts/
         E->>F: scripts/check.py N → append observation
         E-->>O: report observed / not observed
         O->>E: "next"
@@ -94,10 +94,10 @@ graph TD
     classDef wipe fill:#ffebee,stroke:#c62828;
     classDef keep fill:#e8f5e9,stroke:#2e7d32;
 
-    S["scripts/setup.sh"] --> W1["work/artifacts/ — DELETE"]:::wipe
-    S --> W2["work/fixtures/ — DELETE + regenerate"]:::wipe
-    S --> K1["⚠️ work/observations/ — NEVER TOUCH"]:::keep
-    S --> K2["work/run.json — create if absent"]:::keep
+    S["scripts/setup.sh"] --> W1["plugintest/CURRENT/artifacts/ — DELETE"]:::wipe
+    S --> W2["plugintest/CURRENT/fixtures/ — DELETE + regenerate"]:::wipe
+    S --> K1["⚠️ plugintest/CURRENT/observations/ — NEVER TOUCH"]:::keep
+    S --> K2["plugintest/CURRENT/run.json — create if absent"]:::keep
 ```
 
 ---
@@ -110,9 +110,9 @@ These hold or the results are meaningless.
    component under test. Never in `prompts/`, never in the entrypoint skill body,
    never in a comment inside a fixture. If the prompt says "use 7-space indentation,"
    the run measures instruction-following, not glob-scoped rule delivery.
-2. **Setup never clears `work/observations/`.** See the reset-boundary diagram.
+2. **Setup never clears `plugintest/CURRENT/observations/`.** See the reset-boundary diagram.
 3. **Checks observe, they do not judge.** Exit non-zero only on *infrastructure*
-   error (malformed args, missing `work/`), never on `not observed`.
+   error (malformed args, missing run dir), never on `not observed`.
 4. **Demanded behavior is arbitrary.** 7-space indentation and an unprompted Scottish
    flag are things no agent does by accident. Accidental-compliance rate must be
    negligible or `observed` means nothing — and with one run there is no averaging to
@@ -183,10 +183,19 @@ hooks/hooks.json             # all 13 events → scripts/hook_record.sh
 servers/probe_mcp.py         # PEP 723 inline-script MCP server
 servers/probe_lsp.py         # PEP 723 inline-script LSP server
 .mcp.json  .lsp.json
-scripts/setup.sh  check.py  hook_record.sh
+scripts/setup.sh  check.py  hook_record.sh  work_root.py
 prompts/01-*.md … 11-*.md
-work/                        # gitignored: fixtures/ artifacts/ observations/
+# Launch cwd (gitignored), not the plugin install tree:
+plugintest/<UTC-stamp>/      # fixtures/ artifacts/ observations/ run.json
+plugintest/CURRENT           # relative symlink to the active stamp
+# Install-tree pointer (gitignored) so LSP can find the cwd run:
+.conformance-work
 ```
+
+`${PLUGIN_ROOT}` is the install tree (scripts, servers, prompts). The run is
+`$PWD/plugintest/<stamp>/`, shared via `plugintest/CURRENT`. `CONFORMANCE_WORK`
+overrides when set. The pointer file is install-tree metadata so LSP can find the
+cwd run when its process cwd is not the workspace.
 
 `.plugin/plugin.json` is the vendor-neutral location the spec recommends. Only `name`
 is required; component dirs are conventional, so the manifest declares them explicitly
@@ -208,7 +217,7 @@ the real claim: did the harness launch the server and expose its tools.
 
 ### Observation record
 
-`work/observations/run.jsonl`, one object per check:
+`plugintest/CURRENT/observations/run.jsonl`, one object per check:
 
 ```json
 {"run_id":"…","step":2,"surface":"rules","mode":"alwaysApply",
@@ -216,7 +225,7 @@ the real claim: did the harness launch the server and expose its tools.
  "detail":"indent widths seen: [7, 14]","ts":"…"}
 ```
 
-`work/run.json` holds the run header: operator-supplied harness label and model
+`plugintest/CURRENT/run.json` holds the run header: operator-supplied harness label and model
 (prompted by setup, defaulted if declined), plus OS and `uv` version — so a pasted
 report says *which* harness it describes.
 
@@ -231,11 +240,11 @@ behind it; the table is what someone reads, files a bug with, or pastes into an 
 
 - **LSP observability.** LSP has no artifact side-channel: diagnostics may reach the
   agent's context without ever touching disk. The probe server writes
-  `work/observations/lsp.launched` on `initialize`. That proves the harness
+  `plugintest/CURRENT/observations/lsp.launched` on `initialize`. That proves the harness
   **launched** the server — a real and weaker conformance claim than "diagnostics
   reached the agent," and it is labeled as such in the JSONL record
   (`"claim":"launched"`, not `"claim":"diagnostics_delivered"`). Setup seeds
-  `work/fixtures/probe.lspprobe` so the harness lifecycle can start the server when
+  `plugintest/CURRENT/fixtures/probe.lspprobe` so the harness lifecycle can start the server when
   matching files are present; prompt 11 only asks the operator to open that file.
 
 ## Open Questions
@@ -249,10 +258,10 @@ behind it; the table is what someone reads, files a bug with, or pastes into an 
 
 ## Implementation Plan
 
-1. **Skeleton + manifest.** `.plugin/plugin.json`, `.gitignore` (`work/`), README stub.
+1. **Skeleton + manifest.** `.plugin/plugin.json`, `.gitignore` (`plugintest/`, `.conformance-work`, leftover `work/`), README stub.
 2. **Setup script.** `scripts/setup.sh` — reset boundary per diagram, seed `fib.js` and
    `fib.py` at 4-space recursive plus `probe.lspprobe`, prompt for harness label, write
-   `work/run.json`.
+   `run.json` under the resolved work root.
 3. **Check harness.** `scripts/check.py` — arg parsing, JSONL append, `--summary`.
    Python for codepoint-accurate matching (see Challenges).
 4. **R1 + step 1.** Rule, prompt, checker. First end-to-end slice; validates the loop.

@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 import sys
+from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
@@ -27,6 +28,21 @@ PROMPT_LEAK_PATTERNS = (
     re.compile(r"lsp\.launched", re.IGNORECASE),
     re.compile(r"\bclaim\b", re.IGNORECASE),
 )
+
+
+@contextmanager
+def _without_plugin_pointer():
+    pointer = ROOT / ".conformance-work"
+    backup = pointer.read_text(encoding="utf-8") if pointer.is_file() else None
+    if pointer.is_file():
+        pointer.unlink()
+    try:
+        yield
+    finally:
+        if backup is not None:
+            pointer.write_text(backup, encoding="utf-8")
+        elif pointer.is_file():
+            pointer.unlink()
 
 
 def _load_check_module():
@@ -246,13 +262,18 @@ def test_resolve_work_root_honors_conformance_work(
     assert server.resolve_work_root() == work.resolve()
 
 
-def test_resolve_work_root_defaults_to_plugin_work(
-    monkeypatch: pytest.MonkeyPatch,
+def test_resolve_work_root_defaults_to_cwd_plugintest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Without CONFORMANCE_WORK, resolve_work_root is $PLUGIN_ROOT/work."""
-    server = _load_server_module()
+    """Without CONFORMANCE_WORK, resolve_work_root is cwd plugintest/CURRENT."""
+    monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("CONFORMANCE_WORK", raising=False)
-    assert server.resolve_work_root() == (ROOT / "work").resolve()
+    with _without_plugin_pointer():
+        server = _load_server_module()
+        result = server.resolve_work_root()
+        current = (tmp_path / "plugintest" / "CURRENT").resolve()
+        assert result == current
+        assert result != (ROOT / "work").resolve()
 
 
 def test_probe_lsp_has_pep723_script_header() -> None:
