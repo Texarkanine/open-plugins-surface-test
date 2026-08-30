@@ -36,7 +36,6 @@ Pinned names: marketplace `open-plugins-surface-test`; plugin `open-plugins-conf
 - Claude vendor manifest: `.claude-plugin/plugin.json` exists → `name` is `open-plugins-conformance`; directory contains `marketplace.json` and `plugin.json` only (no `skills/` nested under `.claude-plugin/`)
 - Cursor vendor manifest: `.cursor-plugin/plugin.json` exists → `name` is `open-plugins-conformance`; same “manifests only” directory rule
 - Probe tree unmoved: `rules/`, `skills/`, `agents/`, `hooks/hooks.json` still live at repo root (not copied under a `plugins/` subfolder)
-- README marketplace path: README mentions adding this git repository as a marketplace in Claude Code and in Cursor, and names `open-plugins-conformance`
 - Edge — missing catalog: absent marketplace file → test fails (files must exist)
 - Edge — Cursor extra fields: `keywords` / `category` / `tags` on a Cursor marketplace plugin entry → test fails (schema `additionalProperties` risk)
 - Regression: existing `tests/test_plugin_skeleton.py` contracts still pass
@@ -47,7 +46,7 @@ Pinned names: marketplace `open-plugins-surface-test`; plugin `open-plugins-conf
 - Test location: `tests/`
 - Conventions: `test_*.py`; `ROOT = Path(__file__).resolve().parents[1]`; contract assertions on JSON/files; no new runner
 - New test files: `tests/test_marketplace.py`
-- Existing test files to extend: `tests/test_entrypoint_readme.py` (README marketplace-add phrases)
+- Existing test files to extend: none (README marketplace-add copy is docs content — see Preflight finding, `.preflight-status`)
 
 ## Implementation Plan
 
@@ -60,14 +59,12 @@ Pinned names: marketplace `open-plugins-surface-test`; plugin `open-plugins-conf
 3. Write tests and run red: `uv run pytest tests/test_marketplace.py` — assert names, `./` vs `.` sources, owner, plugin count, resolved path == `ROOT`, vendor manifests, no nested component dirs, Cursor keys allowlist
 4. Write code and run green: fill Claude marketplace (`name`, `owner`, one plugin `source: "./"`); fill Cursor marketplace (`name`, `owner`, one plugin `source: "."`, entry keys only `name`/`source`/`description`); fill both vendor `plugin.json` with `name` `open-plugins-conformance`, `version` `0.1.0`, `description` matching `.plugin/plugin.json`; omit `version` on marketplace entries (avoid dual-pin); do not modify `.plugin/plugin.json` or probe surfaces
 
-### 2. README marketplace install — executable
+### 2. README marketplace install — docs content, no test steps required (Preflight finding: struck scheduled change-detector, see `.preflight-status`)
 
-- Files: `tests/test_entrypoint_readme.py`, `README.md`
+- Files: `README.md`
 
-1. Stub tests: add a case asserting README tells the operator to add this git repo as a marketplace for Claude Code and for Cursor, and includes plugin name `open-plugins-conformance`
-2. Stub interface: no new code surface — README already exists
-3. Write tests and run red: `uv run pytest tests/test_entrypoint_readme.py::test_readme_marketplace_add` (or equivalent name)
-4. Write code and run green: extend README Install with git-marketplace add (repo `Texarkanine/open-plugins-surface-test`, plugin `open-plugins-conformance`, note that the operator chooses the branch/ref when adding the marketplace). Keep local-path language as an unverified alternative, not the documented success path. Do not add probe fingerprints or judgment wording. Re-run `tests/test_entrypoint_readme.py` and `tests/test_marketplace.py`
+1. Stub interface: no new code surface — README already exists
+2. Write code: extend README Install with git-marketplace add (repo `Texarkanine/open-plugins-surface-test`, plugin `open-plugins-conformance`, note that the operator chooses the branch/ref when adding the marketplace). Keep local-path language as an unverified alternative, not the documented success path. Do not add probe fingerprints or judgment wording. Re-run `tests/test_entrypoint_readme.py` and `tests/test_marketplace.py` as a regression check
 
 ## Technology Validation
 
@@ -101,6 +98,6 @@ No new technology - validation not required
 - [x] Implementation plan complete
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
-- [ ] Preflight
+- [x] Preflight
 - [ ] Build
 - [ ] QA

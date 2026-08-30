@@ -26,3 +26,15 @@ Add Claude Code and Cursor marketplace manifests that catalog this repo's existi
     - Live harness install is operator-after-push, not a pytest gate.
 * Insights
     - Claude docs explicitly allow `source: "./"` (marketplace root is the plugin). Cursor's single-plugin template drops marketplace.json; we keep it because the install path is marketplace-add of this branch.
+
+## 2026-08-30 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Ran TDD Plan Encoding, Convention Compliance, Dependency Impact, Conflict Detection, and Completeness Precheck against `tasks.md`.
+    - Struck a scheduled change-detector test (README marketplace-add phrasing) from Unit 2; that unit is docs content and owes no tests. Unit 1 (four JSON manifests) confirmed correctly TDD-staged and untouched.
+    - Web-verified Claude Code and Cursor plugin/marketplace schemas against current docs: `source: "./"` + shared `.claude-plugin/` vendor manifest, omitted marketplace-entry `version`, and the Cursor `additionalProperties: false` entry allowlist are all confirmed correct.
+* Decisions made
+    - First line of `.preflight-status`: `PASS WITH ADVISORY`.
+* Insights
+    - Residual runtime uncertainty (Cursor bare `"."` source; Claude default component discovery under a thin `plugin.json`) is real but already correctly scoped by the plan as post-push operator verification, not a build gate.
+    - Advisory: shelling out to the harnesses' own upstream validators (`cursor/plugins`' `validate-plugins.mjs`, `claude plugin validate`) from pytest, skip-on-absence, would close most of that residual gap without a live install — not applied, plan is acceptable as-is.
