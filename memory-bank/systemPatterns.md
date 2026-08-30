@@ -8,8 +8,9 @@ Two load-bearing assumptions dominate everything else:
 
 1. **Observation over judgment.** Checkers append `observed` / `not observed` (or skip). Infrastructure errors may fail the process; a missing fingerprint must not.
 2. **Reset boundary.** Setup may wipe fixtures and artifacts. It must never touch the observation log: SessionStart evidence is written before the entrypoint runs and cannot be regenerated in the same session.
+3. **Run lives in the launch cwd.** `${PLUGIN_ROOT}` is the install tree (scripts, servers, prompts). The run — fixtures, artifacts, observations — is `$PWD/plugintest/<stamp>/` via `CURRENT`. Documenting artifact paths as relative to plugin root, or writing them into the install cache, makes workspace-sandboxed harnesses miss every checker. `CONFORMANCE_WORK` is the test/operator override; `$PLUGIN_ROOT/.conformance-work` is a pointer for processes whose cwd is not the workspace (LSP).
 
-If either assumption is violated, the capability report is meaningless even when the rest of the suite looks correct.
+If any assumption is violated, the capability report is meaningless even when the rest of the suite looks correct.
 
 ## Probe → Prompt → Artifact
 

@@ -93,3 +93,13 @@ Move conformance run scratch from `$PLUGIN_ROOT/work` to `$PWD/plugintest/<UTC-d
 * Insights
     - The pointer-then-CURRENT precedence in `work_root.resolve_work_dir` intentionally lets a stale pointer from a prior cwd win over a fresh local `plugintest/CURRENT` — this matches the plan's diagram and is the mechanism that makes LSP-without-workspace-cwd work, not a defect.
 
+## 2026-08-30 - REFLECT - COMPLETE
+
+* Work completed
+    - Reflection at `memory-bank/active/reflection/reflection-plugintest-cwd-work.md`.
+    - Reconciled persistent files: `systemPatterns.md` (cwd-run assumption), `techContext.md` (`work_root.py` pointer).
+* Decisions made
+    - `productContext.md` skip — work-root location is an implementation contract, not a change to who the instrument serves.
+* Insights
+    - importlib script loading does not add the script directory to `sys.path`; that is why `check.py` must insert it before `import work_root`.
+
