@@ -84,3 +84,12 @@ Move conformance run scratch from `$PLUGIN_ROOT/work` to `$PWD/plugintest/<UTC-d
 * Insights
     - `check.py` importlib loading still requires the `sys.path` insert; without it `import work_root` fails in every existing checker test.
 
+## 2026-08-30 - QA - COMPLETE (PASS)
+
+* Work completed
+    - Reviewed the full build-phase diff (32 files) against `projectbrief.md`, `tasks.md`, and `systemPatterns.md`; cross-checked every Test Plan behavior against its implementing test; re-ran the full suite (182 passed).
+* Decisions made
+    - PASS with two advisories, neither blocking: duplicated `_without_plugin_pointer()` test helper (matches pre-existing per-file-helper convention in this suite) and the pointer-file test side effect on the real repo checkout (safe single-worker, would need isolation under xdist).
+* Insights
+    - The pointer-then-CURRENT precedence in `work_root.resolve_work_dir` intentionally lets a stale pointer from a prior cwd win over a fresh local `plugintest/CURRENT` — this matches the plan's diagram and is the mechanism that makes LSP-without-workspace-cwd work, not a defect.
+
