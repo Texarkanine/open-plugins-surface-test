@@ -1,12 +1,13 @@
 # Active Context
 
 ## Current Task: harness-marketplace-manifests
-**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+**Phase:** BUILD - COMPLETE
 
 ## What Was Done
-- Level 2 plan: contract tests for both marketplace catalogs + thin vendor `plugin.json` files; README marketplace-add instructions.
-- Pinned: marketplace name `open-plugins-surface-test`; plugin `open-plugins-conformance`; Claude `source` `./`; Cursor `source` `.`; vendor manifests share `.claude-plugin/` / `.cursor-plugin/` with their marketplace files; do not move the probe tree.
-- Preflight struck a scheduled change-detector test (README marketplace-add phrasing) from Unit 2 of `tasks.md`; Unit 2 is now docs-content-only (no test steps owed). Unit 1 (JSON manifests) unaffected. Web-verified Claude/Cursor manifest schema assumptions against live docs — no plan changes needed there. Full findings in `.preflight-status`.
+- TDD: `tests/test_marketplace.py` (6 contracts) went red on empty `{}` stubs, then green on filled catalogs.
+- Added `/Users/tex/git/open-plugins-surface-test/.claude-plugin/marketplace.json` and `plugin.json`; `/Users/tex/git/open-plugins-surface-test/.cursor-plugin/marketplace.json` and `plugin.json`.
+- README Install now leads with git marketplace add (`Texarkanine/open-plugins-surface-test@<branch>`, plugin `open-plugins-conformance@open-plugins-surface-test`); local path kept as unverified alternative.
+- Full suite: 174 passed (6 new). No deviations from the preflight-amended plan.
 
 ## Next Step
-- Build
+- QA review

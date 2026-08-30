@@ -4,12 +4,20 @@ A measurement instrument that probes open-plugins customization surfaces at real
 
 ## Install
 
-Clone this repository and load it as an open-plugins plugin in your harness. The vendor-neutral manifest lives at `.plugin/plugin.json` (`name`: `open-plugins-conformance`).
+Add this git repository as a plugin marketplace, then install `open-plugins-conformance` from that catalog. Choose the branch (or other ref) when you add the marketplace — catalogs live at `.claude-plugin/marketplace.json` and `.cursor-plugin/marketplace.json`. The vendor-neutral probe manifest is still `.plugin/plugin.json`.
 
-Common load patterns (exact flags vary by harness — check your vendor docs):
+Repo: `Texarkanine/open-plugins-surface-test`. Marketplace name: `open-plugins-surface-test`. Plugin name: `open-plugins-conformance`.
 
-- Point the harness at this repo as a local plugin root.
-- Or place / symlink the repo under the harness plugin search path (often `.agents/plugins/`).
+Claude Code (GitHub shorthand; append `@<ref>` for a non-default branch):
+
+```text
+/plugin marketplace add Texarkanine/open-plugins-surface-test@<branch>
+/plugin install open-plugins-conformance@open-plugins-surface-test
+```
+
+A full git URL uses `#<ref>` instead of `@<ref>`. Cursor: add the same GitHub repo as a marketplace (set the branch/ref in that flow), then install `open-plugins-conformance`.
+
+Local plugin-path load (point the harness at this repo, or symlink it under a search path such as `.agents/plugins/`) is an unverified alternative. Prefer the marketplace add.
 
 You need a POSIX shell, core Unix utilities, and Python 3. `uv` is required for the MCP and LSP probes; without it those steps record `skipped` rather than a false negative.
 

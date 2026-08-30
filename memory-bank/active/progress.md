@@ -38,3 +38,14 @@ Add Claude Code and Cursor marketplace manifests that catalog this repo's existi
 * Insights
     - Residual runtime uncertainty (Cursor bare `"."` source; Claude default component discovery under a thin `plugin.json`) is real but already correctly scoped by the plan as post-push operator verification, not a build gate.
     - Advisory: shelling out to the harnesses' own upstream validators (`cursor/plugins`' `validate-plugins.mjs`, `claude plugin validate`) from pytest, skip-on-absence, would close most of that residual gap without a live install — not applied, plan is acceptable as-is.
+
+## 2026-08-30 - BUILD - COMPLETE
+
+* Work completed
+    - Stubbed then implemented `tests/test_marketplace.py`; filled Claude/Cursor marketplace and vendor `plugin.json` files; README Install rewritten around git marketplace add.
+    - `uv run pytest`: 174 passed (6 new).
+* Decisions made
+    - Claude add recipe uses `owner/repo@<branch>`; full git URL uses `#<ref>`.
+    - Local path install remains in README as an unverified alternative.
+* Insights
+    - Empty `{}` stubs produced the expected KeyError red run; `test_probe_tree_unmoved` was already green (surfaces already at repo root).
