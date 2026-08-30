@@ -33,8 +33,15 @@ Move conformance run scratch from `$PLUGIN_ROOT/work` to `$PWD/plugintest/<UTC-d
     - CLI `ensure` pinned as `create=True`. Unit 3 remains prose/policy.
 * Decisions made
     - Same `sys.path` treatment for `check.py` as for `probe_lsp.py`.
+
+## 2026-08-30 - PLAN - COMPLETE (second re-plan)
+
+* Work completed
+    - Unit 2 stub tests now include importlib-loaded `check.py` with `CONFORMANCE_WORK` unset resolving cwd `plugintest/CURRENT`.
+* Decisions made
+    - Encode `check.py` default resolve in the TDD steps, not only `work_root.py` unit tests.
 * Insights
-    - Sibling scripts are not a package when loaded via `spec_from_file_location`.
+    - Cross-process setup/hook/check integration test left advisory.
 
 ## 2026-08-30 - PREFLIGHT - COMPLETE (FAIL (fixable))
 
@@ -45,3 +52,13 @@ Move conformance run scratch from `$PLUGIN_ROOT/work` to `$PWD/plugintest/<UTC-d
     - Unit 3 owes no tests (operator-facing prose/skill wording, out of scope per `always-tdd.mdc`).
 * Insights
     - `check.py` and `probe_lsp.py` are both loaded in tests via `importlib.util.spec_from_file_location`, which does not add the loaded module's directory to `sys.path`. The plan gives `probe_lsp.py` an explicit cross-directory `sys.path` fix for importing `work_root` but omits the equivalent same-directory fix for `check.py` — this will raise `ModuleNotFoundError` under every existing test that loads `check.py`. Routed back to plan.
+
+## 2026-08-30 - PREFLIGHT - COMPLETE (FAIL (fixable))
+
+* Work completed
+    - Revalidated the re-planned work-root migration against the present scripts, tests, prompts, skills, documentation, and gitignore.
+    - Confirmed that the revised shared-resolver import handling and CLI creation semantics address the prior preflight finding.
+* Decisions made
+    - The plan must add an explicit test for `check.py` resolving the default shared cwd run when `CONFORMANCE_WORK` is unset.
+* Insights
+    - Unit 2 specifies `check.py` delegation as executable behavior but schedules caller tests only for setup, hook recorder, and LSP; without a direct check.py test, an implementer can satisfy all numbered tests while omitting or breaking that delegation.

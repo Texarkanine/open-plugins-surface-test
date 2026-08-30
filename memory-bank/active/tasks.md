@@ -36,7 +36,7 @@ Pointer file is install-tree metadata only (absolute path to the cwd run). Run c
 - Pointer: CONFORMANCE_WORK unset, cwd elsewhere, pointer file names an existing dir → that dir (LSP-without-workspace-cwd)
 - Setup reset: `setup.sh` without CONFORMANCE_WORK uses resolver; wipes artifacts, regenerates fixtures, does not delete existing `observations/hooks.jsonl` under CURRENT
 - hook_record: without CONFORMANCE_WORK, appends to `$PWD/plugintest/CURRENT/observations/hooks.jsonl`
-- check.py `resolve_work_dir`: same resolver (override / CURRENT / create)
+- check.py `resolve_work_dir`: same resolver (override / CURRENT / create); with override unset and `check.py` loaded via importlib, returns the cwd `plugintest/CURRENT` run
 - LSP `resolve_work_root`: honors CONFORMANCE_WORK; without it uses pointer or cwd CURRENT, not `$PLUGIN_ROOT/work`
 - gitignore: `plugintest/` is ignored; drop the `work/` requirement (or keep `work/` as well for leftover local dirs — keep both)
 - Prompts/entrypoint: no instruction that artifact paths are relative to plugin root; paths used for writes are `plugintest/CURRENT/artifacts/` (and fixtures under `plugintest/CURRENT/fixtures/`)
@@ -67,7 +67,7 @@ Pointer file is install-tree metadata only (absolute path to the cwd run). Run c
 
 - Files: `scripts/setup.sh`, `scripts/hook_record.sh`, `scripts/check.py`, `servers/probe_lsp.py`, `tests/test_l1_lsp.py`, `tests/test_setup.py`, `tests/test_h1_hooks.py`
 
-1. Stub tests: replace `test_resolve_work_root_defaults_to_plugin_work` with default-is-cwd-plugintest / pointer; add setup-without-CONFORMANCE_WORK in a tmp cwd; hook_record without override writes under CURRENT
+1. Stub tests: replace `test_resolve_work_root_defaults_to_plugin_work` with default-is-cwd-plugintest / pointer; add setup-without-CONFORMANCE_WORK in a tmp cwd; hook_record without override writes under CURRENT; load `check.py` via the existing importlib helper with `CONFORMANCE_WORK` unset and assert `resolve_work_dir()` is the shared cwd `plugintest/CURRENT` run
 2. Stub interface: callers still have old bodies until step 4
 3. Write tests and run red
 4. Write code and run green: bash `WORK_DIR="$(python3 "$PLUGIN_ROOT/scripts/work_root.py" ensure)"` (process cwd is the workspace). `check.py` inserts `str(Path(__file__).resolve().parent)` onto `sys.path` before `import work_root` — required because tests load `check.py` via `importlib.util.spec_from_file_location` + `exec_module`, which does not add the script directory to `sys.path`. `probe_lsp.py` likewise inserts `scripts/` onto `sys.path` and calls the same function with `create=True` on initialize. Setup still wipes artifacts/fixtures only. `.conformance-work` is not git-tracked (lives in the install tree at runtime; gitignore it so a clone cannot commit a pointer).
