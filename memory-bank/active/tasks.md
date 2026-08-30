@@ -91,6 +91,15 @@ No new technology - validation not required
 - README still only documents local path install, so the operator has catalogs but no add recipe: Step 2.
 - Tests pass while catalogs disagree on plugin `name`, so install commands differ per harness: pin `open-plugins-conformance` in both.
 
+## QA Results
+
+**FAIL** (see `memory-bank/active/.qa-validation-status`)
+
+- Blocking — DRY/Integrity: plugin `name`/`version`/`description` are now triplicated across `.plugin/plugin.json`, `.claude-plugin/plugin.json`, and `.cursor-plugin/plugin.json` (description also in both marketplace entries) with only `name` asserted and `version`/`description` asserted nowhere. Add a lockstep contract test (test-first) so the vendor manifests cannot silently drift from the vendor-neutral manifest.
+- Advisory: `test_source_resolves_to_repo_root_plugin` duplicates the `COMPONENT_PATH_FIELDS` `./`-prefix loop and name check already owned by `tests/test_plugin_skeleton.py`.
+- Advisory: exact-set vendor-directory assertions will fire on any benign future file in `.claude-plugin/` / `.cursor-plugin/`.
+- Clean: completeness, YAGNI (no marketplace-entry `version`, tight Cursor entry keys), regression (probe tree and `.plugin/plugin.json` untouched), integrity, README docs.
+
 ## Status
 
 - [x] Initialization complete
@@ -100,4 +109,4 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA (FAIL - Build must rerun)

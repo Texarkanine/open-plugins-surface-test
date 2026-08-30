@@ -49,3 +49,15 @@ Add Claude Code and Cursor marketplace manifests that catalog this repo's existi
     - Local path install remains in README as an unverified alternative.
 * Insights
     - Empty `{}` stubs produced the expected KeyError red run; `test_probe_tree_unmoved` was already green (surfaces already at repo root).
+
+## 2026-08-30 - QA - COMPLETE (FAIL)
+
+* Work completed
+    - Semantic review of commit `e6e0bd8` against the preflight-amended plan: four manifests, `tests/test_marketplace.py`, README Install rewrite. Re-ran `uv run pytest` (174 passed) and confirmed a clean tree.
+    - One blocking finding, three advisories, recorded in `.qa-validation-status` and `tasks.md`.
+* Decisions made
+    - First line of `.qa-validation-status`: `FAIL`. Build must rerun to add a manifest lockstep contract test.
+    - Advisory duplication in `test_source_resolves_to_repo_root_plugin` and the exact-set vendor-directory assertions accepted as-is; both were planned.
+* Insights
+    - Adding harness-native manifests turned plugin identity into three copies (five for `description`). The plan pinned `name` in all of them but never pinned `version` or `description`, so the very drift the plan feared ("catalogs disagree, install commands differ per harness") is only half-guarded.
+    - The project's TDD rule already carves out manifest/version lockstep as a legitimate contract test, so closing this gap needs no rule exception.
