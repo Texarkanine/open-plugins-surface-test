@@ -62,3 +62,14 @@ Move conformance run scratch from `$PLUGIN_ROOT/work` to `$PWD/plugintest/<UTC-d
     - The plan must add an explicit test for `check.py` resolving the default shared cwd run when `CONFORMANCE_WORK` is unset.
 * Insights
     - Unit 2 specifies `check.py` delegation as executable behavior but schedules caller tests only for setup, hook recorder, and LSP; without a direct check.py test, an implementer can satisfy all numbered tests while omitting or breaking that delegation.
+
+## 2026-08-30 - PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
+
+* Work completed
+    - Revalidated the updated implementation plan (Unit 2 check.py test added, TDD sequencing verified across all units).
+    - Verified convention compliance, dependency touchpoints, conflict avoidance, and completeness against project requirements.
+* Decisions made
+    - Plan passes preflight with advisory status.
+* Insights
+    - All executable units now strictly enforce test-first implementation steps, and import isolation for both `check.py` and `probe_lsp.py` is explicitly planned.
+

@@ -1,10 +1,12 @@
-FAIL (fixable)
+PASS WITH ADVISORY
 
 Findings:
-- Fixable: Unit 2 introduces `check.py` default work-root delegation, but its numbered test steps cover only setup, hook recorder, and LSP callers. Add a test that loads `check.py` through its existing importlib helper with `CONFORMANCE_WORK` unset and verifies it resolves the shared cwd `plugintest/CURRENT` run (or otherwise explicitly cover this behavior in `tests/test_work_root.py`). This is required to encode the stated `check.py resolve_work_dir` behavior before production code.
-- Pass: Units 1, 2, and 4 place test-writing and a red run before production code. Units 3 and 5 correctly exclude prose/policy from TDD.
-- Pass: The proposed shared resolver, cwd-relative CURRENT symlink, and install-tree pointer preserve the reset boundary and avoid duplicating resolver behavior across shell, checker, and LSP callers.
-- Pass: The planned files cover all brief requirements, including prompt/skill guidance, gitignore, setup reset behavior, LSP cwd divergence, and durable documentation.
+- Pass: Prerequisites verified. The implementation plan in `memory-bank/active/tasks.md` is complete with test plans, challenge mitigations, and pre-mortem analysis.
+- Pass: TDD Plan Encoding verified. All executable units (Unit 1: resolver, Unit 2: caller wiring, Unit 4: gitignore) strictly place test stubs, interface stubs, red test runs before green implementation code. Unit 2 explicitly includes test coverage for `check.py` resolving default cwd `plugintest/CURRENT` when `CONFORMANCE_WORK` is unset.
+- Pass: Prose/policy artifacts (Unit 3: prompts and skills, Unit 5: documentation) are properly delineated and exempt from change-detector tests per `always-tdd.mdc`.
+- Pass: Convention compliance and dependency impact verified. `scripts/work_root.py` provides a single authoritative resolver; `sys.path` handling for dynamic module loading is accounted for in `check.py` and `probe_lsp.py`.
+- Pass: Public interface contracts (`CONFORMANCE_WORK` override, reset boundary preserving `observations/`) are strictly maintained.
 
 Advisory:
-- Consider a short integration test that runs `setup.sh`, `hook_record.sh`, and `check.py` from one temporary launch cwd without `CONFORMANCE_WORK`; it would prove the cross-process shared-run contract rather than only the individual resolver paths.
+- Radical Innovation: Introduce a `status` / `verify` mode to `scripts/work_root.py` (e.g., `python3 scripts/work_root.py status`) that inspects the active run directory, validates write permissions, verifies `CURRENT` symlink integrity, and reports metadata (run timestamp, artifact counts, observation log line counts). This would provide an instant, non-destructive diagnostic command for both the operator and test harnesses to check run state without touching disk artifacts.
+- Integration Test: Consider adding a smoke/integration test verifying that running `setup.sh`, `hook_record.sh`, and `check.py` sequentially in a clean temporary workspace directory without `CONFORMANCE_WORK` set correctly shares the same `plugintest/<stamp>` run directory via `plugintest/CURRENT`.

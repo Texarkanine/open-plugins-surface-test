@@ -1,10 +1,12 @@
 # Active Context
 
 ## Current Task: plugintest-cwd-work
-**Phase:** PLAN - COMPLETE (second re-plan)
+**Phase:** PREFLIGHT - COMPLETE (PASS WITH ADVISORY)
 
 ## What Was Done
-- Second preflight FAIL (fixable): Unit 2 now schedules an importlib-loaded `check.py` test with `CONFORMANCE_WORK` unset resolving cwd `plugintest/CURRENT`.
+- Preflight validation completed successfully with PASS WITH ADVISORY status.
+- Verified TDD plan encoding, convention compliance, dependency touchpoints, and requirement completeness.
+- Recorded advisory items for runtime status checks and multi-process smoke testing.
 
 ## Next Step
-- Re-run preflight
+- Proceed to Build phase (`/niko-build`)
