@@ -27,6 +27,7 @@ PROBE_PATHS = (
     ROOT / "agents",
     ROOT / "hooks" / "hooks.json",
 )
+IDENTITY_FIELDS = ("name", "version", "description")
 
 
 def _load(path: Path) -> object:
@@ -114,3 +115,20 @@ def test_probe_tree_unmoved() -> None:
         assert path.exists(), f"missing probe path {path}"
     relocated = ROOT / "plugins" / PLUGIN_NAME
     assert not relocated.exists()
+
+
+def test_plugin_identity_lockstep() -> None:
+    """Vendor plugin.json files and marketplace descriptions match .plugin/plugin.json."""
+    canonical = _load(PLUGIN_MANIFEST)
+    assert isinstance(canonical, dict)
+    for vendor_dir in (CLAUDE_DIR, CURSOR_DIR):
+        vendor = _load(vendor_dir / "plugin.json")
+        assert isinstance(vendor, dict)
+        for field in IDENTITY_FIELDS:
+            assert vendor[field] == canonical[field], f"{vendor_dir.name}/plugin.json {field} drifted"
+        marketplace = _load(vendor_dir / "marketplace.json")
+        assert isinstance(marketplace, dict)
+        entry = marketplace["plugins"][0]
+        assert entry["description"] == canonical["description"], (
+            f"{vendor_dir.name}/marketplace.json description drifted"
+        )

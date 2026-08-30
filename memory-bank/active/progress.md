@@ -61,3 +61,13 @@ Add Claude Code and Cursor marketplace manifests that catalog this repo's existi
 * Insights
     - Adding harness-native manifests turned plugin identity into three copies (five for `description`). The plan pinned `name` in all of them but never pinned `version` or `description`, so the very drift the plan feared ("catalogs disagree, install commands differ per harness") is only half-guarded.
     - The project's TDD rule already carves out manifest/version lockstep as a legitimate contract test, so closing this gap needs no rule exception.
+
+## 2026-08-30 - BUILD - COMPLETE (rework)
+
+* Work completed
+    - Added `test_plugin_identity_lockstep` in `tests/test_marketplace.py`. Proved red with a drifted Cursor `description`, then restored lockstep.
+    - `uv run pytest`: 175 passed.
+* Decisions made
+    - Canonical identity remains `.plugin/plugin.json`; vendor manifests and marketplace descriptions must match, not the other way around.
+* Insights
+    - A lockstep test is the right guard for triplicated manifests; generating one file from another was unnecessary for two small JSON objects.

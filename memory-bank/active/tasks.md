@@ -39,6 +39,7 @@ Pinned names: marketplace `open-plugins-surface-test`; plugin `open-plugins-conf
 - Edge — missing catalog: absent marketplace file → test fails (files must exist)
 - Edge — Cursor extra fields: `keywords` / `category` / `tags` on a Cursor marketplace plugin entry → test fails (schema `additionalProperties` risk)
 - Regression: existing `tests/test_plugin_skeleton.py` contracts still pass
+- Lockstep (QA): vendor `.claude-plugin/plugin.json` and `.cursor-plugin/plugin.json` agree with `.plugin/plugin.json` on `name`, `version`, and `description`; both marketplace entry descriptions match the canonical description
 
 ### Test Infrastructure
 
@@ -109,4 +110,4 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [x] QA (FAIL - Build must rerun)
+- [ ] QA
