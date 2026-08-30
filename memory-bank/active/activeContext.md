@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: plugintest-cwd-work
-**Phase:** PLAN - COMPLETE
+**Phase:** PLAN - COMPLETE (re-plan)
 
 ## What Was Done
-- Level 2 plan: `scripts/work_root.py` (CONFORMANCE_WORK → pointer → CURRENT → create stamp), wire setup/hook_record/check/LSP, rewrite operator paths to `plugintest/CURRENT`, gitignore, docs.
-- Skill must run setup from launch cwd, not `cd` into the plugin cache.
+- Preflight FAIL (fixable): `check.py` must `sys.path`-insert `scripts/` before `import work_root` because tests load it via importlib. Plan Unit 2 updated. Unit 3 remains docs-only.
+- CLI `ensure` is always `create=True`.
 
 ## Next Step
-- Preflight validation
+- Re-run preflight

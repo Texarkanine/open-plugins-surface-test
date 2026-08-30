@@ -25,3 +25,23 @@ Move conformance run scratch from `$PLUGIN_ROOT/work` to `$PWD/plugintest/<UTC-d
     - Entrypoint skill must not `cd` to plugin root for the run.
 * Insights
     - If setup's process cwd is the cache, CURRENT would be created there again; skill wording is load-bearing.
+
+## 2026-08-30 - PLAN - COMPLETE (re-plan after preflight FAIL fixable)
+
+* Work completed
+    - Unit 2 now requires `check.py` to insert its directory on `sys.path` before `import work_root` (importlib test loader does not).
+    - CLI `ensure` pinned as `create=True`. Unit 3 remains prose/policy.
+* Decisions made
+    - Same `sys.path` treatment for `check.py` as for `probe_lsp.py`.
+* Insights
+    - Sibling scripts are not a package when loaded via `spec_from_file_location`.
+
+## 2026-08-30 - PREFLIGHT - COMPLETE (FAIL (fixable))
+
+* Work completed
+    - Verified plan touchpoints against codebase ground truth (all `scripts/`, `tests/`, `prompts/`, skills, docs named in the plan).
+    - Struck a scheduled change-detector test in Unit 3 (prompt/skill wording grep assertions) and relabeled that unit `prose/policy`; removed its `tests/test_work_root.py` file reference.
+* Decisions made
+    - Unit 3 owes no tests (operator-facing prose/skill wording, out of scope per `always-tdd.mdc`).
+* Insights
+    - `check.py` and `probe_lsp.py` are both loaded in tests via `importlib.util.spec_from_file_location`, which does not add the loaded module's directory to `sys.path`. The plan gives `probe_lsp.py` an explicit cross-directory `sys.path` fix for importing `work_root` but omits the equivalent same-directory fix for `check.py` — this will raise `ModuleNotFoundError` under every existing test that loads `check.py`. Routed back to plan.

@@ -50,7 +50,7 @@ Pointer file is install-tree metadata only (absolute path to the cwd run). Run c
 - Conventions: `ROOT = Path(__file__).resolve().parents[1]`; tmp_path + env; subprocess for shell scripts
 - New test files: `tests/test_work_root.py`
 - Existing tests to modify: `tests/test_plugin_skeleton.py` (gitignore), `tests/test_l1_lsp.py` (default resolve), `tests/test_setup.py` (optional cwd-default case), `tests/test_h1_hooks.py` if it asserts plugin-work default
-- Existing test files to extend for prompt paths: grep contract in `tests/test_work_root.py` or `tests/test_entrypoint_readme.py` — assert prompts/skill do not say paths are relative to plugin root and do mention `plugintest/CURRENT` (product contract: sandboxed Write target). Not README prose.
+- Existing test files to extend: none for prompt wording (Unit 3 is prose/policy; Preflight struck scheduled change-detectors)
 
 ## Implementation Plan
 
@@ -59,7 +59,7 @@ Pointer file is install-tree metadata only (absolute path to the cwd run). Run c
 - Files: `scripts/work_root.py`, `tests/test_work_root.py`
 
 1. Stub tests: empty cases for override, create+CURRENT+pointer, reuse CURRENT, pointer-when-cwd-differs
-2. Stub interface: `scripts/work_root.py` with `resolve_work_dir(*, create: bool, cwd: Path, plugin_root: Path, env: Mapping) -> Path` and `if __name__` CLI `ensure` printing the path
+2. Stub interface: `scripts/work_root.py` with `resolve_work_dir(*, create: bool, cwd: Path, plugin_root: Path, env: Mapping) -> Path` and `if __name__` CLI: subcommand `ensure` always means `create=True` and prints the path (required so `hook_record.sh` can create the run dir at SessionStart before setup)
 3. Write tests and run red: `uv run pytest tests/test_work_root.py`
 4. Write code and run green: UTC stamp `YYYYMMDDTHHMMSSZ`; relative CURRENT symlink; pointer file `plugin_root / ".conformance-work"` (single line absolute path); `CONFORMANCE_WORK` first; never mkdir under `plugin_root / "work"`
 
@@ -70,16 +70,15 @@ Pointer file is install-tree metadata only (absolute path to the cwd run). Run c
 1. Stub tests: replace `test_resolve_work_root_defaults_to_plugin_work` with default-is-cwd-plugintest / pointer; add setup-without-CONFORMANCE_WORK in a tmp cwd; hook_record without override writes under CURRENT
 2. Stub interface: callers still have old bodies until step 4
 3. Write tests and run red
-4. Write code and run green: bash `WORK_DIR="$(python3 "$PLUGIN_ROOT/scripts/work_root.py" ensure)"` (cwd is the process cwd); `check.py` imports `work_root`; `probe_lsp.py` adds `scripts/` to `sys.path` and uses the same function (`create=True` on initialize so a marker has a home). Setup still wipes artifacts/fixtures only. `.conformance-work` is not git-tracked (lives in install tree at runtime; add to `.gitignore` if it could appear in a clone)
+4. Write code and run green: bash `WORK_DIR="$(python3 "$PLUGIN_ROOT/scripts/work_root.py" ensure)"` (process cwd is the workspace). `check.py` inserts `str(Path(__file__).resolve().parent)` onto `sys.path` before `import work_root` — required because tests load `check.py` via `importlib.util.spec_from_file_location` + `exec_module`, which does not add the script directory to `sys.path`. `probe_lsp.py` likewise inserts `scripts/` onto `sys.path` and calls the same function with `create=True` on initialize. Setup still wipes artifacts/fixtures only. `.conformance-work` is not git-tracked (lives in the install tree at runtime; gitignore it so a clone cannot commit a pointer).
 
-### 3. Workspace-relative probe paths — executable
+### 3. Workspace-relative probe paths — prose/policy
 
-- Files: `prompts/*.md`, `skills/conformance-run/SKILL.md`, `skills/build-stamp/SKILL.md`, `agents/listing-auditor.md`, `tests/test_work_root.py` (path-contract assertions)
+- Files: `prompts/*.md`, `skills/conformance-run/SKILL.md`, `skills/build-stamp/SKILL.md`, `agents/listing-auditor.md`
+- No tests: operator-facing prose (prompts/skill wording); the previously scheduled grep-phrase assertions were struck at Preflight as change-detectors (fires only on deliberate wording edits, silent on an actually-broken resolver) — see Preflight findings
 
-1. Stub tests: cases that prompts 01–11, entrypoint skill, build-stamp skill, and listing-auditor mention `plugintest/CURRENT` for artifacts/fixtures and do not say paths are relative to the plugin root
-2. Stub interface: files already exist
-3. Write tests and run red
-4. Write code and run green: replace `work/artifacts` / `work/fixtures` / `work/observations` in those operator-facing files with `plugintest/CURRENT/...`; setup still invoked from plugin root (`bash $PLUGIN_ROOT/scripts/setup.sh` or equivalent). Leakage lint must still pass (no sentinel leaks)
+1. Stub interface: files already exist
+2. Write code: replace `work/artifacts` / `work/fixtures` / `work/observations` in those operator-facing files with `plugintest/CURRENT/...`. Entrypoint skill: run `bash "$PLUGIN_ROOT/scripts/setup.sh"` (or the harness equivalent) **from the launch workspace cwd**, not after `cd` to the plugin cache. Leakage lint must still pass (no sentinel leaks).
 
 ### 4. gitignore — executable
 
