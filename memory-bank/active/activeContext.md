@@ -1,11 +1,10 @@
 # Active Context
 
 ## Current Task: harness-marketplace-manifests
-**Phase:** BUILD - COMPLETE (rework — lockstep contract)
+**Phase:** QA - COMPLETE (PASS)
 
 ## What Was Done
-- QA blocking finding: added `test_plugin_identity_lockstep` (red on a drifted Cursor description, then green after restore). Canonical identity is `.plugin/plugin.json`; both vendor `plugin.json` files and both marketplace entry descriptions must match `name`/`version`/`description`.
-- Full suite: 175 passed (7 marketplace tests).
+- Re-ran QA against rework commit `12b6266`: rework diff added only `test_plugin_identity_lockstep`, which fully closes the prior blocking finding. 175 tests passing; probe tree and `.plugin/plugin.json` verified unchanged for the whole task range. Two non-blocking advisories carried forward.
 
 ## Next Step
-- Re-run QA
+- Proceed to `/niko-reflect`

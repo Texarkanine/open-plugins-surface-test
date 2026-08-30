@@ -94,12 +94,12 @@ No new technology - validation not required
 
 ## QA Results
 
-**FAIL** (see `memory-bank/active/.qa-validation-status`)
+**PASS** (see `memory-bank/active/.qa-validation-status`)
 
-- Blocking — DRY/Integrity: plugin `name`/`version`/`description` are now triplicated across `.plugin/plugin.json`, `.claude-plugin/plugin.json`, and `.cursor-plugin/plugin.json` (description also in both marketplace entries) with only `name` asserted and `version`/`description` asserted nowhere. Add a lockstep contract test (test-first) so the vendor manifests cannot silently drift from the vendor-neutral manifest.
-- Advisory: `test_source_resolves_to_repo_root_plugin` duplicates the `COMPONENT_PATH_FIELDS` `./`-prefix loop and name check already owned by `tests/test_plugin_skeleton.py`.
-- Advisory: exact-set vendor-directory assertions will fire on any benign future file in `.claude-plugin/` / `.cursor-plugin/`.
-- Clean: completeness, YAGNI (no marketplace-entry `version`, tight Cursor entry keys), regression (probe tree and `.plugin/plugin.json` untouched), integrity, README docs.
+- Resolved: `test_plugin_identity_lockstep` (added in rework build) asserts both vendor `plugin.json` files match `.plugin/plugin.json` on `name`/`version`/`description`, and both marketplace entry `description` fields match the canonical `description`. Closes the prior blocking finding; rework diff touched only this test.
+- Advisory (carried forward, non-blocking): `test_source_resolves_to_repo_root_plugin` still duplicates the `COMPONENT_PATH_FIELDS` loop owned by `tests/test_plugin_skeleton.py`.
+- Advisory (carried forward, non-blocking): exact-set vendor-directory assertions will fire on any benign future file in `.claude-plugin/` / `.cursor-plugin/`.
+- Clean: completeness, YAGNI, regression (probe tree and `.plugin/plugin.json` verified byte-for-byte unchanged for the whole task range), integrity, README docs, KISS/DRY.
 
 ## Status
 
@@ -110,4 +110,4 @@ No new technology - validation not required
 - [x] Pre-Mortem complete
 - [x] Preflight
 - [x] Build
-- [ ] QA
+- [x] QA
