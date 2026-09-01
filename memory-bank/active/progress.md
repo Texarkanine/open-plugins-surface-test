@@ -25,3 +25,13 @@ Add anti-remediation and harness-testing framing to `skills/conformance-run/SKIL
     - Structured the wording to place core framing in the opening section and an explicit negative constraint in Step 2
 * Insights
     - Preserving observational vocabulary (`observed`, `not observed`, `skipped`) while avoiding judgment/coaching terms ensures full alignment with existing test suite
+
+## 2026-09-01 - PREFLIGHT - COMPLETE
+
+* Work completed
+    - Validated the prose/policy implementation plan against the existing entrypoint skill, pytest contracts, and leakage lint coverage
+    - Confirmed the plan has no executable unit that requires new test-first steps
+* Decisions made
+    - Recorded `PASS WITH ADVISORY` in `.preflight-status`
+* Insights
+    - The proposed Step 2 instruction extends the existing pre-checker prohibition to prevent post-check artifact remediation without overlapping existing behavior
