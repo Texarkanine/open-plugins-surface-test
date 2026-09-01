@@ -1,13 +1,14 @@
 # Active Context
 
 ## Current Task: anti-remediation-framing
-**Phase:** BUILD - COMPLETE
+**Phase:** REFLECT - COMPLETE
 
 ## What Was Done
-- Modified `/Users/tex/git/open-plugins-surface-test/skills/conformance-run/SKILL.md`:
-  - Added anti-remediation and harness-testing framing to the opening section following Orwell's 6 rules for writing.
-  - Updated Step 2 instructions per operator guidance to avoid negative priming: "Run each check only once. Do not edit artifacts after running a check." (no mention of reverse-engineering or opening check.py).
-- Verified 182/182 pytest cases pass cleanly, including sentinel leakage lints and entrypoint wording/observational vocabulary checks.
+- Updated `skills/conformance-run/SKILL.md` with:
+  - Opening framing establishing that the harness is being evaluated and missing output / `not observed` is expected.
+  - Step 2 guidance enforcing single execution and no post-check artifact editing, omitting mention of reverse-engineering or opening checker scripts.
+- Verified all 182 pytest cases pass cleanly.
+- Completed QA and Reflect phases with `PASS` recorded in `.qa-validation-status` and `reflection-anti-remediation-framing.md` documented.
 
 ## Next Step
-- Re-run Level 2 QA validation via subagent with updated brief and task specs.
+- Run `/niko-archive` to archive and finalize the task.

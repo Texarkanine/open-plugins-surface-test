@@ -47,3 +47,24 @@ Add anti-remediation and harness-testing framing to `skills/conformance-run/SKIL
     - Avoided negative priming by removing "reverse-engineer" and "do not open scripts/check.py"
 * Insights
     - Mentioning "do not open scripts/check.py to reverse-engineer" primes the model with the exact unwanted action; stating only the direct positive/negative constraints ("Run each check only once. Do not edit artifacts after running a check.") is cleaner and more effective
+
+## 2026-09-01 - QA - COMPLETE
+
+* Work completed
+    - Validated `skills/conformance-run/SKILL.md` against requirements in `projectbrief.md`
+    - Confirmed full test suite passes cleanly with zero lint or sentinel leakage issues
+* Decisions made
+    - Recorded `PASS` in `.qa-validation-status`
+* Insights
+    - Direct, positive and negative constraints formatted cleanly without negative priming satisfy all acceptance criteria
+
+## 2026-09-01 - REFLECT - COMPLETE
+
+* Work completed
+    - Conducted retrospective on requirements vs outcome, build observations, and insights
+    - Reconciled persistent memory bank files
+    - Wrote reflection document `memory-bank/active/reflection/reflection-anti-remediation-framing.md`
+* Decisions made
+    - Preserved persistent files intact (no structural contracts invalidated or altered)
+* Insights
+    - Setting expectations in the prompt preamble that harness evaluation is collaborative and missing output is expected successfully neutralizes the model's instinct to fix missing output after checking
