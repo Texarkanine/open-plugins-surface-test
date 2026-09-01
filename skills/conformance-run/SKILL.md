@@ -46,7 +46,7 @@ For each step below, in order:
 | 10 | `prompts/10-m1-mcp.md` | `python $PLUGIN_ROOT/scripts/check.py 10` |
 | 11 | `prompts/11-l1-lsp.md` | `python $PLUGIN_ROOT/scripts/check.py 11` |
 
-Do not open `scripts/check.py` to reverse-engineer expectations, and do not edit artifacts after running a check. Run each check only once after following the prompt for that step.
+Run each check only once. Do not edit artifacts after running a check.
 
 ## 3. Summary
 
