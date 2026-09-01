@@ -40,8 +40,10 @@ Add anti-remediation and harness-testing framing to `skills/conformance-run/SKIL
 
 * Work completed
     - Updated `skills/conformance-run/SKILL.md` with opening harness-testing framing and Step 2 anti-remediation guidance
+    - Refined Step 2 to omit any mention of reverse engineering or opening `scripts/check.py` per operator instruction to avoid negative priming ("Run each check only once. Do not edit artifacts after running a check.")
     - Ran full pytest suite: 182/182 passing tests, 0 errors, clean leakage and structural lint checks
 * Decisions made
     - Followed Orwell's 6 rules for writing: active voice, short words, no filler, clear imperative instructions
+    - Avoided negative priming by removing "reverse-engineer" and "do not open scripts/check.py"
 * Insights
-    - Direct instructions to test the harness together and not inspect checkers or edit artifacts after check runs provide clear boundaries without tripping test lints
+    - Mentioning "do not open scripts/check.py to reverse-engineer" primes the model with the exact unwanted action; stating only the direct positive/negative constraints ("Run each check only once. Do not edit artifacts after running a check.") is cleaner and more effective

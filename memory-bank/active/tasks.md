@@ -4,7 +4,7 @@
 * Complexity: Level 2
 * Type: simple enhancement
 
-Add harness-testing and anti-remediation framing to `skills/conformance-run/SKILL.md` to prevent driving models from inspecting checker scripts or altering artifacts after checks run.
+Add harness-testing and anti-remediation framing to `skills/conformance-run/SKILL.md` to prevent driving models from altering artifacts after checks run, avoiding negative priming (no mention of opening `scripts/check.py` or reverse-engineering).
 
 ## Test Plan (TDD)
 
@@ -27,8 +27,9 @@ No new executable behavior. (Prose/policy enhancement in agent skill instruction
 - No tests: prose/policy artifact
 
 1. [x] Re-read `skills/conformance-run/SKILL.md` and check opening structure.
-2. [x] Add the harness-testing framing and anti-remediation instruction to the opening section and step 2 guidance using Orwell's 6 rules and prompt authoring guidelines.
-3. [x] Run `uv run pytest` to ensure existing structural gates, leakage lints, and observational vocabulary checks pass cleanly.
+2. [x] Add the harness-testing framing to the opening section using Orwell's 6 rules and prompt authoring guidelines.
+3. [x] Update Step 2 guidance to "Run each check only once. Do not edit artifacts after running a check." avoiding negative priming (no mention of opening check.py or reverse-engineering).
+4. [x] Run `uv run pytest` to ensure existing structural gates, leakage lints, and observational vocabulary checks pass cleanly.
 
 ## Technology Validation
 
@@ -42,10 +43,11 @@ No new technology - validation not required
 
 - [Coaching / judgment word leak]: Ensure the added prose avoids banned tokens (`pass`, `fail`, `fingerprint`, `sentinel`, `unsupported`) verified by `tests/test_entrypoint_readme.py`.
 - [Over-complicating prompt]: Strictly apply Orwell's 6 rules to keep the instructions concise (2-3 sentences), active, and direct.
+- [Negative priming]: Do not mention `scripts/check.py` or reverse-engineering; simply state the positive and negative constraints cleanly.
 
 ## Pre-Mortem
 
-- [Model still cheats because instructions are buried in a long document]: Place the framing right at the top of `SKILL.md` in the opening section and repeat the negative constraint in Step 2.
+- [Model still cheats because instructions are buried in a long document]: Place the framing right at the top of `SKILL.md` in the opening section and state the single-run and no-post-edit constraints in Step 2.
 
 ## Status
 
