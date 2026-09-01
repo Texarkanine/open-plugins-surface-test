@@ -26,9 +26,9 @@ No new executable behavior. (Prose/policy enhancement in agent skill instruction
 - Files: `skills/conformance-run/SKILL.md`
 - No tests: prose/policy artifact
 
-1. Re-read `skills/conformance-run/SKILL.md` and check opening structure.
-2. Add the harness-testing framing and anti-remediation instruction to the opening section and step 2 guidance using Orwell's 6 rules and prompt authoring guidelines.
-3. Run `uv run pytest` to ensure existing structural gates, leakage lints, and observational vocabulary checks pass cleanly.
+1. [x] Re-read `skills/conformance-run/SKILL.md` and check opening structure.
+2. [x] Add the harness-testing framing and anti-remediation instruction to the opening section and step 2 guidance using Orwell's 6 rules and prompt authoring guidelines.
+3. [x] Run `uv run pytest` to ensure existing structural gates, leakage lints, and observational vocabulary checks pass cleanly.
 
 ## Technology Validation
 
@@ -55,5 +55,5 @@ No new technology - validation not required
 - [x] Technology validation complete
 - [x] Pre-Mortem complete
 - [x] Preflight
-- [ ] Build
+- [x] Build
 - [ ] QA

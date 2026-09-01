@@ -35,3 +35,13 @@ Add anti-remediation and harness-testing framing to `skills/conformance-run/SKIL
     - Recorded `PASS WITH ADVISORY` in `.preflight-status`
 * Insights
     - The proposed Step 2 instruction extends the existing pre-checker prohibition to prevent post-check artifact remediation without overlapping existing behavior
+
+## 2026-09-01 - BUILD - COMPLETE
+
+* Work completed
+    - Updated `skills/conformance-run/SKILL.md` with opening harness-testing framing and Step 2 anti-remediation guidance
+    - Ran full pytest suite: 182/182 passing tests, 0 errors, clean leakage and structural lint checks
+* Decisions made
+    - Followed Orwell's 6 rules for writing: active voice, short words, no filler, clear imperative instructions
+* Insights
+    - Direct instructions to test the harness together and not inspect checkers or edit artifacts after check runs provide clear boundaries without tripping test lints

@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 Drive one attended capability run for this plugin. Artifact, fixture, and observation paths are relative to the **launch workspace** (the directory that was `pwd` when this session started): `plugintest/CURRENT/artifacts/`, `plugintest/CURRENT/fixtures/`, `plugintest/CURRENT/observations/`. Plugin code (scripts, prompts) lives in the install tree. If the harness exposes `$PLUGIN_ROOT`, use it only to address those files — do not `cd` into the plugin cache, and do not treat `$PLUGIN_ROOT` as the run directory.
 
+These steps test the harness you run in, not you. Do only and exactly what each prompt asks so we can evaluate the harness fairly. If expected output is missing or a check reports **not observed**, that is expected: you are not being evaluated, and we are testing the harness together.
+
 This skill reports what was **observed**, **not observed**, or **skipped**. It does not judge harness support.
 
 ## 1. Setup
@@ -44,7 +46,7 @@ For each step below, in order:
 | 10 | `prompts/10-m1-mcp.md` | `python $PLUGIN_ROOT/scripts/check.py 10` |
 | 11 | `prompts/11-l1-lsp.md` | `python $PLUGIN_ROOT/scripts/check.py 11` |
 
-Do not open `scripts/check.py` to reverse-engineer expectations. Run it only after following the prompt for that step.
+Do not open `scripts/check.py` to reverse-engineer expectations, and do not edit artifacts after running a check. Run each check only once after following the prompt for that step.
 
 ## 3. Summary
 
