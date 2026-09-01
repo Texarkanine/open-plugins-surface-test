@@ -1,11 +1,11 @@
 # Active Context
 
 ## Current Task: anti-remediation-framing
-**Phase:** COMPLEXITY-ANALYSIS - COMPLETE
+**Phase:** PLAN - COMPLETE
 
 ## What Was Done
-- Clarified intent: add anti-remediation and harness-testing framing to `skills/conformance-run/SKILL.md`.
-- Determined complexity level: Level 2 (Simple Enhancement).
+- Formulated test and implementation plan for adding harness-testing and anti-remediation framing to `skills/conformance-run/SKILL.md`.
+- Completed TDD assessment, risk challenges, pre-mortem, and validation checks.
 
 ## Next Step
-- Load Level 2 workflow and execute the Level 2 Plan Phase.
+- Execute Preflight validation via subagent.
