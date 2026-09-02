@@ -1,5 +1,7 @@
 # open-plugins conformance suite
 
+> **Disclaimer:** This project is under active initial development and is not yet suitable for external or production consumption. Interfaces, probe behaviors, and report structures may change rapidly.
+
 A measurement instrument that probes open-plugins customization surfaces at real prompt boundaries and records `observed` / `not observed` / `skipped`.
 
 ## Install
