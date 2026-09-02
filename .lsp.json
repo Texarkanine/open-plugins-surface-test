@@ -1,0 +1,13 @@
+{
+  "probe-lsp": {
+    "command": "uv",
+    "args": [
+      "run",
+      "--script",
+      "${PLUGIN_ROOT}/servers/probe_lsp.py"
+    ],
+    "extensionToLanguage": {
+      ".lspprobe": "lspprobe"
+    }
+  }
+}

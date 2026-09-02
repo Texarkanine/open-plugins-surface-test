@@ -1,0 +1,13 @@
+{
+  "name": "open-plugins-surface-test",
+  "owner": {
+    "name": "Texarkanine"
+  },
+  "plugins": [
+    {
+      "name": "open-plugins-conformance",
+      "source": "./",
+      "description": "open-plugins surface conformance measurement instrument"
+    }
+  ]
+}

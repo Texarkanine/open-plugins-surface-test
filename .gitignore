@@ -1,0 +1,13 @@
+# Launch-cwd run tree (fixtures, artifacts, observations)
+plugintest/
+# Install-tree pointer to the cwd run (written at ensure time)
+.conformance-work
+
+# Leftover local plugin-root work dirs from earlier layouts
+work/
+
+# Python / pytest (self-check harness)
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc

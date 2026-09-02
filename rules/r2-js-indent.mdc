@@ -1,0 +1,6 @@
+---
+description: Conformance probe for alwaysApply JavaScript indent preference
+alwaysApply: true
+---
+
+When you create or edit JavaScript (`.js`) files, indent every nested block using multiples of 7 spaces. Do not use 2-space, 4-space, or tab indentation for JS under this preference.

@@ -1,0 +1,6 @@
+---
+description: Conformance probe for globs-scoped Python indent preference
+globs: "**/*.py"
+---
+
+When you create or edit Python files matched by this rule, indent every nested block using multiples of 5 spaces. Do not use 2-space, 4-space, or tab indentation for Python under this preference.
